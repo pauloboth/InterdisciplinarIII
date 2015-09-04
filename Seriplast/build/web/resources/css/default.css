@@ -1,0 +1,66 @@
+/* Alterações no comportamento do Bootstrap */
+.badge .badge-danger {
+    
+}
+
+/* CSS Projeto */
+body {
+    background: #E9ECF3;
+    color: #777777;
+}
+.page-header.navbar {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: #FFFFFF;
+    height: 80px;
+}
+.page-logo {
+    display: block;
+    float: left;
+    padding: 0 20px;
+}
+.page-logo .logo {
+    margin: 10px 0;
+}
+.page-logo img {
+    max-height: 60px;
+}
+.page-topmenu {
+    height: 80px;
+}
+.page-topmenu .nav.navbar-nav {
+    display: inline-block;
+    margin-right: 10px;
+}
+.page-topmenu .navbar-nav > li a {
+    font-family: 'Signika', Tahoma, Arial, sans-serif;
+    font-size: 16px;
+    color: #777777;
+    height: 80px;
+}
+.page-topmenu .navbar-nav > li:hover a,
+.page-topmenu .navbar-nav > li:active a {
+    color: #00456A;
+}
+.page-topmenu .navbar-nav > li:hover > a.dropdown-icon .badge,
+.page-topmenu .navbar-nav > li:active > a.dropdown-icon .badge {
+    background-color: #00456A;
+}
+.page-topmenu .navbar-nav > li > a.dropdown-icon {
+    padding: 30px 20px 29px;
+}
+.page-topmenu .navbar-nav > li > a.dropdown-icon > .glyphicon {
+    font-size: 20px;
+}
+.page-topmenu .navbar-nav > li > a.dropdown-icon .badge {
+    vertical-align: top;
+    margin-top: 3px;
+}
+.page-topmenu .nav > li > a:focus,
+.nav > li > a:hover,
+.page-topmenu .nav > li > a.focus,
+.nav > li > a.hover {
+    background-color: #F5F5F5;
+}
