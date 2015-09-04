@@ -7,5 +7,9 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seriplast</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">123</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <mapping package="set.model.Grupo.java"/>
+    <mapping package="set.model.Pessoa.java"/>
+    <mapping package="set.model.Usuario.java"/>
   </session-factory>
 </hibernate-configuration>

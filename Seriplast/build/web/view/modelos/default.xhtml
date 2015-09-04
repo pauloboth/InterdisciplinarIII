@@ -22,33 +22,18 @@
     </h:head>
 
     <h:body>
-        ${loginBean.setUsuarioByLogin(request.getRemoteUser())}
+        <!--{loginBean.setUsuarioByLogin(request.getRemoteUser())}-->
         <div class="page-container">
             <div class="page-header navbar navbar-static-top">
                 <div class="page-logo">
                     <h:link outcome="/faces/view/index">
                         <h1 class="logo">
-                            <h:graphicImage alt="GRH - Gestão de Recursos Humanos" name="img/grh_topo.png"></h:graphicImage>
+                            <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.jpg" style="width: 300px;"></h:graphicImage>
                         </h1>
                     </h:link>
                 </div>
                 <div class="page-topmenu pull-right">
                     <ul class="nav navbar-nav pull-right">
-                        <!--                        <li class="dropdown dropdown-inbox">
-                                                    <a class="dropdown-toggle dropdown-icon" data-close-others="true" data-toggle="dropdown" href="javascript:void(0);">
-                                                        <i class="fa fa-envelope"></i>
-                                                        <span class="badge badge-danger">9</span>
-                                                        <span class="badge badge-danger"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu pull-right messages-list">
-                                                        <li class="no-messages">
-                                                            <a href="#">
-                                                                <i class="fa fa-envelope"></i>
-                                                                Nova mensagem
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>-->
                         <li class="dropdown dropdown-user">
                             <h:link outcome="/faces/view/cfg/perfil">
                                 <span>RAUL</span>
@@ -79,10 +64,15 @@
                                     <span class="fa dropdown-chevron pull-right"></span>
                                 </a>
                                 <ul class="submenu">
-
+                                    <li class="#{view.viewId.contains('/usuario') ? 'active' : ''}">
+                                        <h:link outcome="/faces/view/set/usuariolst">
+                                            <span class="fa fa-users"></span>
+                                            <span class="menu-text">Usuários</span>
+                                        </h:link>
+                                    </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="#{view.viewId == '/view/about.xhtml' ? 'active' : ''}">
                                 <h:link outcome="/faces/view/about">
                                     <span class="fa fa-info-circle"></span>
@@ -92,7 +82,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="page-content-wrapper">
                     <div class="page-content">
                         <div class="page-title">
