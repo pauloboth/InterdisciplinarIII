@@ -51,8 +51,8 @@ public class LoginBean {
         dao.update(usuario);
     }
 
-    public String getImageUrl(int rep_codigo) {
-        return "/PraticaII/DirectServlet?method=image&id=" + rep_codigo;
-    }
+//    public String getImageUrl(int rep_codigo) {
+//        return "/PraticaII/DirectServlet?method=image&id=" + rep_codigo;
+//    }
 
 }

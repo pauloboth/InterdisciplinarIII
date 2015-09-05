@@ -8,8 +8,8 @@
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">123</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <mapping package="set.model.Grupo.java"/>
-    <mapping package="set.model.Pessoa.java"/>
-    <mapping package="set.model.Usuario.java"/>
+    <mapping class="set.model.Grupo"/>
+    <mapping class="set.model.Pessoa"/>
+    <mapping class="set.model.Usuario"/>
   </session-factory>
 </hibernate-configuration>

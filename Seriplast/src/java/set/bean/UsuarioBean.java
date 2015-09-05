@@ -68,11 +68,10 @@ public class UsuarioBean {
     }
     
     public String salvar() {
-//        if (usuario.getUsu_codigo()> 0)
         //Merge serve para insert também
-            dao.update(usuario);
+            //dao.update(usuario);
 //        else 
-//            dao.insert(usuario);
+            dao.insert(usuario);
         
         return "usuariolst";
     }

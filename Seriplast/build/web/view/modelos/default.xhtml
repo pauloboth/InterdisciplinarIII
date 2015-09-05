@@ -5,9 +5,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
-        <link rel="icon" href="#{resource['img/favicon.ico']}" sizes="16x16" />
-        <title><ui:insert name="title">Início</ui:insert> - GRH</title>
-        <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Signika:400,700" rel="stylesheet" type="text/css"/>-->
+        <!--        <link rel="icon" href="{resource['img/favicon.ico']}" sizes="16x16" />-->
+        <title><ui:insert name="title">Início</ui:insert> - SERIPLAST</title>
+        <!--        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Signika:400,700" rel="stylesheet" type="text/css"/>-->
         <h:outputStylesheet name="./bootstrap/css/bootstrap.min.css" />
         <h:outputStylesheet name="./bootstrap/css/bootstrap-theme.min.css" />
         <h:outputStylesheet name="./font-awesome/css/font-awesome.min.css" />
@@ -22,7 +22,7 @@
     </h:head>
 
     <h:body>
-        <!--{loginBean.setUsuarioByLogin(request.getRemoteUser())}-->
+        ${loginBean.setUsuarioByLogin(request.getRemoteUser())}
         <div class="page-container">
             <div class="page-header navbar navbar-static-top">
                 <div class="page-logo">
@@ -35,10 +35,10 @@
                 <div class="page-topmenu pull-right">
                     <ul class="nav navbar-nav pull-right">
                         <li class="dropdown dropdown-user">
-                            <h:link outcome="/faces/view/cfg/perfil">
-                                <span>RAUL</span>
-                                <!--                                <span>{loginBean.usuario.pessoa.pes_nome}</span>
-                                                                <c:if test="{loginBean.usuario.pessoa.repositorio != null}">
+                            <h:link outcome="/faces/view/set/perfil">
+                                <!--                                <span>RAUL</span>-->
+                                <span>#{loginBean.usuario.pessoa.pes_nome}</span>
+                                <!--                                <c:if test="{loginBean.usuario.pessoa.repositorio != null}">
                                                                     <img class="user-photo" src="{loginBean.profileImageUrl}" />
                                                                 </c:if>-->
                             </h:link>
@@ -68,6 +68,12 @@
                                         <h:link outcome="/faces/view/set/usuariolst">
                                             <span class="fa fa-users"></span>
                                             <span class="menu-text">Usuários</span>
+                                        </h:link>
+                                    </li>
+                                    <li class="#{view.viewId.contains('/pessoa') ? 'active' : ''}">
+                                        <h:link outcome="/faces/view/set/pessoalst">
+                                            <span class="fa fa-user"></span>
+                                            <span class="menu-text">Pessoas</span>
                                         </h:link>
                                     </li>
                                 </ul>

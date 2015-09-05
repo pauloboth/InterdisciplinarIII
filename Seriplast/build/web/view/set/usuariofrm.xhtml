@@ -11,7 +11,7 @@
 
     <ui:define name="breadcrumb">
         <li>Configurações</li>
-        <li><h:link value="${usuarioBean.pTitle}" outcome="/faces/view/cfg/usuariolst" /></li>
+        <li><h:link value="${usuarioBean.pTitle}" outcome="/faces/view/set/usuariolst" /></li>
     </ui:define>
 
     <ui:define name="main-content">
@@ -20,7 +20,7 @@
             <f:view>
                 <h:form styleClass="form-horizontal">
                     <div class="form-group">
-                        <h:outputLabel value="Pessoa:" for="pesCidade" styleClass="control-label col-sm-2" />
+                        <h:outputLabel value="Pessoa:" for="pesCidade" styleClass="control-label col-sm-1" />
                         <div style="padding-top: 5px" class="col-md-6 col-sm-12">
                             <h:selectOneMenu value="#{usuarioBean.usuario.pessoa}" converter="pessoaConverter" id="pesCidade" class="form-control">
                                 <f:selectItems value="#{pessoaBean.pessoas}" var="pessoa" />
