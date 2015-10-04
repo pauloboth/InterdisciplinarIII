@@ -114,10 +114,11 @@
     color: #bebebe;
 }
 body {
-    background: url("/Seriplast/faces/resources/img/body.jpg") no-repeat;
-/*    background: #E9ECF3;*/
+    /*    background: url("/Seriplast/faces/resources/img/body.jpg") no-repeat;*/
+    background: #E9ECF3;
     color: #777777;
 }
+
 .page-login {
     font-family: 'Open Sans', Tahoma, Arial, sans-serif;
 }
@@ -418,6 +419,11 @@ body {
 .ripple .ink.animate {
     animation: ripple 0.65s linear;
 }
+
+textarea{
+    max-width: 100% !important;
+}
+
 @keyframes ripple {
     100% {
         opacity: 0;

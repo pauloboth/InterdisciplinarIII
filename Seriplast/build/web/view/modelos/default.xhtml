@@ -2,11 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <!--        <link rel="icon" href="{resource['img/favicon.ico']}" sizes="16x16" />-->
-        <title><ui:insert name="title">Início</ui:insert> - SERIPLAST</title>
+        <title><ui:insert name="title">Início</ui:insert></title> 
+        <!--        - SERIPLAST-->
         <!--        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Signika:400,700" rel="stylesheet" type="text/css"/>-->
         <h:outputStylesheet name="./bootstrap/css/bootstrap.min.css" />
         <h:outputStylesheet name="./bootstrap/css/bootstrap-theme.min.css" />
@@ -22,22 +24,21 @@
     </h:head>
 
     <h:body>
-        ${loginBean.setUsuarioByLogin(request.getRemoteUser())}
+        <!--        {loginBean.setUsuarioByLogin(request.getRemoteUser())}-->
         <div class="page-container">
             <div class="page-header navbar navbar-static-top">
                 <div class="page-logo">
                     <h:link outcome="/faces/view/index">
-                        <h1 class="logo">
-                            <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.jpg" style="width: 300px;"></h:graphicImage>
-                        </h1>
+                        <!--                        <h1 class="logo">
+                                                    <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.jpg" style="width: 300px;"></h:graphicImage>
+                                                </h1>-->
                     </h:link>
                 </div>
                 <div class="page-topmenu pull-right">
                     <ul class="nav navbar-nav pull-right">
                         <li class="dropdown dropdown-user">
                             <h:link outcome="/faces/view/set/perfil">
-                                <!--                                <span>RAUL</span>-->
-                                <span>#{loginBean.usuario.pessoa.pes_nome}</span>
+                                <!--                                <span>{loginBean.usuario.pessoa.pes_nome}</span>-->
                                 <!--                                <c:if test="{loginBean.usuario.pessoa.repositorio != null}">
                                                                     <img class="user-photo" src="{loginBean.profileImageUrl}" />
                                                                 </c:if>-->
@@ -54,6 +55,26 @@
                                 <h:link outcome="/faces/view/index">
                                     <span class="fa fa-home"></span>
                                     <span class="menu-text">Início</span>
+                                </h:link>
+                            </li>
+
+
+                            <li class="#{view.viewId == '/view/folder/categorialst.xhtml' ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/categorialst">
+                                    <span class="fa fa-tag"></span>
+                                    <span class="menu-text">Categorias</span>
+                                </h:link>
+                            </li>
+                            <li class="#{view.viewId == '/view/folder/produtolst.xhtml' ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/produtolst">
+                                    <span class="fa fa-shopping-cart"></span>
+                                    <span class="menu-text">Produtos</span>
+                                </h:link>
+                            </li>
+                            <li class="#{view.viewId == '/view/folder/despesalst.xhtml' ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/despesalst">
+                                    <span class="fa fa-money"></span>
+                                    <span class="menu-text">Despesas</span>
                                 </h:link>
                             </li>
 
@@ -79,12 +100,6 @@
                                 </ul>
                             </li>
 
-                            <li class="#{view.viewId == '/view/about.xhtml' ? 'active' : ''}">
-                                <h:link outcome="/faces/view/about">
-                                    <span class="fa fa-info-circle"></span>
-                                    <span class="menu-text">Sobre</span>
-                                </h:link>
-                            </li>
                         </ul>
                     </div>
                 </div>

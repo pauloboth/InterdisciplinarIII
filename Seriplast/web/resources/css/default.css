@@ -1,6 +1,6 @@
 /* Alterações no comportamento do Bootstrap */
 .badge .badge-danger {
-    
+
 }
 
 /* CSS Projeto */
@@ -8,6 +8,11 @@ body {
     background: #E9ECF3;
     color: #777777;
 }
+
+textarea{
+    max-width: 100% !important;
+}
+
 .page-header.navbar {
     width: 100%;
     margin: 0;
@@ -63,4 +68,9 @@ body {
 .page-topmenu .nav > li > a.focus,
 .nav > li > a.hover {
     background-color: #F5F5F5;
+}
+
+
+.table-options{
+    padding: 4px 10px;
 }

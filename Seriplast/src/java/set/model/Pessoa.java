@@ -16,7 +16,7 @@ public class Pessoa implements Serializable {
     public static final String pTitle = "Pessoas";
 
     @Id
-    @SequenceGenerator(name = "pes_codigo", sequenceName = "pes_codigo")
+    @SequenceGenerator(name = "pes_codigo", sequenceName = "seq_pes_codigo")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "pes_codigo")
     private int pes_codigo;
 
