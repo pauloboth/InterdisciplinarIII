@@ -3,7 +3,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">Despesas</ui:define>
 
@@ -14,40 +15,57 @@
 
     <ui:define name="main-content">
         <script>
+            /*<![CDATA[*/
             $(function () {
-                checkMachin();
-                checkType();
-                $('#checkboxMachin').change(function () {
-                    checkMachin();
-                });
-                $('#tipo_desp').change(function () {
-                    checkType();
-                });
-            });
-            function checkMachin() {
                 if ($('#checkboxMachin').is(':checked')) {
-                    $('#GastoHora').slideDown();
+                    $('#GastoHora').show();
                     $('#GastoHora input').attr('required', true);
+                    $('.colTempoProd').parent().show();
                 } else {
-                    $('#GastoHora').slideUp();
+                    $('#GastoHora').hide();
                     $('#GastoHora input').removeAttr('required');
+                    $('.colTempoProd').parent().hide();
                 }
-            }
-
-            function checkType() {
                 if ($('#tipo_desp').val() == '3') {
-                    $('#values_of_depr').slideDown();
+                    $('#values_of_depr').show()();
                     $('#values_of_depr input').attr('required', true);
                 }
                 else {
-                    $('#values_of_depr').slideUp();
+                    $('#values_of_depr').hide();
                     $('#values_of_depr input').removeAttr('required');
                 }
-            }
+
+                $('#checkboxMachin').change(function () {
+                    if ($('#checkboxMachin').is(':checked')) {
+                        $('#GastoHora').slideDown();
+                        $('#GastoHora input').attr('required', true);
+                        $('.colTempoProd').parent().show();
+                    } else {
+                        $('#GastoHora').slideUp();
+                        $('#GastoHora input').removeAttr('required');
+                        $('.colTempoProd').parent().hide();
+                    }
+                });
+
+                $('#tipo_desp').change(function () {
+                    if ($('#tipo_desp').val() == '3') {
+                        $('#values_of_depr').slideDown();
+                        $('#values_of_depr input').attr('required', true);
+                    }
+                    else {
+                        $('#values_of_depr').slideUp();
+                        $('#values_of_depr input').removeAttr('required');
+                    }
+                });
+            });
+            /*]]>*/
         </script>
         <style>
             .form-group select{
                 height: 34px;
+            }
+            .lbl{
+                text-align: left !important;
             }
         </style>
         <div class="panel panel-body">
@@ -92,7 +110,7 @@
                                 <div class="col-sm-8">
                                     <h:selectOneMenu pt:required="required" pt:id="tipo_desp" id="tipo" value="#{despesaBean.despesa.des_tipo}" title="Tipo" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="2" itemLabel="Mensal"/>
-                                        <f:selectItem  itemValue="3" itemLabel="Depesa Parcelada"/>
+                                        <f:selectItem  itemValue="3" itemLabel="Despesa Parcelada"/>
                                         <f:selectItem  itemValue="4" itemLabel="Única"/>
                                     </h:selectOneMenu>
                                 </div>
@@ -144,7 +162,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-12 col-xs-12">
                             <div class="form-group">
                                 <label for="notas" class="col-sm-2 control-label">Descrição: </label>
@@ -153,10 +171,131 @@
                                 </div>  
                             </div>
                         </div>
+                        <hr/>
+                        <div class="col-xs-12">
+                            <!--                            <c:forEach items="{despesaBean.lsProdutoDespesas}" var="proDes" varStatus="loopDes">
+                                                            <div style="margin-bottom: 15px;">
+                                                                <div class="list-group-item">
+                                                                    <div class="row">
+                                                                        <div class="col-xs-1 btn-group pull-right">
+                                                                            <h:commandLink immediate="true" styleClass="btn btn-danger" action="{despesaBean.removeProdutoDespesa(proDes)}">
+                                                                                <f:ajax execute="@form" render="@form" />
+                                                                                <i class="fa fa-remove"></i>
+                                                                            </h:commandLink>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-xs-12">
+                                                                            <div class="row">
+                                                                                <label for="produto" class="col-sm-4 control-label">Produto: </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <h:selectOneMenu id="produto" converter="produtoConverter" value="{proDes.produto}" styleClass="form-control" pt:autofocus="" >
+                                                                                        <f:selectItems value="{despesaBean.lsProdutos}" var="pro" itemLabel="{pro.toString()}" itemValue="{pro}"/>
+                                                                                    </h:selectOneMenu>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                            
+                                                                        <div class="col-md-5 col-xs-12">
+                                                                            <div class="row">
+                                                                                <label class="col-sm-3 control-label">Valor: </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <h:inputText pt:placeholder="Porcentagem" value="{proDes.pds_porc_part}" title="Porcentagem de Participação" styleClass="form-control" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                            
+                                                        <h:commandLink immediate="true" styleClass="list-group-item list-group-item-success text-center" action="{despesaBean.adicionarProdutoDespesa()}">
+                                                            <f:ajax execute="@form" render="@form" />
+                                                            <i class="fa fa-plus"></i>Adicionar Produto
+                                                        </h:commandLink>-->
 
+
+
+
+
+
+
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-1 btn-group pull-right">
+                                        <h:commandLink styleClass="btn btn-primary" action="#{despesaBean.addProdutoDesp()}" value="OK">
+                                            <f:ajax execute="@form" render="@form" />
+                                        </h:commandLink>
+                                    </div>
+
+                                    <div class="col-md-5 col-xs-12">
+                                        <div class="row">
+                                            <label class="col-xs-12 control-label lbl">Produto: </label>
+                                            <div class="col-xs-12">
+                                                <h:selectOneMenu converter="produtoConverter" value="#{despesaBean.produtoDepesaSelect.produto}" styleClass="form-control" pt:autofocus="" >
+                                                    <f:selectItems value="#{despesaBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="row">
+                                            <label class="col-xs-12 control-label lbl">Valor: </label>
+                                            <div class="col-xs-12">
+                                                <h:inputText pt:placeholder="Porcentagem" pt:type="number" value="#{despesaBean.produtoDepesaSelect.pds_porc_part}" title="Porcentagem de Participação" styleClass="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="row colTempoProd">
+                                            <label class="col-xs-12 control-label lbl">Tempo de Produção (Segundos): </label>
+                                            <div class="col-xs-12">
+                                                <h:inputText pt:placeholder="Tempo" pt:type="number" value="#{despesaBean.produtoDepesaSelect.pds_tem_pro}" title="Tempo de Produção" styleClass="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <h:dataTable value="${despesaBean.lsProdutoDespesas}" var="item" styleClass="table table-bordered table-striped">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nome"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.produto.pro_nome}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Participação"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.pds_porc_part}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Tempo/Produção" class="colTempoProd"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.pds_tem_pro}" class="colTempoProd"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Editar</f:facet>
+                                    <h:commandLink action="#{despesaBean.editProdutoDesp(item)}" value="Edtar">
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:commandLink>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Remover</f:facet>
+                                    <h:commandLink action="#{despesaBean.removeProdutoDespesa(item)}" value="Remover">
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:commandLink>
+                                </h:column>
+                            </h:dataTable>
+
+                        </div>
                     </div>
 
-
+                    <br/>
 
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">

@@ -164,8 +164,9 @@ body {
     margin: 0;
 }
 .page-logo .logo img {
-    margin: 10px 0;
-    max-height: 60px;
+    /*    margin: 10px 0;
+        max-height: 60px;*/
+    height: 80px;
 }
 .page-topmenu {
     height: 80px;
