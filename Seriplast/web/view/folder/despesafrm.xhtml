@@ -178,10 +178,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Participação (#{despesaBean.porcent}%)"/>
                                         </f:facet>
-                                        <h:inputText pt:type="range" value="#{item.pds_porc_part}" style="width: 80%; float: left;">
-                                            <f:ajax execute="@form" render="@form"/>
-                                        </h:inputText>
-                                        <h:inputText pt:type="number" value="#{item.pds_porc_part}" style="width: 15%; float: left;">
+                                        <h:inputText pt:type="number" value="#{item.pds_porc_part}" class="form-control">
                                             <f:ajax execute="@form" render="@form"/>
                                         </h:inputText>
                                     </h:column>
