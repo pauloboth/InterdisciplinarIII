@@ -23,18 +23,28 @@ public class DespesaDAO {
 
     public void insert(Despesa i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.save(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
+//        session = HibernateUtil.getSessionFactory().openSession();
+//        Transaction t = session.beginTransaction();
+//        session.save(i);
+//        t.commit();
+//        session.close();
     }
 
     public void update(Despesa i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.merge(i);
-        t.commit();
+        session.getTransaction().begin();
+        session.update(i);
+        session.getTransaction().commit();
         session.close();
+//        session = HibernateUtil.getSessionFactory().openSession();
+//        Transaction t = session.beginTransaction();
+//        session.merge(i);
+//        t.commit();
+//        session.close();
     }
 
     public void delete(Despesa i) {
@@ -49,6 +59,7 @@ public class DespesaDAO {
         session = HibernateUtil.getSessionFactory().openSession();
         Despesa m = (Despesa) session.get(Despesa.class, id);
         session.close();
+
         return m;
     }
 
@@ -59,4 +70,14 @@ public class DespesaDAO {
         return ls;
     }
 
+    public Despesa findEdit(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        // Query para retornar o Despesa e a lista de produtos (fetch)
+        Despesa d = (Despesa) session.createQuery("select d from Despesa d "
+                + "left outer join fetch d.lsProdutoDespesa pd where d.des_id = :d")
+                .setParameter("d", id).uniqueResult();
+
+        session.close();
+        return d;
+    }
 }

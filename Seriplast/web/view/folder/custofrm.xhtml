@@ -1,0 +1,177 @@
+<ui:composition template="./../modelos/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">Custos</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li><h:link value="Custos" outcome="/faces/view/folder/custolst" /></li>
+        <li><h:link value="Custo"/></li>
+    </ui:define>
+
+    <ui:define name="main-content">
+        <style>
+            .textAreaTable{
+                height: 34px !important;
+                width: 300px !important;
+            }
+            .textAreaTable:focus{
+                height: 85px !important;
+                width: 300px !important;
+                position: absolute;
+                z-index: 2;
+            }
+        </style>
+        <!--        <f:metadata>
+                    <f:viewParam name="id" value="{custoBean.despesa.des_id}"/>
+                </f:metadata>-->
+        <!--<f:event listener="{custoBean.CarregaLsCustoDespesa()}" type="preRenderView"/>-->
+        <div class="panel panel-body">
+            <h3>Dados do Custo</h3>
+            <f:view>
+                <h:form styleClass="form-horizontal">
+                    <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
+                                <div class="col-sm-8">
+                                    <h:inputText pt:required="required" rendered="#{custoBean.despesa.des_id == 0}" id="despesa" value="#{custoBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
+                                    <h:outputText rendered="#{custoBean.despesa.des_id > 0}" value="#{custoBean.despesa.des_nome}"/>
+                                </div>  
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="valor" class="col-sm-4 control-label">Valor da Despesa:</label>
+                                <div class="col-sm-8">
+                                    <h:inputText pt:required="required" pt:type="number" id="valor" value="#{custoBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus="" />
+                                </div>  
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <h3> <b>Produtos que fazem parte desta despesa</b></h3>
+
+
+                            <h:dataTable value="#{custoBean.lsCustoDespesa}" var="item" styleClass="table table-bordered table-striped">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Produto"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.custo.produto.pro_nome}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Preço"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.custo.produto.pro_preco}"/>
+                                </h:column>
+                                <h:column rendered="#{custoBean.despesa.des_tipo == 1}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Luz Gasta"/>
+                                    </f:facet>
+                                    <h:outputText value=""/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade Produzida"/>
+                                    </f:facet>
+                                    <h:inputText pt:type="number" value="#{item.custo.cus_quant_prod}" title="Número de produtos fabricados" class="form-control"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Participação"/>
+                                    </f:facet>
+                                    <h:inputText pt:type="number" value="#{item.csd_valor}" title="Porcentagem de Participação" class="form-control"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Anotação"/>
+                                    </f:facet>
+                                    <h:inputTextarea value="#{item.csd_notas}" class="form-control textAreaTable"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Preço Unitário"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.custo.cus_preco_unitario}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Remover</f:facet>
+                                    <h:commandLink class="btn btn-danger" action="#{custoBean.removeProduto(item)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="fa fa-times"></i>
+                                    </h:commandLink>
+                                </h:column>
+                            </h:dataTable>
+                            <br/>
+
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-2 btn-group pull-right">
+                                        <h:commandLink styleClass="btn btn-primary" action="#{custoBean.addProduto()}">
+                                            <f:ajax execute="@form" render="@form" />
+                                            <i class="fa fa-plus" style="margin-right: 3px;"></i>Adicionar
+                                        </h:commandLink>
+                                    </div>
+
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="row">
+                                            <label class="col-xs-5 control-label lbl">Produto: </label>
+                                            <div class="col-xs-7">
+                                                <h:selectOneMenu converter="produtoConverter" value="#{custoBean.produto}" styleClass="form-control" pt:autofocus="" >
+                                                    <f:selectItems value="#{custoBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <br/>
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                            <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{custoBean.listar()}" />
+                            <h:commandButton styleClass="btn btn-primary" value="Salvar" action="#{custoBean.salvar()}"></h:commandButton>
+                        </div>
+                    </div>
+                </h:form>
+            </f:view>
+        </div>
+    </ui:define>
+</ui:composition>
+<!--                            <ui:repeat value="{custoBean.lsCustos}" var="item" varStatus="loop">
+                                <div class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <h:outputLabel value="Produto:"/><br/>
+                                            <h:outputText value="{item.produto.pro_nome}"/>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h:outputLabel value="Preço:"/><br/>
+                                            <h:outputText value="{item.produto.pro_preco}"/>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h:outputLabel value="Quantidade:"/><br/>
+                                            <h:inputText pt:type="number" value="{item.cus_quant_prod}" title="Número de produtos fabricados"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>-->

@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import model.CustoDespesa;
 import model.Despesa;
 import model.Produto;
 import model.ProdutoDespesa;
@@ -20,17 +21,19 @@ public class DespesaBean {
     private Despesa despesa = new Despesa();
     private DespesaDAO dao = new DespesaDAO();
     private DataModel despesas;
-    private boolean isMachin;
+    private boolean isMachin = false;
     private TimeZone timeZone = TimeZone.getDefault();
-    private List<ProdutoDespesa> lsProdutoDespesas = new ArrayList<>();
     private List<Produto> lsProdutos = new ArrayList<>();
+    private List<Produto> lsProdutosAll = new ArrayList<>();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    private ProdutoDespesa produtoDepesaSelect = new ProdutoDespesa();
+    private Produto produto = new Produto();
+    private int porcent = 0;
 
     public DespesaBean() {
     }
 
     public DataModel getDespesas() {
+        clearSession();
         this.despesas = new ListDataModel(dao.findAll());
         return despesas;
     }
@@ -40,7 +43,13 @@ public class DespesaBean {
     }
 
     public String edit(Despesa i) {
-        despesa = (Despesa) despesas.getRowData();
+//        despesa = (Despesa) despesas.getRowData();
+        despesa = dao.findEdit(i.getDes_id());
+        if (despesa.getDes_tipo_maq() == 1) {
+            isMachin = true;
+        } else {
+            isMachin = false;
+        }
         return "despesafrm";
     }
 
@@ -53,11 +62,18 @@ public class DespesaBean {
     }
 
     public String salvar() {
+        if (isMachin) {
+            despesa.setDes_tipo_maq(1);
+        } else {
+            despesa.setDes_tipo_maq(0);
+        }
+
         if (despesa.getDes_id() > 0) {
             dao.update(despesa);
         } else {
             dao.insert(despesa);
         }
+        clearSession();
         return "despesalst";
     }
 
@@ -89,51 +105,94 @@ public class DespesaBean {
         this.timeZone = timeZone;
     }
 
-    public List<ProdutoDespesa> getLsProdutoDespesas() {
-        return lsProdutoDespesas;
-    }
-
-    public void removeProdutoDespesa(ProdutoDespesa pd) {
-        lsProdutoDespesas.remove(pd);
-    }
-
-    public void setLsProdutoDespesas(List<ProdutoDespesa> lsProdutoDespesas) {
-        this.lsProdutoDespesas = lsProdutoDespesas;
-    }
-
     public List<Produto> getLsProdutos() {
-        lsProdutos = proDAO.findAll();
+        lsProdutos = proDAO.findAll(1);
+        lsProdutosAll = lsProdutos;
+        reloadProdutos();
         return lsProdutos;
     }
 
-    public ProdutoDespesa getProdutoDepesaSelect() {
-        return produtoDepesaSelect;
-    }
-
-    public void setProdutoDepesaSelect(ProdutoDespesa produtoDepesaSelect) {
-        this.produtoDepesaSelect = produtoDepesaSelect;
+    public void removeProdutoDespesa(ProdutoDespesa pd) {
+        despesa.getLsProdutoDespesa().remove(pd);
+        reloadProdutos();
     }
 
     public void addProdutoDesp() {
-        if (lsProdutoDespesas == null) {
-            lsProdutoDespesas = new ArrayList<>();
-        }
-        boolean bAdd = true;
-        for (ProdutoDespesa pds : lsProdutoDespesas) {
-            if (pds.getProduto().getPro_id() == produtoDepesaSelect.getProduto().getPro_id()) {
-                bAdd = false;
+        if (produto != null) {
+            if (despesa.getLsProdutoDespesa() == null) {
+                despesa.setLsProdutoDespesa(new ArrayList<ProdutoDespesa>());
             }
-        }
-        if (bAdd) {
-            produtoDepesaSelect.setDespesa(despesa);
-            lsProdutoDespesas.add(produtoDepesaSelect);
-            produtoDepesaSelect = new ProdutoDespesa();
+            boolean bAdd = true;
+            for (ProdutoDespesa pds : despesa.getLsProdutoDespesa()) {
+                if (pds.getProduto().getPro_id() == produto.getPro_id()) {
+                    bAdd = false;
+                }
+            }
+            if (bAdd) {
+                ProdutoDespesa pd = new ProdutoDespesa();
+                pd.setDespesa(despesa);
+                pd.setProduto(produto);
+                despesa.getLsProdutoDespesa().add(pd);
+                produto = new Produto();
+            }
+            reloadProdutos();
         }
     }
 
-    public void editProdutoDesp(ProdutoDespesa pd) {
-        produtoDepesaSelect = pd;
-        lsProdutoDespesas.remove(pd);
+    public void clearSession() {
+        despesa = new Despesa();
+        despesa.setLsProdutoDespesa(new ArrayList<ProdutoDespesa>());
+        produto = new Produto();
     }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    private void reloadProdutos() {
+        lsProdutos = new ArrayList<>();
+        for (Produto p : lsProdutosAll) {
+            boolean bAdd = true;
+            for (ProdutoDespesa pds : despesa.getLsProdutoDespesa()) {
+                if (pds.getProduto().getPro_id() == p.getPro_id()) {
+                    bAdd = false;
+                }
+            }
+            if (bAdd) {
+                lsProdutos.add(p);
+            }
+        }
+    }
+
+    public int getPorcent() {
+        porcent = 0;
+        if (despesa.getLsProdutoDespesa() != null) {
+            for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
+                porcent += pd.getPds_porc_part();
+            }
+        }
+        return porcent;
+    }
+
+    public void setPorcent(int porcent) {
+        this.porcent = porcent;
+    }
+
+//    public void CalculaPorcent(ProdutoDespesa pd) {
+//        if (this.porcent > 100) {
+//            List<ProdutoDespesa> lsPD = despesa.getLsProdutoDespesa();
+//            lsPD.remove(pd);
+//            porcent = 0;
+//            for (ProdutoDespesa p : lsPD) {
+//                porcent += p.getPds_porc_part();
+//            }
+//            pd.setPds_porc_part(100 - porcent);
+//            porcent = 100;
+//        }
+//    }
 
 }

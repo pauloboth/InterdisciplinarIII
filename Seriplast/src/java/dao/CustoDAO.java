@@ -1,16 +1,19 @@
 package dao;
 
-import model.Produto;
+import java.util.Calendar;
+import java.util.Date;
+import model.Custo;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import sun.util.BuddhistCalendar;
 import util.HibernateUtil;
 
-public class ProdutoDAO {
+public class CustoDAO {
 
     private Session session;
 
-    public ProdutoDAO() {
+    public CustoDAO() {
         session = HibernateUtil.getSessionFactory().openSession();
     }
 
@@ -21,7 +24,7 @@ public class ProdutoDAO {
         return session;
     }
 
-    public void insert(Produto i) {
+    public void insert(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         session.save(i);
@@ -29,7 +32,7 @@ public class ProdutoDAO {
         session.close();
     }
 
-    public void update(Produto i) {
+    public void update(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         session.merge(i);
@@ -37,7 +40,7 @@ public class ProdutoDAO {
         session.close();
     }
 
-    public void delete(Produto i) {
+    public void delete(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         session.delete(i);
@@ -45,22 +48,32 @@ public class ProdutoDAO {
         session.close();
     }
 
-    public Produto findById(int id) {
+    public Custo findById(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Produto m = (Produto) session.get(Produto.class, id);
+        Custo m = (Custo) session.get(Custo.class, id);
         session.close();
         return m;
     }
 
-    public List<Produto> findAll(int status) {
+    public List<Custo> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
-        String sql = "";
-        if (status != 0) {
-            sql += " and pro_status = " + status;
-        }
-        List<Produto> ls = session.createQuery("from Produto where 1 = 1 " + sql).list();
+        List<Custo> ls = session.createQuery("from Custo").list();
         session.close();
         return ls;
+    }
+
+    public Custo findEditInDate(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Custo c = (Custo) session.createQuery("select c from Custo c "
+                + "where c.pro_id = :p "
+                + "and month(c.cus_cadastro) = month(:date) "
+                + "and year(c.cus_cadastro) = year(:date) "
+                + "order by c.cus_cadastro desc")
+                .setParameter("p", id)
+                .setParameter("date", new Date())
+                .uniqueResult();
+        session.close();
+        return c;
     }
 
 }

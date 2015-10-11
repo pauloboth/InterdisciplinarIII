@@ -25,11 +25,6 @@ public class CategoriaBean {
         this.categorias = i;
     }
 
-    public String insert() {
-        dao.insert(categoria);
-        return "categorialst";
-    }
-
     public String edit(Categoria i) {
         categoria = (Categoria) categorias.getRowData();
         return "categoriafrm";

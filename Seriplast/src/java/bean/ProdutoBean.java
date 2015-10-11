@@ -23,7 +23,7 @@ public class ProdutoBean {
     }
 
     public DataModel getProdutos() {
-        this.produtos = new ListDataModel(dao.findAll());
+        this.produtos = new ListDataModel(dao.findAll(0));
         return produtos;
     }
 

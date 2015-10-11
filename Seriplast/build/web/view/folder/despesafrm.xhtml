@@ -14,62 +14,22 @@
     </ui:define>
 
     <ui:define name="main-content">
-        <script>
-            /*<![CDATA[*/
-            $(function () {
-                if ($('#checkboxMachin').is(':checked')) {
-                    $('#GastoHora').show();
-                    $('#GastoHora input').attr('required', true);
-                    $('.colTempoProd').parent().show();
-                } else {
-                    $('#GastoHora').hide();
-                    $('#GastoHora input').removeAttr('required');
-                    $('.colTempoProd').parent().hide();
-                }
-                if ($('#tipo_desp').val() == '3') {
-                    $('#values_of_depr').show()();
-                    $('#values_of_depr input').attr('required', true);
-                }
-                else {
-                    $('#values_of_depr').hide();
-                    $('#values_of_depr input').removeAttr('required');
-                }
-
-                $('#checkboxMachin').change(function () {
-                    if ($('#checkboxMachin').is(':checked')) {
-                        $('#GastoHora').slideDown();
-                        $('#GastoHora input').attr('required', true);
-                        $('.colTempoProd').parent().show();
-                    } else {
-                        $('#GastoHora').slideUp();
-                        $('#GastoHora input').removeAttr('required');
-                        $('.colTempoProd').parent().hide();
-                    }
-                });
-
-                $('#tipo_desp').change(function () {
-                    if ($('#tipo_desp').val() == '3') {
-                        $('#values_of_depr').slideDown();
-                        $('#values_of_depr input').attr('required', true);
-                    }
-                    else {
-                        $('#values_of_depr').slideUp();
-                        $('#values_of_depr input').removeAttr('required');
-                    }
-                });
-            });
-            /*]]>*/
-        </script>
         <style>
             .form-group select{
                 height: 34px;
             }
-            .lbl{
-                text-align: left !important;
+            .textAreaTable{
+                height: 34px !important;
+                width: 300px !important;
+            }
+            .textAreaTable:focus{
+                height: 85px !important;
+                width: 300px !important;
+                position: absolute;
             }
         </style>
         <div class="panel panel-body">
-            <h3><h:outputText value="Dados da Despesa"/></h3>
+            <h3><b>Dados da Despesa</b></h3>
             <f:view>
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idiCodigo" value="#{despesaBean.despesa.des_id}" />
@@ -95,14 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="preco" class="col-sm-4 control-label">Preço: </label>
-                                <div class="col-sm-8">
-                                    <h:inputText pt:type="number" pt:required="required" id="preco" value="#{produtoBean.produto.pro_preco}" title="Preço do produto" styleClass="form-control" pt:autofocus="" />
-                                </div>  
-                            </div>
-                        </div>
+
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
@@ -112,33 +65,41 @@
                                         <f:selectItem  itemValue="2" itemLabel="Mensal"/>
                                         <f:selectItem  itemValue="3" itemLabel="Despesa Parcelada"/>
                                         <f:selectItem  itemValue="4" itemLabel="Única"/>
+                                        <f:ajax execute="@form" render="@form" />
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" id="values_of_depr">
-                            <div class="row">
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="inicio_dpr" class="col-sm-4 control-label">Início:  </label>
-                                        <div class="col-sm-8">
-                                            <h:inputText pt:type="date" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
-                                                <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{despesaBean.timeZone}"/>
-                                            </h:inputText>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="depr_mes" class="col-sm-4 control-label">Meses:  </label>
-                                        <div class="col-sm-8">
-                                            <h:inputText pt:type="number" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
-                                        </div>  
-                                    </div>
+                        <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
+                            <div class="form-group">
+                                <label for="valor" class="col-sm-4 control-label">Valor: </label>
+                                <div class="col-sm-8">
+                                    <h:inputText pt:type="number" pt:required="required" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
+                                </div>  
+                            </div>
+                        </h:panelGroup>
+
+                        <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
+                            <div class="form-group">
+                                <label for="inicio_dpr" class="col-sm-4 control-label">Início:  </label>
+                                <div class="col-sm-8">
+                                    <h:inputText pt:type="date" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{despesaBean.timeZone}"/>
+                                    </h:inputText>
                                 </div>
                             </div>
-                        </div>
+                        </h:panelGroup>
+
+                        <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
+                            <div class="form-group">
+                                <label for="depr_mes" class="col-sm-4 control-label">Meses:  </label>
+                                <div class="col-sm-8">
+                                    <h:inputText pt:type="number" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
+                                </div>  
+                            </div>
+                        </h:panelGroup>
+
 
 
 
@@ -148,18 +109,23 @@
                                     <div class="form-group">
                                         <div class="col-sm-4"></div>
                                         <label class="col-sm-8 checkbox checkbox-inline" style="min-height: 34px;">
-                                            <h:selectBooleanCheckbox value="#{despesaBean.isMachin}" pt:id="checkboxMachin"/> É despesa de máquina?
+                                            <h:selectBooleanCheckbox value="#{despesaBean.isMachin}" pt:id="checkboxMachin"> 
+                                                <f:ajax execute="@form" render="@form" />
+                                            </h:selectBooleanCheckbox>
+                                            É despesa de máquina?
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xs-12" id="GastoHora">
-                                    <div class="form-group">
-                                        <label for="gasto_hora" class="col-sm-4 control-label">Watts/Hora:  </label>
-                                        <div class="col-sm-8">
-                                            <h:inputText pt:type="number" pt:min="0" id="gasto_hora" value="#{despesaBean.despesa.des_gasto_hora}" title="Gasto por Hora" styleClass="form-control" pt:autofocus="" />
-                                        </div>  
+                                <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.isMachin}">
+                                    <div id="GastoHora">
+                                        <div class="form-group">
+                                            <label for="gasto_hora" class="col-sm-4 control-label">Watts/Hora:  </label>
+                                            <div class="col-sm-8">
+                                                <h:inputText pt:type="number" pt:min="0" id="gasto_hora" value="#{despesaBean.despesa.des_gasto_hora}" title="Gasto por Hora" styleClass="form-control" pt:autofocus="" />
+                                            </div>  
+                                        </div>
                                     </div>
-                                </div>
+                                </h:panelGroup>
                             </div>
                         </div>
 
@@ -171,127 +137,77 @@
                                 </div>  
                             </div>
                         </div>
-                        <hr/>
                         <div class="col-xs-12">
-                            <!--                            <c:forEach items="{despesaBean.lsProdutoDespesas}" var="proDes" varStatus="loopDes">
-                                                            <div style="margin-bottom: 15px;">
-                                                                <div class="list-group-item">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-1 btn-group pull-right">
-                                                                            <h:commandLink immediate="true" styleClass="btn btn-danger" action="{despesaBean.removeProdutoDespesa(proDes)}">
-                                                                                <f:ajax execute="@form" render="@form" />
-                                                                                <i class="fa fa-remove"></i>
-                                                                            </h:commandLink>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-xs-12">
-                                                                            <div class="row">
-                                                                                <label for="produto" class="col-sm-4 control-label">Produto: </label>
-                                                                                <div class="col-sm-8">
-                                                                                    <h:selectOneMenu id="produto" converter="produtoConverter" value="{proDes.produto}" styleClass="form-control" pt:autofocus="" >
-                                                                                        <f:selectItems value="{despesaBean.lsProdutos}" var="pro" itemLabel="{pro.toString()}" itemValue="{pro}"/>
-                                                                                    </h:selectOneMenu>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                            
-                                                                        <div class="col-md-5 col-xs-12">
-                                                                            <div class="row">
-                                                                                <label class="col-sm-3 control-label">Valor: </label>
-                                                                                <div class="col-sm-9">
-                                                                                    <h:inputText pt:placeholder="Porcentagem" value="{proDes.pds_porc_part}" title="Porcentagem de Participação" styleClass="form-control" />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </c:forEach>
-                            
-                                                        <h:commandLink immediate="true" styleClass="list-group-item list-group-item-success text-center" action="{despesaBean.adicionarProdutoDespesa()}">
-                                                            <f:ajax execute="@form" render="@form" />
-                                                            <i class="fa fa-plus"></i>Adicionar Produto
-                                                        </h:commandLink>-->
+                            <h3> <b>Produtos que farão parte desta despesa:</b></h3>
+                            <!--                            <h:panelGroup rendered="{despesaBean.lsProdutos.size() == 0}">Nenhum produto ativo encontrado!</h:panelGroup>-->
+                            <h:panelGroup ><!--rendered="{despesaBean.lsProdutos.size() > 0}"-->
+                                <div class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-2 btn-group pull-right">
+                                            <h:commandLink styleClass="btn btn-primary" action="#{despesaBean.addProdutoDesp()}">
+                                                <f:ajax execute="@form" render="@form" />
+                                                <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
+                                            </h:commandLink>
+                                        </div>
 
-
-
-
-
-
-
-                            <div class="list-group-item">
-                                <div class="row">
-                                    <div class="col-xs-1 btn-group pull-right">
-                                        <h:commandLink styleClass="btn btn-primary" action="#{despesaBean.addProdutoDesp()}" value="OK">
-                                            <f:ajax execute="@form" render="@form" />
-                                        </h:commandLink>
-                                    </div>
-
-                                    <div class="col-md-5 col-xs-12">
-                                        <div class="row">
-                                            <label class="col-xs-12 control-label lbl">Produto: </label>
-                                            <div class="col-xs-12">
-                                                <h:selectOneMenu converter="produtoConverter" value="#{despesaBean.produtoDepesaSelect.produto}" styleClass="form-control" pt:autofocus="" >
-                                                    <f:selectItems value="#{despesaBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
-                                                </h:selectOneMenu>
+                                        <div class="col-md-7 col-xs-12">
+                                            <div class="row">
+                                                <label class="col-xs-5 control-label">Produto: </label>
+                                                <div class="col-xs-7">
+                                                    <h:selectOneMenu converter="produtoConverter" value="#{despesaBean.produto}" styleClass="form-control" pt:autofocus="" >
+                                                        <f:selectItems value="#{despesaBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="row">
-                                            <label class="col-xs-12 control-label lbl">Valor: </label>
-                                            <div class="col-xs-12">
-                                                <h:inputText pt:placeholder="Porcentagem" pt:type="number" value="#{despesaBean.produtoDepesaSelect.pds_porc_part}" title="Porcentagem de Participação" styleClass="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="row colTempoProd">
-                                            <label class="col-xs-12 control-label lbl">Tempo de Produção (Segundos): </label>
-                                            <div class="col-xs-12">
-                                                <h:inputText pt:placeholder="Tempo" pt:type="number" value="#{despesaBean.produtoDepesaSelect.pds_tem_pro}" title="Tempo de Produção" styleClass="form-control" />
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
 
 
+                                <br/>
+                                <h:dataTable value="${despesaBean.despesa.lsProdutoDespesa}" var="item" styleClass="table table-bordered table-striped">
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Produto"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.produto.pro_nome}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Participação (#{despesaBean.porcent}%)"/>
+                                        </f:facet>
+                                        <h:inputText pt:type="range" value="#{item.pds_porc_part}" style="width: 80%; float: left;">
+                                            <f:ajax execute="@form" render="@form"/>
+                                        </h:inputText>
+                                        <h:inputText pt:type="number" value="#{item.pds_porc_part}" style="width: 15%; float: left;">
+                                            <f:ajax execute="@form" render="@form"/>
+                                        </h:inputText>
+                                    </h:column>
+                                    <h:column rendered="#{despesaBean.isMachin}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Tempo de Produção (Segundos)"/>
+                                        </f:facet>
+                                        <h:inputText pt:type="number" value="#{item.pds_tem_pro}" class="form-control"/>
+                                    </h:column>
 
-                            <h:dataTable value="${despesaBean.lsProdutoDespesas}" var="item" styleClass="table table-bordered table-striped">
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Nome"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.produto.pro_nome}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Participação"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.pds_porc_part}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Tempo/Produção" class="colTempoProd"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.pds_tem_pro}" class="colTempoProd"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Editar</f:facet>
-                                    <h:commandLink action="#{despesaBean.editProdutoDesp(item)}" value="Edtar">
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:commandLink>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Remover</f:facet>
-                                    <h:commandLink action="#{despesaBean.removeProdutoDespesa(item)}" value="Remover">
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:commandLink>
-                                </h:column>
-                            </h:dataTable>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Anotação"/>
+                                        </f:facet>
+                                        <h:inputTextarea value="#{item.pds_notas}" class="form-control textAreaTable"/>
+                                    </h:column>
 
+                                    <h:column>
+                                        <f:facet name="header">Remover</f:facet>
+                                        <h:commandLink  class="btn btn-danger" action="#{despesaBean.removeProdutoDespesa(item)}">
+                                            <f:ajax execute="@form" render="@form" />
+                                            <i class="fa fa-times"></i>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
                         </div>
                     </div>
 

@@ -2,12 +2,15 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,6 +31,9 @@ public class Custo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
     private Produto produto;
+
+    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustoDespesa> lsCustoDespesa;
 
     public Custo() {
     }
@@ -88,5 +94,12 @@ public class Custo implements Serializable {
         this.produto = produto;
     }
 
+    public List<CustoDespesa> getLsCustoDespesa() {
+        return lsCustoDespesa;
+    }
+
+    public void setLsCustoDespesa(List<CustoDespesa> lsCustoDespesa) {
+        this.lsCustoDespesa = lsCustoDespesa;
+    }
 
 }

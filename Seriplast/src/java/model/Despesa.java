@@ -2,10 +2,13 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,11 +24,14 @@ public class Despesa implements Serializable {
     private int des_tipo;//se é com depreciação, sem depreciação, se é de luz
     //1 se for luz, 2 se for com depreciação, 0 qualquer outra criada
     private int des_depr_mes;//quantidade de meses
+    private double des_valor_depr;
     private Date des_inicio_depr;
     private int des_status;
     private int des_tipo_maq;//tipo máquina ou outro bem
     private int des_gasto_hora;//quantidade que gasta por hora
     private String des_notas;
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoDespesa> lsProdutoDespesa;
 
     public Despesa() {
     }
@@ -60,6 +66,14 @@ public class Despesa implements Serializable {
 
     public void setDes_depr_mes(int des_depr_mes) {
         this.des_depr_mes = des_depr_mes;
+    }
+
+    public double getDes_valor_depr() {
+        return des_valor_depr;
+    }
+
+    public void setDes_valor_depr(double des_valor_depr) {
+        this.des_valor_depr = des_valor_depr;
     }
 
     public Date getDes_inicio_depr() {
@@ -102,6 +116,13 @@ public class Despesa implements Serializable {
         this.des_notas = des_notas;
     }
 
+    public List<ProdutoDespesa> getLsProdutoDespesa() {
+        return lsProdutoDespesa;
+    }
+
+    public void setLsProdutoDespesa(List<ProdutoDespesa> lsProdutoDespesa) {
+        this.lsProdutoDespesa = lsProdutoDespesa;
+    }
 
     @Override
     public int hashCode() {
@@ -125,8 +146,8 @@ public class Despesa implements Serializable {
         return true;
     }
 
-        public String toString() {
+    public String toString() {
         return getDes_nome();
     }
-    
+
 }
