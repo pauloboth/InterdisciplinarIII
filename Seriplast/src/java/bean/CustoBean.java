@@ -84,17 +84,17 @@ public class CustoBean {
     public List<CustoDespesa> getLsCustoDespesa() {
         porcent = 0;
         for (CustoDespesa cd : lsCustoDespesa) {
-            porcent += cd.getCsd_participacao();
-            double v = cd.getCsd_participacao() * valor;
-            v = v / 100;
+//            porcent += cd.getCsd_participacao();
+//            double v = cd.getCsd_participacao() * valor;
+//            v = v / 100;
 //            if (cd.getCusto().getCus_quant_prod() > 0) {
 //                v = v / cd.getCusto().getCus_quant_prod();
 //            } else {
 //                v = 0;
 //            }
-            v = v * 100;
-            v = Math.round(v);
-            v = v / 100;
+//            v = v * 100;
+//            v = Math.round(v);
+//            v = v / 100;
 //            cd.getCusto().setCus_preco_unitario(v);
         }
         return lsCustoDespesa;
@@ -179,7 +179,7 @@ public class CustoBean {
                 c.setProduto(pd.getProduto());
                 c.setCus_preco_produto(pd.getProduto().getPro_preco());
                 cd.setCusto(c);
-                cd.setCsd_participacao(pd.getPds_porc_part());
+//                cd.setCsd_participacao(pd.getPds_porc_part());
                 lsCustoDespesa.add(cd);
             }
         } else {

@@ -162,7 +162,7 @@ public class DespesaBean {
         porcent = 0;
         if (despesa.getLsProdutoDespesa() != null) {
             for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
-                porcent += pd.getPds_porc_part();
+//                porcent += pd.getPds_porc_part();
             }
         }
         return porcent;

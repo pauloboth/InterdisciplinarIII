@@ -29,7 +29,6 @@ public class CustoDespesa implements Serializable {
     private Date csd_cadastro;
     private String csd_notas;
     private double csd_valor;
-    private int csd_participacao;//não existe no banco
 
     public CustoDespesa() {
     }
@@ -72,14 +71,6 @@ public class CustoDespesa implements Serializable {
 
     public void setCsd_valor(double csd_valor) {
         this.csd_valor = csd_valor;
-    }
-
-    public int getCsd_participacao() {
-        return csd_participacao;
-    }
-
-    public void setCsd_participacao(int csd_participacao) {
-        this.csd_participacao = csd_participacao;
     }
 
 }

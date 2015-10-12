@@ -20,7 +20,6 @@ public class ProdutoDespesa implements Serializable {
     @JoinColumn(name = "des_id", referencedColumnName = "des_id")
     private Despesa despesa;
     private int pds_tem_pro;//no banco salvo em segundos
-    private int pds_porc_part;//a porcentagem de que o valor da despesa faz parte
     private String pds_notas;
 
     public ProdutoDespesa() {
@@ -48,14 +47,6 @@ public class ProdutoDespesa implements Serializable {
 
     public void setPds_tem_pro(int pds_tem_pro) {
         this.pds_tem_pro = pds_tem_pro;
-    }
-
-    public int getPds_porc_part() {
-        return pds_porc_part;
-    }
-
-    public void setPds_porc_part(int pds_porc_part) {
-        this.pds_porc_part = pds_porc_part;
     }
 
     public String getPds_notas() {
