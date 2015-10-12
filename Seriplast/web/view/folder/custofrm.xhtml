@@ -28,7 +28,7 @@
         <!--        <f:metadata>
                     <f:viewParam name="id" value="{custoBean.despesa.des_id}"/>
                 </f:metadata>-->
-        <!--<f:event listener="{custoBean.CarregaLsCustoDespesa()}" type="preRenderView"/>-->
+        <!--        <f:event listener="{custoBean.clearSession()}" type="preRenderView"/>-->
         <div class="panel panel-body">
             <h3>Dados do Custo</h3>
             <f:view>
@@ -49,7 +49,9 @@
                             <div class="form-group">
                                 <label for="valor" class="col-sm-4 control-label">Valor da Despesa:</label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:required="required" pt:type="number" id="valor" value="#{custoBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:required="required" pt:type="number" id="valor" value="#{custoBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus="">
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:inputText>
                                 </div>  
                             </div>
                         </div>
@@ -70,7 +72,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Preço"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.custo.produto.pro_preco}"/>
+                                    <h:outputText value="#{item.custo.cus_preco_produto}"/>
                                 </h:column>
                                 <h:column rendered="#{custoBean.despesa.des_tipo == 1}">
                                     <f:facet name="header">
@@ -81,16 +83,20 @@
 
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Quantidade Produzida"/>
+                                        <h:outputText value="Quant. Produzida"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" value="#{item.custo.cus_quant_prod}" title="Número de produtos fabricados" class="form-control"/>
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.custo.cus_quant_prod}" title="Número de produtos fabricados" class="form-control">
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:inputText>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Participação"/>
+                                        <h:outputText value="Participação (#{custoBean.porcent}%)"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" value="#{item.csd_valor}" title="Porcentagem de Participação" class="form-control"/>
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.csd_participacao}" title="Porcentagem de Participação" class="form-control">
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:inputText>
                                 </h:column>
 
                                 <h:column>
@@ -102,9 +108,13 @@
 
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Preço Unitário"/>
+                                        <h:outputText value="Gasto Unit."/>
                                     </f:facet>
-                                    <h:outputText value="#{item.custo.cus_preco_unitario}"/>
+                                    <div style="text-align: right;">
+                                        <div style="float: left;">R$</div>
+                                        <h:outputText value="#{item.custo.cus_preco_unitario}"/>
+                                    </div>
+
                                 </h:column>
 
                                 <h:column>

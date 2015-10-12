@@ -29,6 +29,7 @@ public class CustoBean {
     private ProdutoDAO proDAO = new ProdutoDAO();
     private Produto produto = new Produto();
     private double valor = 0;
+    private int porcent = 0;
 
     public CustoBean() {
     }
@@ -77,9 +78,25 @@ public class CustoBean {
     public void clearSession() {
         despesa = new Despesa();
         lsCustoDespesa = new ArrayList<>();
+        valor = 0;
     }
 
     public List<CustoDespesa> getLsCustoDespesa() {
+        porcent = 0;
+        for (CustoDespesa cd : lsCustoDespesa) {
+            porcent += cd.getCsd_participacao();
+            double v = cd.getCsd_participacao() * valor;
+            v = v / 100;
+//            if (cd.getCusto().getCus_quant_prod() > 0) {
+//                v = v / cd.getCusto().getCus_quant_prod();
+//            } else {
+//                v = 0;
+//            }
+            v = v * 100;
+            v = Math.round(v);
+            v = v / 100;
+//            cd.getCusto().setCus_preco_unitario(v);
+        }
         return lsCustoDespesa;
     }
 
@@ -121,6 +138,7 @@ public class CustoBean {
                 CustoDespesa cd = new CustoDespesa();
                 Custo c = new Custo();
                 c.setProduto(produto);
+                c.setCus_preco_produto(produto.getPro_preco());
                 cd.setCusto(c);
                 cd.setDespesa(despesa);
                 lsCustoDespesa.add(cd);
@@ -135,22 +153,22 @@ public class CustoBean {
         reloadProdutos();
     }
 
-    public void CarregaLsCustoDespesa() {
-        lsCustoDespesa = new ArrayList<>();
-        if (despesa.getDes_id() != 0) {
-            despesa = desDAO.findEdit(despesa.getDes_id());
-            for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
-                CustoDespesa cd = new CustoDespesa();
-                Custo c = new Custo();
-                c.setProduto(pd.getProduto());
-                cd.setCusto(c);
-                lsCustoDespesa.add(cd);
-            }
-        } else {
-            clearSession();
-        }
-    }
-
+//    public void CarregaLsCustoDespesa() {
+//        lsCustoDespesa = new ArrayList<>();
+//        if (despesa.getDes_id() != 0) {
+//            despesa = desDAO.findEdit(despesa.getDes_id());
+//            for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
+//                CustoDespesa cd = new CustoDespesa();
+//                Custo c = new Custo();
+//                c.setProduto(pd.getProduto());
+//                cd.setCsd_valor(12.34);
+//                cd.setCusto(c);
+//                lsCustoDespesa.add(cd);
+//            }
+//        } else {
+//            clearSession();
+//        }
+//    }
     public String New(int id) {
         lsCustoDespesa = new ArrayList<>();
         if (id != 0) {
@@ -159,7 +177,9 @@ public class CustoBean {
                 CustoDespesa cd = new CustoDespesa();
                 Custo c = new Custo();
                 c.setProduto(pd.getProduto());
+                c.setCus_preco_produto(pd.getProduto().getPro_preco());
                 cd.setCusto(c);
+                cd.setCsd_participacao(pd.getPds_porc_part());
                 lsCustoDespesa.add(cd);
             }
         } else {
@@ -189,6 +209,14 @@ public class CustoBean {
                 lsProdutos.add(p);
             }
         }
+    }
+
+    public int getPorcent() {
+        return porcent;
+    }
+
+    public void setPorcent(int porcent) {
+        this.porcent = porcent;
     }
 
 }

@@ -13,6 +13,7 @@ import model.CustoDespesa;
 import model.Despesa;
 import model.Produto;
 import model.ProdutoDespesa;
+import org.primefaces.event.SlideEndEvent;
 
 @ManagedBean
 @SessionScoped
@@ -45,11 +46,6 @@ public class DespesaBean {
     public String edit(Despesa i) {
 //        despesa = (Despesa) despesas.getRowData();
         despesa = dao.findEdit(i.getDes_id());
-        if (despesa.getDes_tipo_maq() == 1) {
-            isMachin = true;
-        } else {
-            isMachin = false;
-        }
         return "despesafrm";
     }
 
@@ -62,12 +58,6 @@ public class DespesaBean {
     }
 
     public String salvar() {
-        if (isMachin) {
-            despesa.setDes_tipo_maq(1);
-        } else {
-            despesa.setDes_tipo_maq(0);
-        }
-
         if (despesa.getDes_id() > 0) {
             dao.update(despesa);
         } else {
@@ -194,5 +184,4 @@ public class DespesaBean {
 //            porcent = 100;
 //        }
 //    }
-
 }

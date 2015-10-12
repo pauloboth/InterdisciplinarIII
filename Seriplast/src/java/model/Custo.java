@@ -24,9 +24,9 @@ public class Custo implements Serializable {
     private int cus_id;
     private String cus_notas;
     private double cus_preco_produto;
-    private int cus_quant_prod;//Qunantidade produzida
-    private Date cus_cadastro;
-    private double cus_preco_unitario;
+    private Date cus_data;
+    private int cus_mes;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
@@ -62,28 +62,20 @@ public class Custo implements Serializable {
         this.cus_preco_produto = cus_preco_produto;
     }
 
-    public int getCus_quant_prod() {
-        return cus_quant_prod;
+    public Date getCus_data() {
+        return cus_data;
     }
 
-    public void setCus_quant_prod(int cus_quant_prod) {
-        this.cus_quant_prod = cus_quant_prod;
+    public void setCus_data(Date cus_data) {
+        this.cus_data = cus_data;
     }
 
-    public Date getCus_cadastro() {
-        return cus_cadastro;
+    public int getCus_mes() {
+        return cus_mes;
     }
 
-    public void setCus_cadastro(Date cus_cadastro) {
-        this.cus_cadastro = cus_cadastro;
-    }
-
-    public double getCus_preco_unitario() {
-        return cus_preco_unitario;
-    }
-
-    public void setCus_preco_unitario(double cus_preco_unitario) {
-        this.cus_preco_unitario = cus_preco_unitario;
+    public void setCus_mes(int cus_mes) {
+        this.cus_mes = cus_mes;
     }
 
     public Produto getProduto() {
@@ -102,4 +94,12 @@ public class Custo implements Serializable {
         this.lsCustoDespesa = lsCustoDespesa;
     }
 
+    public String getMes() {
+        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        String mes = "";
+        if (this.cus_mes <= 12 && this.cus_mes > 0) {
+            mes = meses[this.cus_mes - 1];
+        }
+        return mes;
+    }
 }

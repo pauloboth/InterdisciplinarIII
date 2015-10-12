@@ -1,12 +1,15 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,6 +30,19 @@ public class Produto implements Serializable {
     private int pro_status;
     private double pro_preco;
     private String pro_notas;
+    private int pro_tem_pro;
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoMaquina> lsProdutoMaquina;
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoPedido> lsProdutoPedido;
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoDespesa> lsProdutoDespesa;
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Custo> lsCusto;
 
     public Produto() {
     }
@@ -77,6 +93,46 @@ public class Produto implements Serializable {
 
     public void setPro_notas(String pro_notas) {
         this.pro_notas = pro_notas;
+    }
+
+    public int getPro_tem_pro() {
+        return pro_tem_pro;
+    }
+
+    public void setPro_tem_pro(int pro_tem_pro) {
+        this.pro_tem_pro = pro_tem_pro;
+    }
+
+    public List<ProdutoMaquina> getLsProdutoMaquina() {
+        return lsProdutoMaquina;
+    }
+
+    public void setLsProdutoMaquina(List<ProdutoMaquina> lsProdutoMaquina) {
+        this.lsProdutoMaquina = lsProdutoMaquina;
+    }
+
+    public List<ProdutoPedido> getLsProdutoPedido() {
+        return lsProdutoPedido;
+    }
+
+    public void setLsProdutoPedido(List<ProdutoPedido> lsProdutoPedido) {
+        this.lsProdutoPedido = lsProdutoPedido;
+    }
+
+    public List<ProdutoDespesa> getLsProdutoDespesa() {
+        return lsProdutoDespesa;
+    }
+
+    public void setLsProdutoDespesa(List<ProdutoDespesa> lsProdutoDespesa) {
+        this.lsProdutoDespesa = lsProdutoDespesa;
+    }
+
+    public List<Custo> getLsCusto() {
+        return lsCusto;
+    }
+
+    public void setLsCusto(List<Custo> lsCusto) {
+        this.lsCusto = lsCusto;
     }
 
     @Override

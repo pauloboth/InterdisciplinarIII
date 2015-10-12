@@ -4,7 +4,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">Despesas</ui:define>
 
@@ -139,7 +140,7 @@
                         </div>
                         <div class="col-xs-12">
                             <h3> <b>Produtos que farão parte desta despesa:</b></h3>
-                            <!--                            <h:panelGroup rendered="{despesaBean.lsProdutos.size() == 0}">Nenhum produto ativo encontrado!</h:panelGroup>-->
+                            <!--<h:panelGroup rendered="{despesaBean.lsProdutos.size() == 0}">Nenhum produto ativo encontrado!</h:panelGroup>-->
                             <h:panelGroup ><!--rendered="{despesaBean.lsProdutos.size() > 0}"-->
                                 <div class="list-group-item">
                                     <div class="row">
@@ -178,7 +179,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Participação (#{despesaBean.porcent}%)"/>
                                         </f:facet>
-                                        <h:inputText pt:type="number" value="#{item.pds_porc_part}" class="form-control">
+                                        <h:inputText id="txt1" pt:min="0" pt:max="100" pt:type="number" value="#{item.pds_porc_part}" class="form-control">
                                             <f:ajax execute="@form" render="@form"/>
                                         </h:inputText>
                                     </h:column>

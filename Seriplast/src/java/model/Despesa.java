@@ -27,11 +27,13 @@ public class Despesa implements Serializable {
     private double des_valor_depr;
     private Date des_inicio_depr;
     private int des_status;
-    private int des_tipo_maq;//tipo máquina ou outro bem
-    private int des_gasto_hora;//quantidade que gasta por hora
     private String des_notas;
+
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProdutoDespesa> lsProdutoDespesa;
+
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustoDespesa> lsCustoDespesa;
 
     public Despesa() {
     }
@@ -92,22 +94,6 @@ public class Despesa implements Serializable {
         this.des_status = des_status;
     }
 
-    public int getDes_tipo_maq() {
-        return des_tipo_maq;
-    }
-
-    public void setDes_tipo_maq(int des_tipo_maq) {
-        this.des_tipo_maq = des_tipo_maq;
-    }
-
-    public int getDes_gasto_hora() {
-        return des_gasto_hora;
-    }
-
-    public void setDes_gasto_hora(int des_gasto_hora) {
-        this.des_gasto_hora = des_gasto_hora;
-    }
-
     public String getDes_notas() {
         return des_notas;
     }
@@ -122,6 +108,14 @@ public class Despesa implements Serializable {
 
     public void setLsProdutoDespesa(List<ProdutoDespesa> lsProdutoDespesa) {
         this.lsProdutoDespesa = lsProdutoDespesa;
+    }
+
+    public List<CustoDespesa> getLsCustoDespesa() {
+        return lsCustoDespesa;
+    }
+
+    public void setLsCustoDespesa(List<CustoDespesa> lsCustoDespesa) {
+        this.lsCustoDespesa = lsCustoDespesa;
     }
 
     @Override
