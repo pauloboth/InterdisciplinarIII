@@ -1,0 +1,129 @@
+<ui:composition template="./../modelos/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">Máquinas</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li><h:link value="Máquinas" outcome="/faces/view/folder/maquinalst" /></li>
+        <li><h:link value="Máquina"/></li>
+    </ui:define>
+
+    <ui:define name="main-content">
+        <style>
+            .form-group select{
+                height: 34px;
+            }
+            .textAreaTable{
+                height: 34px !important;
+                width: 300px !important;
+            }
+            .textAreaTable:focus{
+                height: 85px !important;
+                width: 300px !important;
+                position: absolute;
+            }
+        </style>
+        <div class="panel panel-body">
+            <h3>Dados da Máquina</h3>
+            <f:view>
+                <h:form styleClass="form-horizontal">
+                    <h:inputHidden id="cat_id" value="#{maquinaBean.maquina.maq_id}" />
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Nome: " for="nome" styleClass="control-label col-sm-4" />
+                                <div class="col-sm-8">
+                                    <h:inputText pt:required="required" id="nome" value="#{maquinaBean.maquina.maq_nome}" title="Nome da Máquina" styleClass="form-control" pt:autofocus="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Gasto (watts/hora): " for="gasto" styleClass="control-label col-sm-4" />
+                                <div class="col-sm-8">
+                                    <h:inputText pt:required="required" pt:type="number" pt:min="0" id="gasto" value="#{maquinaBean.maquina.maq_watss_hora}" title="Gasto de Energia da Máquina" styleClass="form-control" pt:autofocus="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <h:outputLabel value="Anotação:" for="notas" styleClass="control-label col-sm-2" />
+                                <div class="col-sm-10">
+                                    <h:inputTextarea id="notas" value="#{maquinaBean.maquina.maq_notas}" title="Anotação" styleClass="form-control" pt:autofocus="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p:separator/>
+                    <h:panelGroup layout="block">
+                        <h3><b>Produtos em que esta máquina faz parte:</b></h3>
+                        <h:panelGroup layout="block" class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 btn-group pull-right">
+                                    <h:commandLink styleClass="btn btn-primary" action="#{maquinaBean.addProduto()}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
+                                    </h:commandLink>
+                                </div>
+
+                                <div class="col-md-7 col-xs-12">
+                                    <div class="row">
+                                        <label class="col-xs-5 control-label">Produto: </label>
+                                        <div class="col-xs-7">
+                                            <h:selectOneMenu converter="produtoConverter" value="#{maquinaBean.produto}" styleClass="form-control" pt:autofocus="" >
+                                                <f:selectItems value="#{maquinaBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+
+                        <h:dataTable value="#{maquinaBean.maquina.lsProdutoMaquina}" var="item" styleClass="table table-bordered table-striped">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Produto"/>
+                                </f:facet>
+                                <h:outputText value="#{item.produto.pro_nome}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tempo de Produção"/>
+                                </f:facet>
+                                <h:inputText pt:type="number" pt:min="0" value="#{item.prm_tem_pro}" class="form-control"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Anotação"/>
+                                </f:facet>
+                                <h:inputTextarea value="#{item.prm_notas}" class="form-control textAreaTable"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Remover</f:facet>
+                                <h:commandLink  class="btn btn-danger" action="#{maquinaBean.removeProduto(item)}">
+                                    <f:ajax execute="@form" render="@form" />
+                                    <i class="fa fa-times"></i>
+                                </h:commandLink>
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:panelGroup>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                            <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{maquinaBean.listar()}" />
+                            <h:commandButton styleClass="btn btn-primary" value="Salvar" action="#{maquinaBean.salvar()}"></h:commandButton>
+                        </div>
+                    </div>
+                </h:form>
+            </f:view>
+        </div>
+    </ui:define>
+</ui:composition>

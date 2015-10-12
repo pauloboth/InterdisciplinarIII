@@ -18,6 +18,15 @@
             .form-group select{
                 height: 34px;
             }
+            .textAreaTable{
+                height: 34px !important;
+                width: 300px !important;
+            }
+            .textAreaTable:focus{
+                height: 85px !important;
+                width: 300px !important;
+                position: absolute;
+            }
         </style>
         <div class="panel panel-body">
             <h3>Dados do Produto</h3>
@@ -77,8 +86,109 @@
                         </div>
 
                     </div>
+                    <p:separator/>
+                    <h:panelGroup layout="block">
+                        <h3><b>Máquinas que este produto ocupa:</b></h3>
+                        <h:panelGroup layout="block" class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 btn-group pull-right">
+                                    <h:commandLink styleClass="btn btn-primary" action="#{produtoBean.addMaquina()}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
+                                    </h:commandLink>
+                                </div>
+
+                                <div class="col-md-7 col-xs-12">
+                                    <div class="row">
+                                        <label class="col-xs-5 control-label">Máquina: </label>
+                                        <div class="col-xs-7">
+                                            <h:selectOneMenu converter="maquinaConverter" value="#{produtoBean.maquina}" styleClass="form-control" pt:autofocus="" >
+                                                <f:selectItems value="#{produtoBean.lsMaquinas}" var="maq" itemLabel="#{maq.toString()}" itemValue="#{maq}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
 
 
+                        <h:dataTable value="#{produtoBean.produto.lsProdutoMaquina}" var="item" styleClass="table table-bordered table-striped">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Máquina"/>
+                                </f:facet>
+                                <h:outputText value="#{item.maquina.maq_nome}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tempo de Produção"/>
+                                </f:facet>
+                                <h:inputText pt:type="number" value="#{item.prm_tem_pro}" class="form-control"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Anotação"/>
+                                </f:facet>
+                                <h:inputTextarea value="#{item.prm_notas}" class="form-control textAreaTable"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Remover</f:facet>
+                                <h:commandLink  class="btn btn-danger" action="#{produtoBean.removeMaquina(item)}">
+                                    <f:ajax execute="@form" render="@form" />
+                                    <i class="fa fa-times"></i>
+                                </h:commandLink>
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:panelGroup>
+
+                    <p:separator/>
+                    <h:panelGroup layout="block">
+                        <h3><b>Despesas que este produto faz parte:</b></h3>
+                        <h:panelGroup layout="block" class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 btn-group pull-right">
+                                    <h:commandLink styleClass="btn btn-primary" action="#{produtoBean.addDespesa()}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
+                                    </h:commandLink>
+                                </div>
+
+                                <div class="col-md-7 col-xs-12">
+                                    <div class="row">
+                                        <label class="col-xs-5 control-label">Despesa: </label>
+                                        <div class="col-xs-7">
+                                            <h:selectOneMenu converter="despesaConverter" value="#{produtoBean.despesa}" styleClass="form-control" pt:autofocus="" >
+                                                <f:selectItems value="#{produtoBean.lsDespesas}" var="des" itemLabel="#{des.toString()}" itemValue="#{des}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <h:dataTable value="#{produtoBean.produto.lsProdutoDespesa}" var="item" styleClass="table table-bordered table-striped">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Despesa"/>
+                                </f:facet>
+                                <h:outputText value="#{item.despesa.des_nome}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Anotação"/>
+                                </f:facet>
+                                <h:inputTextarea value="#{item.pds_notas}" class="form-control textAreaTable"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Remover</f:facet>
+                                <h:commandLink  class="btn btn-danger" action="#{produtoBean.removeDespesa(item)}">
+                                    <f:ajax execute="@form" render="@form" />
+                                    <i class="fa fa-times"></i>
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
 
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">

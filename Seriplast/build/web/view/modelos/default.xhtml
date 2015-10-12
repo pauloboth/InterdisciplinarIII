@@ -83,6 +83,12 @@
                                     <span class="menu-text">Custos</span>
                                 </h:link>
                             </li>
+                            <li class="#{view.viewId == '/view/folder/maquinalst.xhtml' ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/maquinalst">
+                                    <span class="fa fa-flash"></span>
+                                    <span class="menu-text">Máquinas</span>
+                                </h:link>
+                            </li>
 
                             <li class="menu-dropdown #{view.viewId.contains('/cfg/') ? 'open' : ''}">
                                 <a href="javascript:void(0);">

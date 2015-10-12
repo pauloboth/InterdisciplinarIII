@@ -32,7 +32,7 @@ public class MaquinaDAO {
     public void update(Maquina i) {
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.merge(i);
+        session.update(i);
         t.commit();
         session.close();
     }
@@ -59,4 +59,14 @@ public class MaquinaDAO {
         return ls;
     }
 
+    public Maquina findEdit(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Maquina m = (Maquina) session.createQuery("select m from Maquina m "
+                + "left outer join fetch m.lsProdutoMaquina pm "
+                + "where m.maq_id = :m")
+                .setParameter("m", id).uniqueResult();
+
+        session.close();
+        return m;
+    }
 }

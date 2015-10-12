@@ -7,7 +7,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter("DespesaConverter")
+@FacesConverter("despesaConverter")
 public class DespesaConverter implements javax.faces.convert.Converter {
 
     @Override

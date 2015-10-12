@@ -32,7 +32,7 @@ public class ProdutoDAO {
     public void update(Produto i) {
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.merge(i);
+        session.update(i);
         t.commit();
         session.close();
     }
@@ -61,6 +61,26 @@ public class ProdutoDAO {
         List<Produto> ls = session.createQuery("from Produto where 1 = 1 " + sql).list();
         session.close();
         return ls;
+    }
+
+    public Produto findEdit(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Produto p = (Produto) session.createQuery("select p from Produto p "
+                + "left outer join fetch p.lsProdutoDespesa pd "
+                + "where p.pro_id = :p")
+                .setParameter("p", id).uniqueResult();
+        Produto p2 = (Produto) session.createQuery("select p from Produto p "
+                + "left outer join fetch p.lsProdutoMaquina pm "
+                + "where p.pro_id = :p")
+                .setParameter("p", id).uniqueResult();
+        Produto p3 = (Produto) session.createQuery("select p from Produto p "
+                + "left outer join fetch p.lsProdutoPedido pp "
+                + "where p.pro_id = :p")
+                .setParameter("p", id).uniqueResult();
+        p.setLsProdutoMaquina(p2.getLsProdutoMaquina());
+        p.setLsProdutoPedido(p3.getLsProdutoPedido());
+        session.close();
+        return p;
     }
 
 }
