@@ -5,6 +5,7 @@ import dao.ProdutoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import model.Pedido;
@@ -13,31 +14,26 @@ import model.ProdutoPedido;
 import util.HibernateUtil;
 
 @ManagedBean
+@SessionScoped
 public class PedidoBean {
 
     private Pedido pedido = new Pedido();
     private PedidoDAO dao = new PedidoDAO();
     private DataModel pedidos;
-    private List<Pedido> lsPedidos = new ArrayList<>();
-    private List<Pedido> lsPedidoAll = new ArrayList<>();
-    
-    //produto
+
     private List<Produto> lsProdutos = new ArrayList<>();
     private List<Produto> lsProdutosAll = new ArrayList<>();
-    private ProdutoDAO proDAO = new ProdutoDAO();
     private Produto produto = new Produto();
+    private ProdutoDAO proDAO = new ProdutoDAO();
     
-
+     
+    
+    
     public PedidoBean() {
     }
-     public void clearSession() {
-        pedido = new Pedido();
-        pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
-        produto = new Produto();
-    }
-    
-     public DataModel getPedidos() {
-       // clearSession();
+
+    public DataModel getPedidos() {
+        clearSession();
         this.pedidos = new ListDataModel(dao.findAll());
         return pedidos;
     }
@@ -46,37 +42,10 @@ public class PedidoBean {
         this.pedidos = i;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
-    public PedidoDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(PedidoDAO dao) {
-        this.dao = dao;
-    }
-
-    public List<Pedido> getLsPedidos() {
-        return lsPedidos;
-    }
-
-    public void setLsPedidos(List<Pedido> lsPedidos) {
-        this.lsPedidos = lsPedidos;
-    }
-    
-    //
     public String edit(Pedido i) {
-        pedido = dao.findById(i.getPed_id());
+        pedido = dao.findEdit(i.getPed_id());
         return "pedidofrm";
-         }
-    
-  
+    }
 
     public String delete(Pedido i) {
         try {
@@ -99,54 +68,24 @@ public class PedidoBean {
     public String listar() {
         return "pedidolst";
     }
-    
-  public List<Produto> getLsProdutos() {
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public List<Produto> getLsProdutos() {
         lsProdutos = proDAO.findAll(1);
         lsProdutosAll = lsProdutos;
         reloadProdutos();
         return lsProdutos;
     }
 
-    public void removeProdutoPedido(ProdutoPedido pp) {
-        pedido.getLsProdutoPedido().remove(pp);
-        reloadProdutos();
-    }
-
-    public void addProdutoPedido() {
-        if (pedido != null) {
-            if (pedido.getLsProdutoPedido()== null) {
-                pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
-            }
-            boolean bAdd = true;
-            for (ProdutoPedido pdp : pedido.getLsProdutoPedido()) {
-                if (pdp.getProduto().getPro_id() == produto.getPro_id()) {
-                    bAdd = false;
-                }
-            }
-            if (bAdd) {
-                ProdutoPedido pd = new ProdutoPedido();
-                pd.setPedido(pedido);
-                pd.setProduto(produto);
-                pedido.getLsProdutoPedido().add(pd);
-                produto = new Produto();
-            }
-            reloadProdutos();
-        }
-    }
-    
-      private void reloadProdutos() {
-        lsProdutos = new ArrayList<>();
-        for (Produto p : lsProdutosAll) {
-            boolean bAdd = true;
-            for (ProdutoPedido pds : pedido.getLsProdutoPedido()) {
-                if (pds.getProduto().getPro_id() == p.getPro_id()) {
-                    bAdd = false;
-                }
-            }
-            if (bAdd) {
-                lsProdutos.add(p);
-            }
-        }
+    public void setLsProdutos(List<Produto> lsProdutos) {
+        this.lsProdutos = lsProdutos;
     }
 
     public Produto getProduto() {
@@ -156,6 +95,54 @@ public class PedidoBean {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
 
+    public void addProdutoP() {
+        if (produto != null) {
+            if (this.pedido.getLsProdutoPedido() == null) {
+                this.pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+            }
+            boolean bAdd = true;
+            for (ProdutoPedido pm : this.pedido.getLsProdutoPedido()) {
+                if (pm.getProduto().getPro_id() == produto.getPro_id()) {
+                    bAdd = false;
+                }
+            }
+            if (bAdd) {
+                ProdutoPedido pm = new ProdutoPedido();
+                pm.setPedido(pedido);
+                pm.setProduto(produto);
+                this.pedido.getLsProdutoPedido().add(pm);
+                produto = new Produto();
+            }
+            reloadProdutos();
+        }
+    }
+
+    public void removeProduto(ProdutoPedido pd) {
+        this.pedido.getLsProdutoPedido().remove(pd);
+        reloadProdutos();
+    }
+
+    private void reloadProdutos() {
+        lsProdutos = new ArrayList<>();
+        for (Produto p : lsProdutosAll) {
+            boolean bAdd = true;
+            for (ProdutoPedido pm : this.pedido.getLsProdutoPedido()) {
+                if (pm.getProduto().getPro_id() == p.getPro_id()) {
+                    bAdd = false;
+                }
+            }
+            if (bAdd) {
+                lsProdutos.add(p);
+            }
+        }
+    }
+
+    private void clearSession() {
+        this.pedido = new Pedido();
+        this.pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+        this.produto = new Produto();
+        this.lsProdutos = new ArrayList<>();
+        this.lsProdutosAll = new ArrayList<>();
+    }
 }

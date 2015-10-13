@@ -58,5 +58,16 @@ public class PedidoDAO {
         session.close();
         return ls;
     }
+    
+     public Pedido findEdit(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Pedido p = (Pedido) session.createQuery("select p from Pedido p "
+                + "left outer join fetch p.lsProdutoPedido pm "
+                + "where ped_id = :m")
+                .setParameter("m", id).uniqueResult();
+
+        session.close();
+        return p;
+    }
 
 }
