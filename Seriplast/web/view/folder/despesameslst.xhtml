@@ -1,0 +1,81 @@
+<ui:composition template="../modelos/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Despesas do Mês</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li><h:link value="Custos"/></li>
+    </ui:define>
+
+    <ui:define name="main-content">
+        <div class="panel panel-body">
+            <h3 class="panel-title-top">Lista de Despesas do Mês</h3>
+            <div class="btns-top-table">
+                
+                <div class="form-group">
+                                <label for="mes"  class="col-sm-1 control-label "> Mês: </label>
+                                <div class="col-sm-3">
+                                    <h:selectOneMenu id="mes" value="asd" title="mes" styleClass="form-control ">
+                                        <f:selectItem  itemValue="1" itemLabel="Janeiro"/>
+                                        <f:selectItem  itemValue="2" itemLabel="Fevereiro"/>
+                                        <f:selectItem  itemValue="3" itemLabel="Março"/>
+                                        <f:selectItem  itemValue="4" itemLabel="Abril"/>
+                                        <f:selectItem  itemValue="5" itemLabel="Maio"/>
+                                        <f:selectItem  itemValue="6" itemLabel="Junho"/>
+                                        <f:selectItem  itemValue="7" itemLabel="Julho"/>
+                                        <f:selectItem  itemValue="8" itemLabel="Agosto"/>
+                                        <f:selectItem  itemValue="9" itemLabel="Setembro"/>
+                                        <f:selectItem  itemValue="10" itemLabel="Outubro"/>
+                                        <f:selectItem  itemValue="11" itemLabel="Novembro"/>
+                                        <f:selectItem  itemValue="12" itemLabel="Dezembro"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                <div class="col-sm-5">
+                </div>
+                
+                
+                
+                
+                <h:link outcome="custofrm" styleClass="btn btn-success" >
+                    <i class="fa fa-plus "></i> Inserir Despesa para esse Mês
+                </h:link>
+            </div>
+            <h:form>
+                <h:dataTable value="${custoBean.despesa}" var="item" styleClass="dataTable table table-bordered table-striped">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Despesa"/>
+                        </f:facet>
+                        <h:outputText value="${item.getDespesa()}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="${item.getCsd_valor()}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Anotação"/>
+                        </f:facet>
+                        <h:outputText value="${item.getCsd_notas()}"/>
+                    </h:column>
+                    
+                    <h:column headerClass="col-excluir-header">
+                        <f:facet name="header">
+                            <h:outputText value="Excluir"/>
+                        </f:facet>
+                        <h:commandLink onclick="return confirm('Deseja realmente excluir o custo?');" action="${custoBean.delete(item)}">
+                            <i class="fa fa-trash"></i> Excluir
+                        </h:commandLink>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+
