@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "produtodespesa")
 public class ProdutoDespesa implements Serializable {
+
     @Id
     @ManyToOne
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
@@ -19,8 +20,8 @@ public class ProdutoDespesa implements Serializable {
     @ManyToOne
     @JoinColumn(name = "des_id", referencedColumnName = "des_id")
     private Despesa despesa;
-    private int pds_tem_pro;//no banco salvo em segundos
-    private String pds_notas;
+    private int prd_por_part;
+    private String prd_notas;
 
     public ProdutoDespesa() {
     }
@@ -41,21 +42,20 @@ public class ProdutoDespesa implements Serializable {
         this.despesa = despesa;
     }
 
-    public int getPds_tem_pro() {
-        return pds_tem_pro;
+    public int getPrd_por_part() {
+        return prd_por_part;
     }
 
-    public void setPds_tem_pro(int pds_tem_pro) {
-        this.pds_tem_pro = pds_tem_pro;
+    public void setPrd_por_part(int prd_por_part) {
+        this.prd_por_part = prd_por_part;
     }
 
-    public String getPds_notas() {
-        return pds_notas;
+    public String getPrd_notas() {
+        return prd_notas;
     }
 
-    public void setPds_notas(String pds_notas) {
-        this.pds_notas = pds_notas;
+    public void setPrd_notas(String prd_notas) {
+        this.prd_notas = prd_notas;
     }
-
 
 }

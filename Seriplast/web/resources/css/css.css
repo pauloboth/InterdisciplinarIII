@@ -114,8 +114,9 @@
     color: #bebebe;
 }
 body {
-    /*    background: url("/Seriplast/faces/resources/img/body.jpg") no-repeat;*/
-    background: #E9ECF3;
+    background: url('/Seriplast/faces/resources/img/body.jpg');
+    /*    background: #E9ECF3;*/
+    /*    background: #F3E9E9;*/
     color: #777777;
 }
 
@@ -318,10 +319,12 @@ body {
 .page-sidebar .page-sidebar-menu li:hover > a,
 .page-sidebar .page-sidebar-menu li.active > a {
     background-color: #f5f5f5;
-    color: #00456a;
+    /*    color: #00456a;*/
+    color: #A2192B;
 }
 .page-sidebar .page-sidebar-menu li.active > a {
-    border-left: 3px solid #00456a;
+    /*    border-left: 3px solid #00456a;*/
+    border-left: 3px solid #A2192B
 }
 .page-sidebar .page-sidebar-menu .menu-dropdown .dropdown-chevron {
     font-size: 14px;
@@ -367,7 +370,8 @@ body {
 }
 .page-content-wrapper .page-content > .page-title h2 {
     font-family: 'Signika', Tahoma, Arial, sans-serif;
-    color: #00456a;
+    /*    color: #00456a;*/
+    color: #A2192B;
     margin: 10px 0;
 }
 .prgTipo td {
@@ -430,5 +434,23 @@ textarea{
         opacity: 0;
         transform: scale(2.5);
     }
+}
+a{
+    color: #A2192B;
+}
+a:focus, a:hover {
+    color: #861726;
+    text-decoration: underline;
+}
+.page-title{
+    color: #A2192B;
+}
+.breadcrumb>li+li:before {
+    color: #A2192B;
+}
+.panel-title-top{
+    margin-top: 0;
+    font-weight: 600;
+    color: #A2192B;
 }
 /*# sourceMappingURL=css.css.map */

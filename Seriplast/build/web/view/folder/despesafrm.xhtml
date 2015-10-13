@@ -30,7 +30,7 @@
             }
         </style>
         <div class="panel panel-body">
-            <h3><b>Dados da Despesa</b></h3>
+            <h3 class="panel-title-top">Dados da Despesa</h3>
             <f:view>
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idiCodigo" value="#{despesaBean.despesa.des_id}" />
@@ -101,35 +101,6 @@
                             </div>
                         </h:panelGroup>
 
-
-
-
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="form-group">
-                                        <div class="col-sm-4"></div>
-                                        <label class="col-sm-8 checkbox checkbox-inline" style="min-height: 34px;">
-                                            <h:selectBooleanCheckbox value="#{despesaBean.isMachin}" pt:id="checkboxMachin"> 
-                                                <f:ajax execute="@form" render="@form" />
-                                            </h:selectBooleanCheckbox>
-                                            É despesa de máquina?
-                                        </label>
-                                    </div>
-                                </div>
-                                <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.isMachin}">
-                                    <div id="GastoHora">
-                                        <div class="form-group">
-                                            <label for="gasto_hora" class="col-sm-4 control-label">Watts/Hora:  </label>
-                                            <div class="col-sm-8">
-                                                <h:inputText pt:type="number" pt:min="0" id="gasto_hora" value="#{despesaBean.despesa.des_gasto_hora}" title="Gasto por Hora" styleClass="form-control" pt:autofocus="" />
-                                            </div>  
-                                        </div>
-                                    </div>
-                                </h:panelGroup>
-                            </div>
-                        </div>
-
                         <div class="col-md-12 col-xs-12">
                             <div class="form-group">
                                 <label for="notas" class="col-sm-2 control-label">Descrição: </label>
@@ -179,22 +150,16 @@
                                         <f:facet name="header">
                                             <h:outputText value="Participação (#{despesaBean.porcent}%)"/>
                                         </f:facet>
-                                        <h:inputText id="txt1" pt:min="0" pt:max="100" pt:type="number" value="#{item.pds_porc_part}" class="form-control">
+                                        <h:inputText id="txt1" pt:min="0" pt:max="100" pt:type="number" value="#{item.prd_por_part}" class="form-control">
                                             <f:ajax execute="@form" render="@form"/>
                                         </h:inputText>
-                                    </h:column>
-                                    <h:column rendered="#{despesaBean.isMachin}">
-                                        <f:facet name="header">
-                                            <h:outputText value="Tempo de Produção (Segundos)"/>
-                                        </f:facet>
-                                        <h:inputText pt:type="number" value="#{item.pds_tem_pro}" class="form-control"/>
                                     </h:column>
 
                                     <h:column>
                                         <f:facet name="header">
                                             <h:outputText value="Anotação"/>
                                         </f:facet>
-                                        <h:inputTextarea value="#{item.pds_notas}" class="form-control textAreaTable"/>
+                                        <h:inputTextarea value="#{item.prd_notas}" class="form-control textAreaTable"/>
                                     </h:column>
 
                                     <h:column>
