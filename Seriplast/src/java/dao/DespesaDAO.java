@@ -27,11 +27,6 @@ public class DespesaDAO {
         session.save(i);
         session.getTransaction().commit();
         session.close();
-//        session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction t = session.beginTransaction();
-//        session.save(i);
-//        t.commit();
-//        session.close();
     }
 
     public void update(Despesa i) {
@@ -40,18 +35,13 @@ public class DespesaDAO {
         session.update(i);
         session.getTransaction().commit();
         session.close();
-//        session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction t = session.beginTransaction();
-//        session.merge(i);
-//        t.commit();
-//        session.close();
     }
 
     public void delete(Despesa i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.delete(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
@@ -63,9 +53,13 @@ public class DespesaDAO {
         return m;
     }
 
-    public List<Despesa> findAll() {
+    public List<Despesa> findAll(int status) {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<Despesa> ls = session.createQuery("from Despesa").list();
+        String sql = "";
+        if (status > 0) {
+            sql += " and des_status = " + status;
+        }
+        List<Despesa> ls = session.createQuery("from Despesa where 1 = 1 " + sql).list();
         session.close();
         return ls;
     }

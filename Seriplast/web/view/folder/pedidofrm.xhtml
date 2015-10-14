@@ -44,11 +44,11 @@
                                 </div>  
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-3 col-xs-12">
                             <div class="form-group">
                                 <label for="mes" class="col-sm-4 control-label">Mês: </label>
                                 <div class="col-sm-8">
-                                    <h:selectOneMenu pt:required="required" id="mes" value="#{pedidoBean.pedido.ped_mes}" title="mes" styleClass="form-control" pt:autofocus="">
+                                    <h:selectOneMenu pt:required="required" id="mes" value="#{pedidoBean.pedido.ped_mes}" title="Mês" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="1" itemLabel="Janeiro"/>
                                         <f:selectItem  itemValue="2" itemLabel="Fevereiro"/>
                                         <f:selectItem  itemValue="3" itemLabel="Março"/>
@@ -65,19 +65,28 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-<!--                         <div class="col-md-6 col-xs-12">
+                        <div class="col-md-3 col-xs-12">
                             <div class="form-group">
-                                <label for="ano" class="col-sm-4 control-label">Ano :</label>
+                                <label for="ano" class="col-sm-4 control-label">Ano: </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:required="required" id="ano" value="" title="Ano do Pedido" styleClass="form-control" pt:autofocus="" />
-                                </div>  
+                                    <h:selectOneMenu id="ano" value="#{pedidoBean.ano}" styleClass="form-control" pt:autofocus="" >
+                                        <f:selectItems value="#{pedidoBean.anos}" var="ano" itemLabel="#{ano}" itemValue="#{ano}"/>
+                                    </h:selectOneMenu>
+                                </div>
                             </div>
-                        </div>-->
+                        </div>
 
-  
+
+                        <!--                         <div class="col-md-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="ano" class="col-sm-4 control-label">Ano :</label>
+                                                        <div class="col-sm-8">
+                                                            <h:inputText pt:required="required" id="ano" value="" title="Ano do Pedido" styleClass="form-control" pt:autofocus="" />
+                                                        </div>  
+                                                    </div>
+                                                </div>-->
+
+
 
 
                         <div class="col-md-12 col-xs-12">
@@ -90,57 +99,57 @@
                         </div>
                         <div class="col-xs-12">
                             <h3> <b>Produtos que farão parte deste pedido :</b></h3>
-                            
-                             <h:panelGroup layout="block" class="list-group-item">
-                            <div class="row">
-                                <div class="col-xs-2 btn-group pull-right">
-                                    <h:commandLink styleClass="btn btn-primary" action="#{pedidoBean.addProdutoP()}">
-                                        <f:ajax execute="@form" render="@form" />
-                                        <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
-                                    </h:commandLink>
-                                </div>
 
-                                <div class="col-md-7 col-xs-12">
-                                    <div class="row">
-                                        <label class="col-xs-5 control-label">Produto: </label>
-                                        <div class="col-xs-7">
-                                            <h:selectOneMenu converter="produtoConverter" value="#{pedidoBean.produto}" styleClass="form-control" pt:autofocus="" >
-                                                <f:selectItems value="#{pedidoBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
-                                            </h:selectOneMenu>
+                            <h:panelGroup layout="block" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-2 btn-group pull-right">
+                                        <h:commandLink styleClass="btn btn-primary" action="#{pedidoBean.addProdutoP()}">
+                                            <f:ajax execute="@form" render="@form" />
+                                            <i class="fa fa-plus" style="margin-right: 3px"></i>Adicionar
+                                        </h:commandLink>
+                                    </div>
+
+                                    <div class="col-md-7 col-xs-12">
+                                        <div class="row">
+                                            <label class="col-xs-5 control-label">Produto: </label>
+                                            <div class="col-xs-7">
+                                                <h:selectOneMenu converter="produtoConverter" value="#{pedidoBean.produto}" styleClass="form-control" pt:autofocus="" >
+                                                    <f:selectItems value="#{pedidoBean.lsProdutos}" var="pro" itemLabel="#{pro.toString()}" itemValue="#{pro}"/>
+                                                </h:selectOneMenu>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </h:panelGroup>
-                            
-                            <h:dataTable value="#{pedidoBean.pedido.lsProdutoPedido}" var="item" styleClass="table table-bordered table-striped">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Produto"/>
-                                </f:facet>
-                                <h:outputText value="#{item.produto.pro_nome}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Quantidade"/>
-                                </f:facet>
-                                <h:inputText pt:type="number" pt:min="0" value="#{item.prp_quantidade}" class="form-control"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Anotação"/>
-                                </f:facet>
-                                <h:inputTextarea value="#{item.prp_notas}" class="form-control textAreaTable"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Remover</f:facet>
-                                <h:commandLink  class="btn btn-danger" action="#{pedidoBean.removeProduto(item)}">
-                                    <f:ajax execute="@form" render="@form" />
-                                    <i class="fa fa-times"></i>
-                                </h:commandLink>
-                            </h:column>
+                            </h:panelGroup>
 
-                        </h:dataTable>
+                            <h:dataTable value="#{pedidoBean.pedido.lsProdutoPedido}" var="item" styleClass="table table-bordered table-striped">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Produto"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.produto.pro_nome}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade"/>
+                                    </f:facet>
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.prp_quantidade}" class="form-control"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Anotação"/>
+                                    </f:facet>
+                                    <h:inputTextarea value="#{item.prp_notas}" class="form-control textAreaTable"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Remover</f:facet>
+                                    <h:commandLink  class="btn btn-danger" action="#{pedidoBean.removeProduto(item)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="fa fa-times"></i>
+                                    </h:commandLink>
+                                </h:column>
+
+                            </h:dataTable>
 
                         </div>
                     </div>
@@ -150,7 +159,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{pedidoBean.listar()}" />
-                            <h:commandButton styleClass="btn btn-primary" value="Salvar" action="#{pedidoBean.salvar()}"></h:commandButton>
+                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{pedidoBean.salvar()}"></h:commandButton>
                         </div>
                     </div>
                 </h:form>

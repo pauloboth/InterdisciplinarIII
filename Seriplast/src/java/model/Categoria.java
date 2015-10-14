@@ -1,10 +1,14 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,6 +21,9 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cat_id")
     private int cat_id;
     private String cat_nome;
+
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Produto> lsProduto;
 
     public Categoria() {
     }
@@ -37,6 +44,13 @@ public class Categoria implements Serializable {
         this.cat_nome = cat_nome;
     }
 
+    public List<Produto> getLsProduto() {
+        return lsProduto;
+    }
+
+    public void setLsProduto(List<Produto> lsProduto) {
+        this.lsProduto = lsProduto;
+    }
 
     @Override
     public int hashCode() {

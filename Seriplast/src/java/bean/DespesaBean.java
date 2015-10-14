@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import model.CustoDespesa;
@@ -35,7 +36,7 @@ public class DespesaBean {
 
     public DataModel getDespesas() {
         clearSession();
-        this.despesas = new ListDataModel(dao.findAll());
+        this.despesas = new ListDataModel(dao.findAll(0));
         return despesas;
     }
 
@@ -44,7 +45,7 @@ public class DespesaBean {
     }
 
     public String edit(Despesa i) {
-//        despesa = (Despesa) despesas.getRowData();
+        clearSession();
         despesa = dao.findEdit(i.getDes_id());
         return "despesafrm";
     }
@@ -54,6 +55,7 @@ public class DespesaBean {
             dao.delete(i);
         } catch (Exception e) {
         }
+        clearSession();
         return "despesalst";
     }
 
@@ -130,9 +132,12 @@ public class DespesaBean {
     }
 
     public void clearSession() {
-        despesa = new Despesa();
-        despesa.setLsProdutoDespesa(new ArrayList<ProdutoDespesa>());
-        produto = new Produto();
+        this.despesa = new Despesa();
+        this.despesa.setLsProdutoDespesa(new ArrayList<ProdutoDespesa>());
+        this.produto = new Produto();
+        this.despesas = new ArrayDataModel();
+        this.lsProdutos = new ArrayList<>();
+        this.lsProdutosAll = new ArrayList<>();
     }
 
     public Produto getProduto() {
@@ -162,7 +167,7 @@ public class DespesaBean {
         porcent = 0;
         if (despesa.getLsProdutoDespesa() != null) {
             for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
-//                porcent += pd.getPds_porc_part();
+                porcent += pd.getPrd_por_part();
             }
         }
         return porcent;

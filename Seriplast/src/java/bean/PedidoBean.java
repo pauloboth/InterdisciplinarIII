@@ -2,16 +2,18 @@ package bean;
 
 import dao.PedidoDAO;
 import dao.ProdutoDAO;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import model.Pedido;
 import model.Produto;
 import model.ProdutoPedido;
-import util.HibernateUtil;
 
 @ManagedBean
 @SessionScoped
@@ -25,10 +27,9 @@ public class PedidoBean {
     private List<Produto> lsProdutosAll = new ArrayList<>();
     private Produto produto = new Produto();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    
-     
-    
-    
+    private List<Integer> anos = new ArrayList<>();
+    private int ano;
+
     public PedidoBean() {
     }
 
@@ -44,6 +45,14 @@ public class PedidoBean {
 
     public String edit(Pedido i) {
         pedido = dao.findEdit(i.getPed_id());
+        try {
+            if (pedido.getPed_data() != null) {
+                SimpleDateFormat f = new SimpleDateFormat("yyyy");
+                int a = Integer.parseInt(f.format(pedido.getPed_data()));
+                ano = a;
+            }
+        } catch (Exception e) {
+        }
         return "pedidofrm";
     }
 
@@ -52,6 +61,7 @@ public class PedidoBean {
             dao.delete(i);
         } catch (Exception e) {
         }
+        clearSession();
         return "pedidolst";
     }
 
@@ -59,6 +69,7 @@ public class PedidoBean {
         if (pedido.getPed_id() > 0) {
             dao.update(pedido);
         } else {
+            pedido.setPed_data(new Date());
             dao.insert(pedido);
         }
         clearSession();
@@ -124,6 +135,12 @@ public class PedidoBean {
     }
 
     private void reloadProdutos() {
+        if (pedido == null) {
+            pedido = new Pedido();
+        }
+        if (pedido.getLsProdutoPedido() == null) {
+            pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+        }
         lsProdutos = new ArrayList<>();
         for (Produto p : lsProdutosAll) {
             boolean bAdd = true;
@@ -144,5 +161,37 @@ public class PedidoBean {
         this.produto = new Produto();
         this.lsProdutos = new ArrayList<>();
         this.lsProdutosAll = new ArrayList<>();
+        this.pedidos = new ArrayDataModel();
     }
+
+    public List<Integer> getAnos() {
+        if (anos == null) {
+            anos = new ArrayList<>();
+        }
+        if (anos.isEmpty()) {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy");
+            int a = Integer.parseInt(f.format(new Date()));
+            anos.add(a - 1);
+            anos.add(a);
+            anos.add(a + 1);
+        }
+        return anos;
+    }
+
+    public void setAnos(List<Integer> anos) {
+        this.anos = anos;
+    }
+
+    public int getAno() {
+        if (ano == 0) {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy");
+            ano = Integer.parseInt(f.format(new Date()));
+        }
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
 }

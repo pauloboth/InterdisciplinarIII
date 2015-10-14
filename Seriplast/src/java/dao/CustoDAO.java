@@ -1,12 +1,10 @@
 package dao;
 
-import java.util.Calendar;
 import java.util.Date;
 import model.Custo;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sun.util.BuddhistCalendar;
 import util.HibernateUtil;
 
 public class CustoDAO {
@@ -26,25 +24,25 @@ public class CustoDAO {
 
     public void insert(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.save(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     public void update(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.merge(i);
-        t.commit();
+        session.getTransaction().begin();
+        session.update(i);
+        session.getTransaction().commit();
         session.close();
     }
 
     public void delete(Custo i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.delete(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class Custo implements Serializable {
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
     private Produto produto;
 
-    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CustoDespesa> lsCustoDespesa;
 
     public Custo() {

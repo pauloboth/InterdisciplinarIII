@@ -23,25 +23,25 @@ public class MaquinaDAO {
 
     public void insert(Maquina i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.save(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     public void update(Maquina i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.update(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     public void delete(Maquina i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.delete(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 

@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/folder/categorialst.xhtml</file>
-            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/resources/css/css.css</file>
-            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/folder/categoriafrm.xhtml</file>
-            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/modelos/default.xhtml</file>
-            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/index.xhtml</file>
+            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/src/java/bean/PedidoBean.java</file>
+            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/src/java/model/Pedido.java</file>
+            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/folder/pedidofrm.xhtml</file>
             <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/folder/despesafrm.xhtml</file>
+            <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/src/java/dao/PedidoDAO.java</file>
             <file>file:/C:/Users/User/Documents/6º%20Semestre/InterdisciplinarIII/trunk/Seriplast/web/view/folder/produtofrm.xhtml</file>
         </group>
     </open-files>

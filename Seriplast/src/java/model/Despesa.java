@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,10 +30,10 @@ public class Despesa implements Serializable {
     private int des_status;
     private String des_notas;
 
-    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoDespesa> lsProdutoDespesa;
 
-    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CustoDespesa> lsCustoDespesa;
 
     public Despesa() {
@@ -144,4 +145,13 @@ public class Despesa implements Serializable {
         return getDes_nome();
     }
 
+    public String toStatus() {
+        if (this.des_status == 1) {
+            return "Ativo";
+        } else if (this.des_status == 2) {
+            return "Bloqueado";
+        } else {
+            return "Excuído";
+        }
+    }
 }

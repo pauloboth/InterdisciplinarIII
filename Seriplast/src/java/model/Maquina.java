@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class Maquina implements Serializable {
     private int maq_watss_hora;
     private String maq_notas;
 
-    @OneToMany(mappedBy = "maquina", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "maquina", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoMaquina> lsProdutoMaquina;
 
     public Maquina() {
@@ -94,5 +95,5 @@ public class Maquina implements Serializable {
         }
         return true;
     }
-    
+
 }

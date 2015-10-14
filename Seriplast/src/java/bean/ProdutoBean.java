@@ -114,7 +114,7 @@ public class ProdutoBean {
     }
 
     public List<Despesa> getLsDespesas() {
-        lsDespesas = desDAO.findAll();
+        lsDespesas = desDAO.findAll(1);
         lsDespesasAll = lsDespesas;
         reloadDespesas();
         return lsDespesas;

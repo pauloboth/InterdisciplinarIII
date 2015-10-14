@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class Pedido implements Serializable {
     private Date ped_data;
     private String ped_notas;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoPedido> lsProdutoPedido;
 
     public Pedido() {
@@ -38,6 +39,10 @@ public class Pedido implements Serializable {
     }
 
     public int getPed_mes() {
+        if (ped_id == 0 && ped_mes == 0) {
+            Date d = new Date();
+            ped_mes = d.getMonth() + 1;
+        }
         return ped_mes;
     }
 
@@ -85,6 +90,5 @@ public class Pedido implements Serializable {
         }
         return mes;
     }
-    
-   
+
 }

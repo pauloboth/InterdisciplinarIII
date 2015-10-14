@@ -23,25 +23,25 @@ public class PedidoDAO {
 
     public void insert(Pedido i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.save(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     public void update(Pedido i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.merge(i);
-        t.commit();
+        session.getTransaction().begin();
+        session.update(i);
+        session.getTransaction().commit();
         session.close();
     }
 
     public void delete(Pedido i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.delete(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
@@ -58,14 +58,13 @@ public class PedidoDAO {
         session.close();
         return ls;
     }
-    
-     public Pedido findEdit(int id) {
+
+    public Pedido findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
         Pedido p = (Pedido) session.createQuery("select p from Pedido p "
                 + "left outer join fetch p.lsProdutoPedido pm "
-                + "where ped_id = :m")
-                .setParameter("m", id).uniqueResult();
-
+                + "where p.ped_id = :p")
+                .setParameter("p", id).uniqueResult();
         session.close();
         return p;
     }

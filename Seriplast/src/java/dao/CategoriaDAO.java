@@ -23,25 +23,25 @@ public class CategoriaDAO {
 
     public void insert(Categoria i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.save(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     public void update(Categoria i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.merge(i);
-        t.commit();
+        session.getTransaction().begin();
+        session.update(i);
+        session.getTransaction().commit();
         session.close();
     }
 
     public void delete(Categoria i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session.getTransaction().begin();
         session.delete(i);
-        t.commit();
+        session.getTransaction().commit();
         session.close();
     }
 

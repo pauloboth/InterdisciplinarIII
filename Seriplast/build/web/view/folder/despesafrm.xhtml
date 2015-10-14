@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label for="inicio_dpr" class="col-sm-4 control-label">Início:  </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="date" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
+                                    <h:inputText pt:type="date" pt:required="required" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
                                         <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{despesaBean.timeZone}"/>
                                     </h:inputText>
                                 </div>
@@ -96,7 +96,7 @@
                             <div class="form-group">
                                 <label for="depr_mes" class="col-sm-4 control-label">Meses:  </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="number" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:type="number" pt:required="required" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
                                 </div>  
                             </div>
                         </h:panelGroup>
@@ -179,7 +179,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{despesaBean.listar()}" />
-                            <h:commandButton styleClass="btn btn-primary" value="Salvar" action="#{despesaBean.salvar()}"></h:commandButton>
+                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{despesaBean.salvar()}"></h:commandButton>
                         </div>
                     </div>
                 </h:form>
