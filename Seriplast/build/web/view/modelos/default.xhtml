@@ -120,7 +120,7 @@
                                     <span class="menu-text">Produtos</span>
                                 </h:link>
                             </li>
-                            <li class="#{view.viewId.contains('/view/folder/despesa') ? 'active' : ''}">
+                            <li class="#{view.viewId.contains('/view/folder/despesalst') || view.viewId.contains('/view/folder/despesafrm') ? 'active' : ''}">
                                 <h:link outcome="/faces/view/folder/despesalst">
                                     <span class="fa fa-money"></span>
                                     <span class="menu-text">Despesas</span>
@@ -142,6 +142,11 @@
                                 <h:link outcome="/faces/view/folder/pedidolst">
                                     <span class="fa fa-pencil-square-o"></span>
                                     <span class="menu-text">Pedidos</span>
+                                </h:link>
+                            </li>
+                            <li class="#{view.viewId.contains('/view/folder/despesames') ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/despesameslst">
+                                    <span class="menu-text">Despesa Mês</span>
                                 </h:link>
                             </li>
 

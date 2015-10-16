@@ -91,4 +91,12 @@ public class Pedido implements Serializable {
         return mes;
     }
 
+    public boolean bEdit() {
+        long dataOperacao = this.ped_data.getTime();
+        long dataHoje = new Date().getTime();
+        long resultado = dataHoje - dataOperacao;
+        resultado = resultado / 1000 / 60 / 60 / 24;
+        return resultado < 30;
+    }
+
 }

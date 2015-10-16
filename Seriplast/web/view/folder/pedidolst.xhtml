@@ -26,13 +26,7 @@
                         </f:facet>
                         <h:outputText value="${item.getPed_cliente()}"/>
                     </h:column>
-                      <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Anotação"/>
-                        </f:facet>
-                        <h:outputText value="${item.getPed_notas()}"/>
-                    </h:column>
-                     <h:column>
+                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Mês"/>
                         </f:facet>
@@ -42,8 +36,11 @@
                         <f:facet name="header">
                             <h:outputText value="Editar"/>
                         </f:facet>
-                        <h:commandLink action="${pedidoBean.edit(item)}">
+                        <h:commandLink action="${pedidoBean.edit(item)}" rendered="#{item.bEdit()}">
                             <i class="fa fa-pencil"></i> Editar
+                        </h:commandLink>
+                        <h:commandLink disabled="true" rendered="#{!item.bEdit()}">
+                            <i class="fa fa-times"></i> Não Editável
                         </h:commandLink>
                     </h:column>
                     <h:column headerClass="col-excluir-header">

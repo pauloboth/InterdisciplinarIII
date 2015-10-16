@@ -17,9 +17,6 @@
                 <h:link outcome="despesafrm" styleClass="btn btn-primary">
                     <i class="fa fa-plus"></i> Inserir Despesa
                 </h:link>
-                <h:link outcome="custofrm" styleClass="btn btn-primary">
-                    <i class="fa fa-plus"></i> Novo Custo
-                </h:link>
             </div>
             <h:form>
                 <h:dataTable value="${despesaBean.despesas}" var="item" styleClass="dataTable table table-bordered table-striped">
@@ -27,40 +24,35 @@
                         <f:facet name="header">
                             <h:outputText value="Nome"/>
                         </f:facet>
-                        <h:outputText value="${item.getDes_nome()}"/>
-                    </h:column
+                        <h:outputText value="${item.des_nome}"/>
+                    </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Status"/>
                         </f:facet>
                         <h:outputText value="${item.toStatus()}"/>
                     </h:column>
-                    <h:column headerClass="col-editar-header">
-                        <f:facet name="header">
-                            <h:outputText value="Adicionar"/>
-                        </f:facet>
-                        <h:commandLink action="#{custoBean.New(item.des_id)}">
-                            <i class="fa fa-usd"></i>Calcular
-                        </h:commandLink>
-                        <!--                        <h:link outcome="custofrm">
-                                                    <f:param name="id" value="{item.des_id}"></f:param>
-                                                    <i class="fa fa-usd"></i>Calcular
-                                                </h:link>-->
-                    </h:column>
+
                     <h:column headerClass="col-editar-header">
                         <f:facet name="header">
                             <h:outputText value="Editar"/>
                         </f:facet>
-                        <h:commandLink action="${despesaBean.edit(item)}">
+                        <h:commandLink action="${despesaBean.edit(item)}" rendered="${item.des_tipo != 1}">
                             <i class="fa fa-pencil"></i> Editar
                         </h:commandLink>
+                        <h:commandLink disabled="true" rendered="${item.des_tipo == 1}">
+                            <i class="fa fa-times"></i> Não Editável
+                        </h:commandLink>
                     </h:column>
-                    <h:column headerClass="col-excluir-header">
+                    <h:column headerClass="col-excluir-header" >
                         <f:facet name="header">
                             <h:outputText value="Excluir"/>
                         </f:facet>
-                        <h:commandLink onclick="return confirm('Deseja realmente excluir a Despesa?');" action="${despesaBean.delete(item)}">
+                        <h:commandLink onclick="return confirm('Deseja realmente excluir a Despesa?');" action="${despesaBean.delete(item)}" rendered="${item.des_tipo != 1}">
                             <i class="fa fa-trash"></i> Excluir
+                        </h:commandLink>
+                        <h:commandLink disabled="true" rendered="${item.des_tipo == 1}">
+                            <i class="fa fa-times"></i> Não Removível
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>

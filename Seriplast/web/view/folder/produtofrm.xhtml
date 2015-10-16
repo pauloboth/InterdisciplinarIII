@@ -20,12 +20,13 @@
             }
             .textAreaTable{
                 height: 34px !important;
-                width: 300px !important;
+                width: 400px !important;
             }
             .textAreaTable:focus{
                 height: 85px !important;
-                width: 300px !important;
+                width: 400px !important;
                 position: absolute;
+                z-index: 2;
             }
         </style>
         <div class="panel panel-body">
@@ -60,7 +61,7 @@
                             <div class="form-group">
                                 <label for="preco" class="col-sm-4 control-label">Preço: </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="number" pt:required="required" id="preco" value="#{produtoBean.produto.pro_preco}" title="Preço do produto" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:type="number" pt:required="required" pt:step="0.10" pt:min="0" id="preco" value="#{produtoBean.produto.pro_preco}" title="Preço do produto" styleClass="form-control" pt:autofocus="" />
                                 </div>  
                             </div>
                         </div>
@@ -178,7 +179,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Anotação"/>
                                 </f:facet>
-                                <h:inputTextarea value="#{item.pds_notas}" class="form-control textAreaTable"/>
+                                <h:inputTextarea value="#{item.prd_notas}" class="form-control textAreaTable"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Remover</f:facet>

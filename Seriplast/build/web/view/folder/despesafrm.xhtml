@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label for="valor" class="col-sm-4 control-label">Valor: </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="number" pt:required="required" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:type="number" pt:required="required" pt:step="0.10" pt:min="0" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
                                 </div>  
                             </div>
                         </h:panelGroup>

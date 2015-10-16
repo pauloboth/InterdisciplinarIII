@@ -26,6 +26,12 @@
                         </f:facet>
                         <h:outputText value="${item.toString()}"/>
                     </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Watts/Hora"/>
+                        </f:facet>
+                        <h:outputText value="${item.maq_watss_hora}"/>
+                    </h:column>
                     <h:column headerClass="col-editar-header">
                         <f:facet name="header">
                             <h:outputText value="Editar"/>

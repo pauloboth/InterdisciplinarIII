@@ -2,7 +2,6 @@ package bean;
 
 import dao.PedidoDAO;
 import dao.ProdutoDAO;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +26,7 @@ public class PedidoBean {
     private List<Produto> lsProdutosAll = new ArrayList<>();
     private Produto produto = new Produto();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    private List<Integer> anos = new ArrayList<>();
-    private int ano;
+    private int mes;
 
     public PedidoBean() {
     }
@@ -45,14 +43,6 @@ public class PedidoBean {
 
     public String edit(Pedido i) {
         pedido = dao.findEdit(i.getPed_id());
-        try {
-            if (pedido.getPed_data() != null) {
-                SimpleDateFormat f = new SimpleDateFormat("yyyy");
-                int a = Integer.parseInt(f.format(pedido.getPed_data()));
-                ano = a;
-            }
-        } catch (Exception e) {
-        }
         return "pedidofrm";
     }
 
@@ -164,34 +154,15 @@ public class PedidoBean {
         this.pedidos = new ArrayDataModel();
     }
 
-    public List<Integer> getAnos() {
-        if (anos == null) {
-            anos = new ArrayList<>();
+    public int getMes() {
+        if (mes == 0) {
+            mes = 2;
         }
-        if (anos.isEmpty()) {
-            SimpleDateFormat f = new SimpleDateFormat("yyyy");
-            int a = Integer.parseInt(f.format(new Date()));
-            anos.add(a - 1);
-            anos.add(a);
-            anos.add(a + 1);
-        }
-        return anos;
+        return mes;
     }
 
-    public void setAnos(List<Integer> anos) {
-        this.anos = anos;
-    }
-
-    public int getAno() {
-        if (ano == 0) {
-            SimpleDateFormat f = new SimpleDateFormat("yyyy");
-            ano = Integer.parseInt(f.format(new Date()));
-        }
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
+    public void setMes(int mes) {
+        this.mes = mes;
     }
 
 }

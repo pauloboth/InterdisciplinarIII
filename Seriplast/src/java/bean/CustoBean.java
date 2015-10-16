@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import model.Custo;
@@ -36,6 +37,7 @@ public class CustoBean {
 
     public DataModel getCustos() {
         this.custos = new ListDataModel(dao.findAll());
+        clearSession();
         return custos;
     }
 
@@ -76,9 +78,14 @@ public class CustoBean {
     }
 
     public void clearSession() {
-        despesa = new Despesa();
-        lsCustoDespesa = new ArrayList<>();
-        valor = 0;
+        this.despesa = new Despesa();
+        this.lsCustoDespesa = new ArrayList<>();
+        this.valor = 0;
+        this.lsCustoDespesa = new ArrayList<>();
+        this.lsProdutos = new ArrayList<>();
+        this.lsProdutosAll = new ArrayList<>();
+        this.produto = new Produto();
+        this.custos = new ArrayDataModel();
     }
 
     public List<CustoDespesa> getLsCustoDespesa() {

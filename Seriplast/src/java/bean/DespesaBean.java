@@ -3,6 +3,7 @@ package bean;
 import dao.DespesaDAO;
 import dao.ProdutoDAO;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
@@ -10,11 +11,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import model.CustoDespesa;
 import model.Despesa;
 import model.Produto;
 import model.ProdutoDespesa;
-import org.primefaces.event.SlideEndEvent;
 
 @ManagedBean
 @SessionScoped
@@ -30,6 +29,8 @@ public class DespesaBean {
     private ProdutoDAO proDAO = new ProdutoDAO();
     private Produto produto = new Produto();
     private int porcent = 0;
+    private int mes = 0;
+    private DataModel despesasmess;
 
     public DespesaBean() {
     }
@@ -189,4 +190,23 @@ public class DespesaBean {
 //            porcent = 100;
 //        }
 //    }
+    public int getMes() {
+        Date d = new Date();
+        mes = d.getMonth() + 1;
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public DataModel getDespesasmess() {
+        despesasmess = new ListDataModel(dao.findAll(0));
+        return despesasmess;
+    }
+
+    public void setDespesasmess(DataModel despesasmess) {
+        this.despesasmess = despesasmess;
+    }
+
 }
