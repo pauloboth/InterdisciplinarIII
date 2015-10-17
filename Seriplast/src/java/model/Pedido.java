@@ -19,10 +19,10 @@ public class Pedido implements Serializable {
     @SequenceGenerator(name = "ped_id", sequenceName = "seq_ped_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ped_id")
     private int ped_id;
-    private int ped_mes;
     private String ped_cliente;
     private Date ped_data;
     private String ped_notas;
+    private Date ped_data_ref;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoPedido> lsProdutoPedido;
@@ -38,17 +38,17 @@ public class Pedido implements Serializable {
         this.ped_id = ped_id;
     }
 
-    public int getPed_mes() {
-        if (ped_id == 0 && ped_mes == 0) {
-            Date d = new Date();
-            ped_mes = d.getMonth() + 1;
-        }
-        return ped_mes;
-    }
-
-    public void setPed_mes(int ped_mes) {
-        this.ped_mes = ped_mes;
-    }
+//    public int getPed_mes() {
+//        if (ped_id == 0 && ped_mes == 0) {
+//            Date d = new Date();
+//            ped_mes = d.getMonth() + 1;
+//        }
+//        return ped_mes;
+//    }
+//
+//    public void setPed_mes(int ped_mes) {
+//        this.ped_mes = ped_mes;
+//    }
 
     public String getPed_cliente() {
         return ped_cliente;
@@ -85,9 +85,9 @@ public class Pedido implements Serializable {
     public String getMes() {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         String mes = "";
-        if (this.ped_mes <= 12 && this.ped_mes > 0) {
-            mes = meses[this.ped_mes - 1];
-        }
+//        if (this.ped_mes <= 12 && this.ped_mes > 0) {
+//            mes = meses[this.ped_mes - 1];
+//        }
         return mes;
     }
 

@@ -26,7 +26,7 @@ public class Custo implements Serializable {
     private String cus_notas;
     private double cus_preco_produto;
     private Date cus_data;
-    private int cus_mes;
+    private Date cus_data_ref;
 
     @Id
     @ManyToOne
@@ -71,14 +71,6 @@ public class Custo implements Serializable {
         this.cus_data = cus_data;
     }
 
-    public int getCus_mes() {
-        return cus_mes;
-    }
-
-    public void setCus_mes(int cus_mes) {
-        this.cus_mes = cus_mes;
-    }
-
     public Produto getProduto() {
         return produto;
     }
@@ -96,11 +88,11 @@ public class Custo implements Serializable {
     }
 
     public String getMes() {
-        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+//        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         String mes = "";
-        if (this.cus_mes <= 12 && this.cus_mes > 0) {
-            mes = meses[this.cus_mes - 1];
-        }
+//        if (this.cus_mes <= 12 && this.cus_mes > 0) {
+//            mes = meses[this.cus_mes - 1];
+//        }
         return mes;
     }
 }

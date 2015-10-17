@@ -209,4 +209,7 @@ public class DespesaBean {
         this.despesasmess = despesasmess;
     }
 
+    public String reloadList() {
+        return "despesalst";
+    }
 }

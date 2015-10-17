@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label for="mes"  class="col-sm-1 col-xs-2 control-label "> Mês: </label>
                             <div class="col-sm-5 col-xs-6">
-                                <h:selectOneMenu id="mes" value="#{despesaBean.mes}" title="mes" styleClass="form-control ">
+                                <h:selectOneMenu id="mes" value="#{despesaBean.mes}" title="mes" styleClass="form-control">
                                     <f:selectItem  itemValue="1" itemLabel="Janeiro"/>
                                     <f:selectItem  itemValue="2" itemLabel="Fevereiro"/>
                                     <f:selectItem  itemValue="3" itemLabel="Março"/>
@@ -33,7 +33,7 @@
                                     <f:selectItem  itemValue="10" itemLabel="Outubro"/>
                                     <f:selectItem  itemValue="11" itemLabel="Novembro"/>
                                     <f:selectItem  itemValue="12" itemLabel="Dezembro"/>
-                                    <f:ajax execute="@form" render="@form" />
+                                    <f:ajax render="@form"/>
                                 </h:selectOneMenu>
                             </div>
                         </div>                        

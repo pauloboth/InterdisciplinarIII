@@ -29,7 +29,7 @@ public class Despesa implements Serializable {
     private Date des_inicio_depr;
     private int des_status;
     private String des_notas;
-
+    private Date des_date;
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoDespesa> lsProdutoDespesa;
 
@@ -117,6 +117,14 @@ public class Despesa implements Serializable {
 
     public void setLsCustoDespesa(List<CustoDespesa> lsCustoDespesa) {
         this.lsCustoDespesa = lsCustoDespesa;
+    }
+
+    public Date getDes_date() {
+        return des_date;
+    }
+
+    public void setDes_date(Date des_date) {
+        this.des_date = des_date;
     }
 
     @Override

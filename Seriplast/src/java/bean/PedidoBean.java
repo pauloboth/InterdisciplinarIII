@@ -66,7 +66,7 @@ public class PedidoBean {
     }
 
     public String salvar() {
-        pedido.setPed_mes(mes);
+//        pedido.setPed_mes(mes);
         if (pedido.getPed_id() > 0) {
             dao.update(pedido);
         } else {
