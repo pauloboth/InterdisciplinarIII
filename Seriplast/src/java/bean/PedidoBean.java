@@ -27,6 +27,10 @@ public class PedidoBean {
     private Produto produto = new Produto();
     private ProdutoDAO proDAO = new ProdutoDAO();
     private int mes;
+    private String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+    private int mes1;
+    private int mes2;
+    private int mes3;
 
     public PedidoBean() {
     }
@@ -56,6 +60,7 @@ public class PedidoBean {
     }
 
     public String salvar() {
+        pedido.setPed_mes(mes);
         if (pedido.getPed_id() > 0) {
             dao.update(pedido);
         } else {
@@ -156,13 +161,45 @@ public class PedidoBean {
 
     public int getMes() {
         if (mes == 0) {
-            mes = 2;
+            Date d = new Date();
+            mes = d.getMonth() + 1;
         }
         return mes;
     }
 
     public void setMes(int mes) {
         this.mes = mes;
+    }
+
+    public int getMes1() {
+        Date d = new Date();
+        int i = d.getMonth() - 1;
+        if (i < 0) {
+            i = 12 - i;
+        }
+        mes1 = i;
+        return mes1;
+    }
+
+    public int getMes2() {
+        Date d = new Date();
+        int i = d.getMonth();
+        mes2 = i;
+        return mes2;
+    }
+
+    public int getMes3() {
+        Date d = new Date();
+        int i = d.getMonth() + 1;
+        if (i > 11) {
+            i = 12 - i;
+        }
+        mes3 = i;
+        return mes3;
+    }
+
+    public String[] getMeses() {
+        return meses;
     }
 
 }

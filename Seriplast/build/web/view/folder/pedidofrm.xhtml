@@ -55,9 +55,9 @@
                                 <label for="mes" class="col-sm-4 control-label">Mês do pedido: </label>
                                 <div class="col-sm-8 selectMes">
                                     <h:selectOneRadio id="mes" required="required" value="#{pedidoBean.mes}">
-                                        <f:selectItem  itemValue="1" itemLabel="Mês passado"/>
-                                        <f:selectItem  itemValue="2" itemLabel="Este mês"/>
-                                        <f:selectItem  itemValue="3" itemLabel="Mês que vem"/>
+                                        <f:selectItem  itemValue="#{pedidoBean.mes1+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes1]}"/>
+                                        <f:selectItem  itemValue="#{pedidoBean.mes2+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes2]}"/>
+                                        <f:selectItem  itemValue="#{pedidoBean.mes3+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes3]}"/>
                                     </h:selectOneRadio>
                                 </div>
                             </div>

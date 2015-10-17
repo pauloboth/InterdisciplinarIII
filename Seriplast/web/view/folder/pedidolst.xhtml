@@ -31,7 +31,15 @@
                             <h:outputText value="Mês"/>
                         </f:facet>
                         <h:outputText value="${item.getMes()}"/>
-                    </h:column>              
+                    </h:column> 
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cadastro"/>
+                        </f:facet>
+                        <h:outputText value="${item.getPed_data()}">
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" timeZone="#{despesaBean.timeZone}"/>
+                        </h:outputText>
+                    </h:column>
                     <h:column headerClass="col-editar-header">
                         <f:facet name="header">
                             <h:outputText value="Editar"/>
