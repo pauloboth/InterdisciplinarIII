@@ -37,7 +37,13 @@ public class PedidoBean {
 
     public DataModel getPedidos() {
         clearSession();
-        this.pedidos = new ListDataModel(dao.findAll());
+        this.pedidos = new ListDataModel(dao.findMes(mes));
+        return pedidos;
+    }
+
+    public DataModel getPedidosMes() {
+        clearSession();
+        this.pedidos = new ListDataModel(dao.findMes(mes));
         return pedidos;
     }
 
@@ -160,10 +166,11 @@ public class PedidoBean {
     }
 
     public int getMes() {
-        if (mes == 0) {
-            Date d = new Date();
-            mes = d.getMonth() + 1;
-        }
+//        if (mes == 0) {
+//            Date d = new Date();
+//            mes = d.getMonth() + 1;
+//        }
+      
         return mes;
     }
 

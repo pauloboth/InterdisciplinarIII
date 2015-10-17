@@ -59,6 +59,17 @@ public class PedidoDAO {
         return ls;
     }
 
+    public List<Pedido> findMes(int m) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        String sql = "";
+        if (m > 0 && m < 13) {
+            sql += " and ped_mes =" + m;
+        }
+        List<Pedido> ls = session.createQuery("from Pedido where 1 = 1 " + sql).list();
+        session.close();
+        return ls;
+    }
+
     public Pedido findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
         Pedido p = (Pedido) session.createQuery("select p from Pedido p "
