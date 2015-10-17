@@ -31,19 +31,14 @@ public class PedidoBean {
     private int mes1;
     private int mes2;
     private int mes3;
+    private Date periodo;
 
     public PedidoBean() {
     }
 
     public DataModel getPedidos() {
         clearSession();
-        this.pedidos = new ListDataModel(dao.findMes(mes));
-        return pedidos;
-    }
-
-    public DataModel getPedidosMes() {
-        clearSession();
-        this.pedidos = new ListDataModel(dao.findMes(mes));
+        this.pedidos = new ListDataModel(dao.findMes(periodo));
         return pedidos;
     }
 
@@ -66,7 +61,6 @@ public class PedidoBean {
     }
 
     public String salvar() {
-//        pedido.setPed_mes(mes);
         if (pedido.getPed_id() > 0) {
             dao.update(pedido);
         } else {
@@ -170,7 +164,7 @@ public class PedidoBean {
 //            Date d = new Date();
 //            mes = d.getMonth() + 1;
 //        }
-      
+
         return mes;
     }
 
@@ -207,6 +201,14 @@ public class PedidoBean {
 
     public String[] getMeses() {
         return meses;
+    }
+
+    public Date getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Date periodo) {
+        this.periodo = periodo;
     }
 
 }

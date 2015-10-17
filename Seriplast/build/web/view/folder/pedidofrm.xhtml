@@ -53,12 +53,9 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="mes" class="col-sm-4 control-label">Mês do pedido: </label>
-                                <div class="col-sm-8 selectMes">
-                                    <h:selectOneRadio id="mes" required="required" value="#{pedidoBean.mes}">
-                                        <f:selectItem  itemValue="#{pedidoBean.mes1+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes1]}"/>
-                                        <f:selectItem  itemValue="#{pedidoBean.mes2+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes2]}"/>
-                                        <f:selectItem  itemValue="#{pedidoBean.mes3+1}" itemLabel="#{pedidoBean.meses[pedidoBean.mes3]}"/>
-                                    </h:selectOneRadio>
+                                <div class="col-sm-8 DateMonthYear">
+<!--                                    <p:calendar value="#{pedidoBean.pedido.ped_data_ref}" pattern="yyyy-MM-dd" effect="none" navigator="true" mode="inline" />-->
+                                    <p:calendar value="#{pedidoBean.pedido.ped_data_ref}" mode="inline" navigator="true" />
                                 </div>
                             </div>
                         </div>

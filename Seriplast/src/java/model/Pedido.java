@@ -82,6 +82,14 @@ public class Pedido implements Serializable {
         this.lsProdutoPedido = lsProdutoPedido;
     }
 
+    public Date getPed_data_ref() {
+        return ped_data_ref;
+    }
+
+    public void setPed_data_ref(Date ped_data_ref) {
+        this.ped_data_ref = ped_data_ref;
+    }
+
     public String getMes() {
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
         String mes = "";

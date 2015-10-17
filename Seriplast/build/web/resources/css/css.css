@@ -454,3 +454,9 @@ a:focus, a:hover {
     color: #A2192B;
 }
 /*# sourceMappingURL=css.css.map */
+/*.DateMonthYear table{
+    display: none !important;
+}*/
+.DateMonthYear select{
+    height: 22px !important;
+}

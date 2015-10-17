@@ -1,9 +1,9 @@
 package dao;
 
+import java.util.Date;
 import model.Pedido;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class PedidoDAO {
@@ -59,11 +59,11 @@ public class PedidoDAO {
         return ls;
     }
 
-    public List<Pedido> findMes(int m) {
+    public List<Pedido> findMes(Date d) {
         session = HibernateUtil.getSessionFactory().openSession();
         String sql = "";
-        if (m > 0 && m < 13) {
-            sql += " and ped_mes =" + m;
+        if (d != null) {
+            sql += " and month(ped_data_ref) = month(" + d + ") and year(ped_data_ref) = year(" + d + ")";
         }
         List<Pedido> ls = session.createQuery("from Pedido where 1 = 1 " + sql).list();
         session.close();

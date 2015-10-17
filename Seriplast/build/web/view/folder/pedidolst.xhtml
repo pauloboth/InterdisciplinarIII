@@ -1,8 +1,11 @@
-<ui:composition template="../modelos/default.xhtml"
+<ui:composition template="./../modelos/default.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">Pedidos</ui:define>
 
@@ -14,39 +17,27 @@
         <div class="panel panel-body">
             <h3 class="panel-title-top">Lista de Pedidos</h3>
             <h:form>
-           <div class="form-horizontal">
-                <div class="row">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="mes"  class="col-sm-1 col-xs-2 control-label "> Mês: </label>
-                            <div class="col-sm-5 col-xs-6">
-                                <h:selectOneMenu id="mes" value="#{pedidoBean.mes}" title="mes" styleClass="form-control ">
-                                    <f:selectItem  itemValue="1" itemLabel="Janeiro"/>
-                                    <f:selectItem  itemValue="2" itemLabel="Fevereiro"/>
-                                    <f:selectItem  itemValue="3" itemLabel="Março"/>
-                                    <f:selectItem  itemValue="4" itemLabel="Abril"/>
-                                    <f:selectItem  itemValue="5" itemLabel="Maio"/>
-                                    <f:selectItem  itemValue="6" itemLabel="Junho"/>
-                                    <f:selectItem  itemValue="7" itemLabel="Julho"/>
-                                    <f:selectItem  itemValue="8" itemLabel="Agosto"/>
-                                    <f:selectItem  itemValue="9" itemLabel="Setembro"/>
-                                    <f:selectItem  itemValue="10" itemLabel="Outubro"/>
-                                    <f:selectItem  itemValue="11" itemLabel="Novembro"/>
-                                    <f:selectItem  itemValue="12" itemLabel="Dezembro"/>
-                                    <f:ajax execute="@form" render="@form" />
-                                </h:selectOneMenu>
-                            </div>
-                        </div>                        
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="mes"  class="col-sm-2 col-xs-3 control-label "> Período: </label>
+                                <div class="col-sm-5 col-xs-6 DateMonthYear">
+                                    <p:calendar value="#{pedidoBean.periodo}" pattern="yyyy-MM-dd" effect="slideDown" navigator="true" mode="inline" locale="pt"/>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <h:link outcome="pedidofrm" styleClass="btn btn-success pull-right" >
+                                <i class="fa fa-plus "></i> Inserir Pedido
+                            </h:link>
+
+                        </div>
+
                     </div>
-                    <div class="col-md-6 col-xs-12">
-                        <h:link outcome="custofrm" styleClass="btn btn-success pull-right" >
-                            <i class="fa fa-plus "></i> Inserir Pedido para esse Mês
-                        </h:link>
-                    </div>
+
                 </div>
 
-            </div>
-           
                 <h:dataTable value="${pedidoBean.pedidos}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
                         <f:facet name="header">
@@ -79,25 +70,25 @@
                             <i class="fa fa-times"></i> Não Editável
                         </h:commandLink>
                     </h:column>
-                     <h:column headerClass="col-editar-header">
+                    <h:column headerClass="col-editar-header">
                         <f:facet name="header">
                             <h:outputText value="Excluir"/>
                         </f:facet>
-                         <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}" rendered="#{item.bEdit()}">
+                        <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}" rendered="#{item.bEdit()}">
                             <i class="fa fa-trash"></i> Excluir
                         </h:commandLink>
-                         <h:commandLink disabled="true" rendered="#{!item.bEdit()}">
+                        <h:commandLink disabled="true" rendered="#{!item.bEdit()}">
                             <i class="fa fa-times"></i> Não Removivel
                         </h:commandLink>
                     </h:column>
-<!--                    <h:column headerClass="col-excluir-header">
-                        <f:facet name="header">
-                            <h:outputText value="Excluir"/>
-                        </f:facet>
-                        <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}">
-                            <i class="fa fa-trash"></i> Excluir
-                        </h:commandLink>
-                    </h:column>-->
+                    <!--                    <h:column headerClass="col-excluir-header">
+                                            <f:facet name="header">
+                                                <h:outputText value="Excluir"/>
+                                            </f:facet>
+                                            <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}">
+                                                <i class="fa fa-trash"></i> Excluir
+                                            </h:commandLink>
+                                        </h:column>-->
                 </h:dataTable>
             </h:form>
         </div>
