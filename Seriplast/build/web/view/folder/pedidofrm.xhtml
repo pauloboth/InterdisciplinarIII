@@ -50,12 +50,24 @@
                                 </div>  
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-12">
+
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="mes" class="col-sm-4 control-label">Mês do pedido: </label>
-                                <div class="col-sm-8 DateMonthYear">
-<!--                                    <p:calendar value="#{pedidoBean.pedido.ped_data_ref}" pattern="yyyy-MM-dd" effect="none" navigator="true" mode="inline" />-->
-                                    <p:calendar value="#{pedidoBean.pedido.ped_data_ref}" mode="inline" navigator="true" />
+                                <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
+                                <div class="col-xs-8">
+                                    <h:selectOneMenu id="mes" value="#{pedidoBean.mes}" styleClass="form-control" pt:autofocus=""  >
+                                        <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                                <div class="col-xs-8">
+                                    <h:selectOneMenu id="ano" value="#{pedidoBean.ano}" styleClass="form-control" pt:autofocus="">
+                                        <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
+                                    </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>

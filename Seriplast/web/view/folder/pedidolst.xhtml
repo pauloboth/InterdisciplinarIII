@@ -18,20 +18,32 @@
             <h3 class="panel-title-top">Lista de Pedidos</h3>
             <h:form>
                 <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="mes"  class="col-sm-2 col-xs-3 control-label "> Período: </label>
-                                <div class="col-sm-5 col-xs-6 DateMonthYear">
-                                    <p:calendar value="#{pedidoBean.periodo}" pattern="yyyy-MM-dd" effect="slideDown" navigator="true" mode="inline" locale="pt"/>
-                                </div>
-                            </div>                        
-                        </div>
-                        <div class="col-md-6 col-xs-12">
-                            <h:link outcome="pedidofrm" styleClass="btn btn-success pull-right" >
-                                <i class="fa fa-plus "></i> Inserir Pedido
-                            </h:link>
+                    <h:link outcome="pedidofrm" styleClass="btn btn-success pull-right" >
+                        <i class="fa fa-plus "></i> Inserir Pedido
+                    </h:link>
 
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
+                                <div class="col-xs-8">
+                                    <h:selectOneMenu id="mes" value="#{pedidoBean.mes}" styleClass="form-control" pt:autofocus=""  >
+                                        <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                                <div class="col-xs-8">
+                                    <h:selectOneMenu id="ano" value="#{pedidoBean.ano}" styleClass="form-control" pt:autofocus="">
+                                        <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -47,16 +59,18 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Mês"/>
+                            <h:outputText value="Mês Referente"/>
                         </f:facet>
-                        <h:outputText value="${item.getMes()}"/>
+                        <h:outputText value="${item.getPed_data_ref()}">
+                            <f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>
+                        </h:outputText>
                     </h:column> 
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Cadastro"/>
                         </f:facet>
                         <h:outputText value="${item.getPed_data()}">
-                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" timeZone="#{despesaBean.timeZone}"/>
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" timeZone="#{padraoBean.timeZone}"/>
                         </h:outputText>
                     </h:column>
                     <h:column headerClass="col-editar-header">

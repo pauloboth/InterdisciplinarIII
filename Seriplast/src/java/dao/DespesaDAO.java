@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 import model.Despesa;
 import org.hibernate.Session;
@@ -74,4 +75,15 @@ public class DespesaDAO {
         session.close();
         return d;
     }
+
+    public List<Despesa> searchDespesasMes(Date d) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<Despesa> ls = session.createQuery("select d from Despesa d where des_status = 1").list();
+        session.close();
+        return ls;
+    }
+//        List<Despesa> ls = session.createQuery("select d from Despesa d "
+//                + "where (des_tipo = 2 or (des_inicio_depr + des_depr_mes) >= :date) "
+//                + "and des_status = 1")
+//                .setParameter("date", d).list();
 }

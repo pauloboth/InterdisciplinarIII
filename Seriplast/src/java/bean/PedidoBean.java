@@ -2,9 +2,15 @@ package bean;
 
 import dao.PedidoDAO;
 import dao.ProdutoDAO;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
@@ -13,6 +19,7 @@ import javax.faces.model.ListDataModel;
 import model.Pedido;
 import model.Produto;
 import model.ProdutoPedido;
+import sun.util.BuddhistCalendar;
 
 @ManagedBean
 @SessionScoped
@@ -26,19 +33,16 @@ public class PedidoBean {
     private List<Produto> lsProdutosAll = new ArrayList<>();
     private Produto produto = new Produto();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    private int mes;
-    private String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-    private int mes1;
-    private int mes2;
-    private int mes3;
-    private Date periodo;
+    private int mes = 0;
+    private int ano = 0;
 
     public PedidoBean() {
     }
 
     public DataModel getPedidos() {
         clearSession();
-        this.pedidos = new ListDataModel(dao.findMes(periodo));
+
+        this.pedidos = new ListDataModel(dao.findMes(mes, ano));
         return pedidos;
     }
 
@@ -48,6 +52,9 @@ public class PedidoBean {
 
     public String edit(Pedido i) {
         pedido = dao.findEdit(i.getPed_id());
+        mes = pedido.getPed_data_ref().getMonth() + 1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        ano = Integer.parseInt(sdf.format(pedido.getPed_data_ref()));
         return "pedidofrm";
     }
 
@@ -61,6 +68,8 @@ public class PedidoBean {
     }
 
     public String salvar() {
+        Date d = createDate(1, mes, ano);
+        pedido.setPed_data_ref(d);
         if (pedido.getPed_id() > 0) {
             dao.update(pedido);
         } else {
@@ -160,11 +169,10 @@ public class PedidoBean {
     }
 
     public int getMes() {
-//        if (mes == 0) {
-//            Date d = new Date();
-//            mes = d.getMonth() + 1;
-//        }
-
+        if (mes == 0) {
+            Date d = new Date();
+            mes = d.getMonth() + 1;
+        }
         return mes;
     }
 
@@ -172,43 +180,25 @@ public class PedidoBean {
         this.mes = mes;
     }
 
-    public int getMes1() {
-        Date d = new Date();
-        int i = d.getMonth() - 1;
-        if (i < 0) {
-            i = 12 - i;
+    public int getAno() {
+        if (ano == 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            ano = Integer.parseInt(sdf.format(new Date()));
         }
-        mes1 = i;
-        return mes1;
+        return ano;
     }
 
-    public int getMes2() {
-        Date d = new Date();
-        int i = d.getMonth();
-        mes2 = i;
-        return mes2;
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
-    public int getMes3() {
-        Date d = new Date();
-        int i = d.getMonth() + 1;
-        if (i > 11) {
-            i = 12 - i;
+    private Date createDate(int d, int m, int a) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+            date = (Date) sdf.parse(d + "-" + m + "-" + a + "-");
+        } catch (ParseException ex) {
         }
-        mes3 = i;
-        return mes3;
+        return date;
     }
-
-    public String[] getMeses() {
-        return meses;
-    }
-
-    public Date getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Date periodo) {
-        this.periodo = periodo;
-    }
-
 }

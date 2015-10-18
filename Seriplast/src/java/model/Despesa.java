@@ -158,8 +158,10 @@ public class Despesa implements Serializable {
             return "Ativo";
         } else if (this.des_status == 2) {
             return "Bloqueado";
-        } else {
+        } else if (this.des_status == 3) {
             return "Excuído";
+        } else {
+            return "";
         }
     }
 }

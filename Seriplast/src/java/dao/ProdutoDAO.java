@@ -1,9 +1,11 @@
 package dao;
 
+import java.util.ArrayList;
 import model.Produto;
 import java.util.List;
+import model.ProdutoPedido;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import static org.hibernate.criterion.Projections.id;
 import util.HibernateUtil;
 
 public class ProdutoDAO {
@@ -73,14 +75,42 @@ public class ProdutoDAO {
                 + "left outer join fetch p.lsProdutoMaquina pm "
                 + "where p.pro_id = :p")
                 .setParameter("p", id).uniqueResult();
-        Produto p3 = (Produto) session.createQuery("select p from Produto p "
-                + "left outer join fetch p.lsProdutoPedido pp "
-                + "where p.pro_id = :p")
-                .setParameter("p", id).uniqueResult();
+//        Produto p3 = (Produto) session.createQuery("select p from Produto p "
+//                + "left outer join fetch p.lsProdutoPedido pp "
+//                + "where p.pro_id = :p")
+//                .setParameter("p", id).uniqueResult();
         p.setLsProdutoMaquina(p2.getLsProdutoMaquina());
-        p.setLsProdutoPedido(p3.getLsProdutoPedido());
+//        p.setLsProdutoPedido(p3.getLsProdutoPedido());
         session.close();
         return p;
     }
 
+    public List<Produto> produtosCusto(int pro_id, int cus_id, int mes, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<Produto> ls = new ArrayList<>();
+        if (pro_id != 0 && cus_id == 0) {
+            ls = session.createQuery("select p from Produto p where p.pro_id = :p and p.pro_status = 1").setParameter("p", pro_id).list();
+        } else if (pro_id == 0 && cus_id != 0) {
+            ls = session.createQuery("select p from Produto p inner join CustoDespesa cd on cd.pro_id = p.pro_id where cd.cus_id = :c and p.pro_status = 1").setParameter("c", cus_id).list();
+        } else if (pro_id != 0 && cus_id != 0) {
+            ls = session.createQuery("select p from Produto p inner join CustoDespesa cd on cd.pro_id = p.pro_id where cd.cus_id = :c and p.pro_id = :p and p.pro_status = 1")
+                    .setParameter("p", pro_id).setParameter("c", cus_id).list();
+        } else {
+            ls = session.createQuery("select p from Produto p p.pro_status = 1").list();
+        }
+        if (ls != null && ls.size() > 0) {
+            for (Produto p : ls) {
+                {
+                    List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp inner join Pedido p"
+                            + " on  pp.ped_id = p.ped_id"
+                            + " where  pp.pro_id = :p"
+                            + " and month(p.ped_data_ref) = :mes and year(p.ped_data_ref) = :ano ")
+                            .setParameter("p", p.getPro_id()).setParameter("mes", mes).setParameter("ano", ano).list();
+                    p.setLsProdutoPedido(lsPp);
+                }
+            }
+        }
+        session.close();
+        return ls;
+    }
 }

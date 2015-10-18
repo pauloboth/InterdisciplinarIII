@@ -9,8 +9,8 @@
     <ui:define name="title">Custos</ui:define>
 
     <ui:define name="breadcrumb">
-        <li><h:link value="Custos" outcome="/faces/view/folder/custolst" /></li>
-        <li><h:link value="Custo"/></li>
+        <li><h:link value="Despesas do Mês" outcome="/faces/view/folder/despesameslst" /></li>
+        <li><h:link value="Despesa do Mês"/></li>
     </ui:define>
 
     <ui:define name="main-content">
@@ -31,7 +31,8 @@
                 </f:metadata>-->
         <!--        <f:event listener="{custoBean.clearSession()}" type="preRenderView"/>-->
         <div class="panel panel-body">
-            <h3 class="panel-title-top">Dados do Custo</h3>
+            <h3 class="panel-title-top pull-left">Dados do Custo</h3>
+            <h3 class="panel-title-top pull-right">Dados referentes do mês de #{padraoBean.mesString(custoBean.mes)} de #{custoBean.ano}.</h3>
             <f:view>
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
@@ -39,10 +40,12 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
-                                <div class="col-sm-8">
-                                    <h:inputText pt:required="required" rendered="#{custoBean.despesa.des_id == 0}" id="despesa" value="#{custoBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
-                                    <h:outputText rendered="#{custoBean.despesa.des_id > 0}" value="#{custoBean.despesa.des_nome}"/>
-                                </div>  
+                                <h:panelGroup class="col-sm-8" rendered="#{custoBean.despesa.des_id == 0}" >
+                                    <h:inputText pt:required="required" id="despesa" value="#{custoBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
+                                </h:panelGroup>
+                                <h:panelGroup class="col-sm-8" style="padding-top: 7px;" rendered="#{custoBean.despesa.des_id > 0}" >
+                                    <h:outputText value="#{custoBean.despesa.des_nome}"/>
+                                </h:panelGroup>
                             </div>
                         </div>
 
@@ -71,7 +74,7 @@
 
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Preço"/>
+                                        <h:outputText value="Preço (R$)"/>
                                     </f:facet>
                                     <h:outputText value="#{item.custo.cus_preco_produto}"/>
                                 </h:column>
@@ -86,7 +89,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Quant. Produzida"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="#{item.custo.cus_quant_prod}" title="Número de produtos fabricados" class="form-control">
+                                    <h:inputText pt:type="number" pt:min="0" value="#{custoBean.totalPedido(item.custo.produto)}" title="Número de produtos fabricados" class="form-control">
                                         <f:ajax execute="@form" render="@form" />
                                     </h:inputText>
                                 </h:column>
@@ -95,7 +98,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Participação (#{custoBean.porcent}%)"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="#{item.csd_participacao}" title="Porcentagem de Participação" class="form-control">
+                                    <h:inputText pt:type="number" pt:min="0" value="" title="Porcentagem de Participação" class="form-control">
                                         <f:ajax execute="@form" render="@form" />
                                     </h:inputText>
                                 </h:column>
@@ -113,7 +116,7 @@
                                     </f:facet>
                                     <div style="text-align: right;">
                                         <div style="float: left;">R$</div>
-                                        <h:outputText value="#{item.custo.cus_preco_unitario}"/>
+                                        <h:outputText value="0"/>
                                     </div>
 
                                 </h:column>

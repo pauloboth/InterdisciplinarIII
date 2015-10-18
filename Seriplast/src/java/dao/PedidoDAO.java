@@ -1,8 +1,8 @@
 package dao;
 
-import java.util.Date;
 import model.Pedido;
 import java.util.List;
+import model.ProdutoPedido;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -59,11 +59,11 @@ public class PedidoDAO {
         return ls;
     }
 
-    public List<Pedido> findMes(Date d) {
+    public List<Pedido> findMes(int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         String sql = "";
-        if (d != null) {
-            sql += " and month(ped_data_ref) = month(" + d + ") and year(ped_data_ref) = year(" + d + ")";
+        if (mes > 0 && mes < 13 && ano > 0) {
+            sql += " and month(ped_data_ref) = " + mes + " and year(ped_data_ref) = " + ano + "";
         }
         List<Pedido> ls = session.createQuery("from Pedido where 1 = 1 " + sql).list();
         session.close();
@@ -80,4 +80,14 @@ public class PedidoDAO {
         return p;
     }
 
+    public List<ProdutoPedido> totalPedidosMes(int pro_id, int mes, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp"
+                + " join pp.pedido ped"
+                + " where pp.produto.pro_id = :p"
+                + " and month(ped.ped_data_ref) = :mes and year(ped.ped_data_ref) = :ano")
+                .setParameter("p", pro_id).setParameter("mes", mes).setParameter("ano", ano).list();
+        session.close();
+        return lsPp;
+    }
 }

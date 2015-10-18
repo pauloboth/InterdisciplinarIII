@@ -167,8 +167,20 @@ public class Produto implements Serializable {
             return "Ativo";
         } else if (this.pro_status == 2) {
             return "Bloqueado";
-        } else {
+        } else if (this.pro_status == 3) {
             return "Excuído";
+        } else {
+            return "";
         }
+    }
+
+    public int totalPedido() {
+        int total = 0;
+        if (this.lsProdutoPedido != null) {
+            for (ProdutoPedido pp : this.lsProdutoPedido) {
+                total += pp.getPrp_quantidade();
+            }
+        }
+        return total;
     }
 }

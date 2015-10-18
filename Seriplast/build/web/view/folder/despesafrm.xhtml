@@ -86,7 +86,7 @@
                                 <label for="inicio_dpr" class="col-sm-4 control-label">Início:  </label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:type="date" pt:required="required" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
-                                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{despesaBean.timeZone}"/>
+                                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{padraoBean.timeZone}"/>
                                     </h:inputText>
                                 </div>
                             </div>

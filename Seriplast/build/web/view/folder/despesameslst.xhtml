@@ -15,39 +15,38 @@
         <div class="panel panel-body">
             <h3 class="panel-title-top">Lista de Despesas do Mês</h3>
             <div class="form-horizontal">
+                <h:link outcome="custofrm" styleClass="btn btn-success pull-right" >
+                    <i class="fa fa-plus "></i> Inserir Despesa para esse Mês
+                </h:link>
                 <div class="row">
-                    <div class="col-md-6 col-xs-12">
+                    <div class="col-sm-3">
                         <div class="form-group">
-                            <label for="mes"  class="col-sm-1 col-xs-2 control-label "> Mês: </label>
-                            <div class="col-sm-5 col-xs-6">
-                                <h:selectOneMenu id="mes" value="#{despesaBean.mes}" title="mes" styleClass="form-control">
-                                    <f:selectItem  itemValue="1" itemLabel="Janeiro"/>
-                                    <f:selectItem  itemValue="2" itemLabel="Fevereiro"/>
-                                    <f:selectItem  itemValue="3" itemLabel="Março"/>
-                                    <f:selectItem  itemValue="4" itemLabel="Abril"/>
-                                    <f:selectItem  itemValue="5" itemLabel="Maio"/>
-                                    <f:selectItem  itemValue="6" itemLabel="Junho"/>
-                                    <f:selectItem  itemValue="7" itemLabel="Julho"/>
-                                    <f:selectItem  itemValue="8" itemLabel="Agosto"/>
-                                    <f:selectItem  itemValue="9" itemLabel="Setembro"/>
-                                    <f:selectItem  itemValue="10" itemLabel="Outubro"/>
-                                    <f:selectItem  itemValue="11" itemLabel="Novembro"/>
-                                    <f:selectItem  itemValue="12" itemLabel="Dezembro"/>
-                                    <f:ajax render="@form"/>
+                            <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
+                            <div class="col-xs-8">
+                                <h:selectOneMenu id="mes" value="#{custoBean.mes}" styleClass="form-control">
+                                    <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
+                                    <f:ajax execute="@form" render="@form" />
                                 </h:selectOneMenu>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
-                    <div class="col-md-6 col-xs-12">
-                        <h:link outcome="custofrm" styleClass="btn btn-success pull-right" >
-                            <i class="fa fa-plus "></i> Inserir Despesa para esse Mês
-                        </h:link>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                            <div class="col-xs-8">
+                                <h:selectOneMenu id="ano" value="#{custoBean.ano}" styleClass="form-control">
+                                    <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
+                                    <f:ajax execute="@form" render="@form" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
             <h:form>
-                <h:dataTable value="${despesaBean.despesasmess}" var="item" styleClass="dataTable table table-bordered table-striped">
+                <h:dataTable value="${custoBean.despesasmess}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Despesa"/>

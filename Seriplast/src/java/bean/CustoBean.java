@@ -2,8 +2,12 @@ package bean;
 
 import dao.CustoDAO;
 import dao.DespesaDAO;
+import dao.PedidoDAO;
 import dao.ProdutoDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -22,6 +26,7 @@ public class CustoBean {
 
     private CustoDAO dao = new CustoDAO();
     private DataModel custos;
+    private DataModel despesasmess;
     private Despesa despesa = new Despesa();
     private DespesaDAO desDAO = new DespesaDAO();
     private List<CustoDespesa> lsCustoDespesa = new ArrayList<>();
@@ -31,13 +36,16 @@ public class CustoBean {
     private Produto produto = new Produto();
     private double valor = 0;
     private int porcent = 0;
+    private int mes = 0;
+    private int ano = 0;
+    private PedidoDAO pedDAO = new PedidoDAO();
 
     public CustoBean() {
     }
 
     public DataModel getCustos() {
-        this.custos = new ListDataModel(dao.findAll());
         clearSession();
+        this.custos = new ListDataModel(dao.findAll());
         return custos;
     }
 
@@ -121,6 +129,7 @@ public class CustoBean {
 
     public List<Produto> getLsProdutos() {
         lsProdutos = proDAO.findAll(1);
+//        lsProdutos = proDAO.produtosCusto(0, 0, mes, ano);
         lsProdutosAll = lsProdutos;
         reloadProdutos();
         return lsProdutos;
@@ -226,4 +235,57 @@ public class CustoBean {
         this.porcent = porcent;
     }
 
+    public int getMes() {
+        if (mes == 0) {
+            Date d = new Date();
+            mes = d.getMonth() + 1;
+        }
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getAno() {
+        if (ano == 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            ano = Integer.parseInt(sdf.format(new Date()));
+        }
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public DataModel getDespesasmess() {
+        clearSession();
+        despesasmess = new ListDataModel(Despesas(createDate(1, mes, ano)));
+        return despesasmess;
+    }
+
+    public void setDespesasmess(DataModel despesasmess) {
+        this.despesasmess = despesasmess;
+    }
+
+    private List<Despesa> Despesas(Date d) {
+        List<Despesa> desMes = desDAO.searchDespesasMes(d);
+        return desMes;
+    }
+
+    private Date createDate(int d, int m, int a) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+            date = (Date) sdf.parse(d + "-" + m + "-" + a + "-");
+        } catch (ParseException ex) {
+        }
+        return date;
+    }
+
+    public int totalPedido(Produto p) {
+        p.setLsProdutoPedido(pedDAO.totalPedidosMes(p.getPro_id(), mes, ano));
+        return p.totalPedido();
+    }
 }
