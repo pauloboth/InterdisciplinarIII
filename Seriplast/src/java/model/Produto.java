@@ -173,14 +173,15 @@ public class Produto implements Serializable {
             return "";
         }
     }
+//
+//    public static int totalPedido() {
+//        int total = 0;
+//        if (this.lsProdutoPedido != null) {
+//            for (ProdutoPedido pp : this.lsProdutoPedido) {
+//                total += pp.getPrp_quantidade();
+//            }
+//        }
+//        return total;
+//    }
 
-    public int totalPedido() {
-        int total = 0;
-        if (this.lsProdutoPedido != null) {
-            for (ProdutoPedido pp : this.lsProdutoPedido) {
-                total += pp.getPrp_quantidade();
-            }
-        }
-        return total;
-    }
 }

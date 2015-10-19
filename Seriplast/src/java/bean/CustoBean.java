@@ -18,7 +18,9 @@ import model.Custo;
 import model.CustoDespesa;
 import model.Despesa;
 import model.Produto;
+import model.ProdutoCusto;
 import model.ProdutoDespesa;
+import model.ProdutoPedido;
 
 @ManagedBean
 @SessionScoped
@@ -39,6 +41,7 @@ public class CustoBean {
     private int mes = 0;
     private int ano = 0;
     private PedidoDAO pedDAO = new PedidoDAO();
+    private List<ProdutoCusto> lsProdutoCusto = new ArrayList<>();
 
     public CustoBean() {
     }
@@ -94,6 +97,7 @@ public class CustoBean {
         this.lsProdutosAll = new ArrayList<>();
         this.produto = new Produto();
         this.custos = new ArrayDataModel();
+        this.lsProdutoCusto = new ArrayList<>();
     }
 
     public List<CustoDespesa> getLsCustoDespesa() {
@@ -141,31 +145,31 @@ public class CustoBean {
 
     public void addProduto() {
         if (produto != null) {
-            if (lsCustoDespesa == null) {
-                lsCustoDespesa = new ArrayList<>();
+            if (lsProdutoCusto == null) {
+                lsProdutoCusto = new ArrayList<>();
             }
             boolean bAdd = true;
-            for (CustoDespesa cd : lsCustoDespesa) {
-                if (cd.getCusto().getProduto().getPro_id() == produto.getPro_id()) {
+            for (ProdutoCusto pc : lsProdutoCusto) {
+                if (pc.getProduto().getPro_id() == produto.getPro_id()) {
                     bAdd = false;
                 }
             }
             if (bAdd) {
-                CustoDespesa cd = new CustoDespesa();
+                ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
-                c.setProduto(produto);
+                produto.setLsProdutoPedido(pedDAO.totalPedidosMes(produto.getPro_id(), mes, ano));
+                pc.setProduto(produto);
                 c.setCus_preco_produto(produto.getPro_preco());
-                cd.setCusto(c);
-                cd.setDespesa(despesa);
-                lsCustoDespesa.add(cd);
+                pc.setCusto(c);
+                lsProdutoCusto.add(pc);
                 produto = new Produto();
             }
             reloadProdutos();
         }
     }
 
-    public void removeProduto(CustoDespesa cd) {
-        lsCustoDespesa.remove(cd);
+    public void removeProduto(ProdutoCusto pd) {
+        lsProdutoCusto.remove(pd);
         reloadProdutos();
     }
 
@@ -186,17 +190,19 @@ public class CustoBean {
 //        }
 //    }
     public String New(int id) {
-        lsCustoDespesa = new ArrayList<>();
+        lsProdutoCusto = new ArrayList<>();
         if (id != 0) {
             despesa = desDAO.findEdit(id);
             for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
-                CustoDespesa cd = new CustoDespesa();
+                ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
-                c.setProduto(pd.getProduto());
+                pc.setProduto(pd.getProduto());
+                pc.getProduto().setLsProdutoPedido(pedDAO.totalPedidosMes(pd.getProduto().getPro_id(), getMes(), getAno()));
+
                 c.setCus_preco_produto(pd.getProduto().getPro_preco());
-                cd.setCusto(c);
-//                cd.setCsd_participacao(pd.getPds_porc_part());
-                lsCustoDespesa.add(cd);
+                pc.setCusto(c);
+                pc.setParticipacao(pd.getPrd_por_part());
+                lsProdutoCusto.add(pc);
             }
         } else {
             clearSession();
@@ -216,8 +222,8 @@ public class CustoBean {
         lsProdutos = new ArrayList<>();
         for (Produto p : lsProdutosAll) {
             boolean bAdd = true;
-            for (CustoDespesa cd : lsCustoDespesa) {
-                if (cd.getCusto().getProduto().getPro_id() == p.getPro_id()) {
+            for (ProdutoCusto pc : lsProdutoCusto) {
+                if (pc.getProduto().getPro_id() == p.getPro_id()) {
                     bAdd = false;
                 }
             }
@@ -286,6 +292,21 @@ public class CustoBean {
 
     public int totalPedido(Produto p) {
         p.setLsProdutoPedido(pedDAO.totalPedidosMes(p.getPro_id(), mes, ano));
-        return p.totalPedido();
+        int total = 0;
+        if (p.getLsProdutoPedido() != null) {
+            for (ProdutoPedido pp : p.getLsProdutoPedido()) {
+                total += pp.getPrp_quantidade();
+            }
+        }
+        return total;
     }
+
+    public List<ProdutoCusto> getLsProdutoCusto() {
+        return lsProdutoCusto;
+    }
+
+    public void setLsProdutoCusto(List<ProdutoCusto> lsProdutoCusto) {
+        this.lsProdutoCusto = lsProdutoCusto;
+    }
+
 }

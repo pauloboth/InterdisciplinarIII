@@ -64,12 +64,12 @@
                             <h3> <b>Produtos que fazem parte desta despesa</b></h3>
 
 
-                            <h:dataTable value="#{custoBean.lsCustoDespesa}" var="item" styleClass="table table-bordered table-striped">
+                            <h:dataTable value="#{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Produto"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.custo.produto.pro_nome}"/>
+                                    <h:outputText value="#{item.produto.pro_nome}"/>
                                 </h:column>
 
                                 <h:column>
@@ -89,16 +89,17 @@
                                     <f:facet name="header">
                                         <h:outputText value="Quant. Produzida"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="#{custoBean.totalPedido(item.custo.produto)}" title="Número de produtos fabricados" class="form-control">
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.total}" title="Número de produtos fabricados" class="form-control">
                                         <f:ajax execute="@form" render="@form" />
                                     </h:inputText>
+
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Participação (#{custoBean.porcent}%)"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="" title="Porcentagem de Participação" class="form-control">
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.participacao}" pt:set="0.1" title="Porcentagem de Participação" class="form-control">
                                         <f:ajax execute="@form" render="@form" />
                                     </h:inputText>
                                 </h:column>
@@ -107,7 +108,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Anotação"/>
                                     </f:facet>
-                                    <h:inputTextarea value="#{item.csd_notas}" class="form-control textAreaTable"/>
+                                    <h:inputTextarea value="#{item.notas}" class="form-control textAreaTable"/>
                                 </h:column>
 
                                 <h:column>
