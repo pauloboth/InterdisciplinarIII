@@ -2,6 +2,7 @@ package bean;
 
 import dao.CustoDAO;
 import dao.DespesaDAO;
+import dao.MaquinaDAO;
 import dao.PedidoDAO;
 import dao.ProdutoDAO;
 import java.text.ParseException;
@@ -17,6 +18,7 @@ import javax.faces.model.ListDataModel;
 import model.Custo;
 import model.CustoDespesa;
 import model.Despesa;
+import model.Maquina;
 import model.Produto;
 import model.ProdutoCusto;
 import model.ProdutoDespesa;
@@ -27,21 +29,27 @@ import model.ProdutoPedido;
 public class CustoBean {
 
     private CustoDAO dao = new CustoDAO();
+    private DespesaDAO desDAO = new DespesaDAO();
+    private ProdutoDAO proDAO = new ProdutoDAO();
+    private PedidoDAO pedDAO = new PedidoDAO();
+    private MaquinaDAO maqDAO = new MaquinaDAO();
+
     private DataModel custos;
     private DataModel despesasmess;
     private Despesa despesa = new Despesa();
-    private DespesaDAO desDAO = new DespesaDAO();
+
     private List<CustoDespesa> lsCustoDespesa = new ArrayList<>();
     private List<Produto> lsProdutos = new ArrayList<>();
     private List<Produto> lsProdutosAll = new ArrayList<>();
-    private ProdutoDAO proDAO = new ProdutoDAO();
+
     private Produto produto = new Produto();
     private double valor = 0;
     private int porcent = 0;
     private int mes = 0;
     private int ano = 0;
-    private PedidoDAO pedDAO = new PedidoDAO();
+
     private List<ProdutoCusto> lsProdutoCusto = new ArrayList<>();
+    private List<Maquina> lsMaquinas = new ArrayList<>();
 
     public CustoBean() {
     }
@@ -307,6 +315,15 @@ public class CustoBean {
 
     public void setLsProdutoCusto(List<ProdutoCusto> lsProdutoCusto) {
         this.lsProdutoCusto = lsProdutoCusto;
+    }
+
+    public List<Maquina> getLsMaquinas() {
+        lsMaquinas = maqDAO.findAll();
+        return lsMaquinas;
+    }
+
+    public void setLsMaquinas(List<Maquina> lsMaquinas) {
+        this.lsMaquinas = lsMaquinas;
     }
 
 }
