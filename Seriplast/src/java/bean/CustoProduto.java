@@ -136,7 +136,7 @@ public class CustoProduto {
     }
       public String select() {
         produto = (Produto) produtos.getRowData();
-        return "custofrm";
+        return "custoview";
     }
      
      //CUSTODESPESA
