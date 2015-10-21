@@ -33,6 +33,7 @@ public class Pedido implements Serializable {
     public int getPed_id() {
         return ped_id;
     }
+    
 
     public void setPed_id(int ped_id) {
         this.ped_id = ped_id;

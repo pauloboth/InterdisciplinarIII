@@ -1,0 +1,125 @@
+<ui:composition template="./../modelos/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">Pedidos</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li><h:link value="Pedidos" outcome="/faces/view/folder/pedidolst" /></li>
+        <li><h:link value="Vizualizar Pedido"/></li>
+    </ui:define>
+
+    <ui:define name="main-content">
+        <style>
+            .form-group select{
+                height: 34px;
+            }
+            .textAreaTable{
+                height: 34px !important;
+                width: 300px !important;
+            }
+            .textAreaTable:focus{
+                height: 85px !important;
+                width: 300px !important;
+                position: absolute;
+            }
+            .selectMes{
+                padding-top: 7px;
+            }
+            .selectMes td{
+                padding: 0 5px;
+            }
+        </style>
+        <div class="panel panel-body">
+            <h3 class="panel-title-top">Dados do Pedido</h3>
+            <f:view>
+                <h:form styleClass="form-horizontal">
+                    <h:inputHidden id="idiCodigo" value="#{pedidoBean.pedido.ped_id}" />
+                    <div class="row">
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="cliente" class="col-sm-4 control-label">Cliente:</label>
+                                <div class="col-sm-8">
+                                    <input pt:required="required" id="cliente" class="col-md-12" disabled="disabled" value="#{pedidoBean.pedido.ped_cliente}" title="Nome do Cliente" styleClass="form-control" pt:autofocus="" />
+                                </div>  
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
+                                <div class="col-xs-8">
+                                    <input id="mes" disabled="disabled" value="#{pedidoBean.mesString}" styleClass="form-control" pt:autofocus=""  >
+                                        <!--<input disabled="disabled" value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>-->
+                                    </input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                                <div class="col-xs-8">
+                                    <input id="ano" disabled="disabled" class="col-md-10" value="#{pedidoBean.ano}" styleClass="form-control" pt:autofocus=""> 
+                                    </input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="notas" class="col-sm-2 control-label">Descrição: </label>
+                                <div class="col-sm-10">
+                                    <input disabled="disabled" class="col-md-11" id="notas" value="#{pedidoBean.pedido.ped_notas}" title="Anotações" styleClass="form-control" pt:autofocus="" />
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <h3> <b>Produtos que fazem parte deste pedido :</b></h3>
+
+                         
+
+                            <h:dataTable value="#{pedidoBean.pedido.lsProdutoPedido}" var="item" styleClass="table table-bordered table-striped">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Produto"/>
+                                    </f:facet>
+                                    <h:outputText  value="#{item.produto.pro_nome}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade"/>
+                                    </f:facet>
+                                    <input disabled="disabled" pt:type="number" pt:min="0" value="#{item.prp_quantidade}" class="form-control"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Anotação"/>
+                                    </f:facet>
+                                    <input disabled="disabled" value="#{item.prp_notas}" class="form-control textAreaTable"/>
+                                </h:column>
+                               
+
+                            </h:dataTable>
+
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                            <h:link styleClass="btn btn-default" value="Voltar" outcome="#{pedidoBean.listar()}" />
+                            
+                        </div>
+                    </div>
+                </h:form>
+            </f:view>
+        </div>
+    </ui:define>
+</ui:composition>

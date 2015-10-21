@@ -51,12 +51,22 @@
                 </div>
 
                 <h:dataTable value="${pedidoBean.pedidos}" var="item" styleClass="dataTable table table-bordered table-striped">
-                    <h:column>
+<!--                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Cliente"/>
                         </f:facet>
                         <h:outputText value="${item.getPed_cliente()}"/>
+                    </h:column>-->
+                    
+                    <h:column>
+                         <f:facet name="header">
+                            <h:outputText value="Cliente"/>
+                        </f:facet>
+                        <h:commandLink title="Cliente" action="#{pedidoBean.selectPedido()}" >
+                            <i class="fa fa-file-text-o"></i> ${item.getPed_cliente()}
+                        </h:commandLink>
                     </h:column>
+                    
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Mês Referente"/>
@@ -95,14 +105,7 @@
                             <i class="fa fa-times"></i> Não Removivel
                         </h:commandLink>
                     </h:column>
-                    <!--                    <h:column headerClass="col-excluir-header">
-                                            <f:facet name="header">
-                                                <h:outputText value="Excluir"/>
-                                            </f:facet>
-                                            <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}">
-                                                <i class="fa fa-trash"></i> Excluir
-                                            </h:commandLink>
-                                        </h:column>-->
+              
                 </h:dataTable>
             </h:form>
         </div>
