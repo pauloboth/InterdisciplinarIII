@@ -42,25 +42,25 @@
                             <h3> <b>Custo por Mês</b></h3>
 
 
-                            <h:dataTable value="#{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
+                            <h:dataTable value="#{custoBean.despesasmess}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Mês"/>
                                     </f:facet>
-                                    <h:outputText value=""/>
+                                    <h:outputText value="${item.des_date}"/>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Custo (R$)"/>
                                     </f:facet>
-                                    <h:outputText value=""/>
+                                    <h:outputText value="${item.des_valor_depr}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Detalhes"/>
                                     </f:facet>
-                                    <h:commandLink title="Detalhes" action="#{custoProduto.select()}" >
+                                    <h:commandLink title="Detalhes" action="#{custoProduto.select2()}" >
                                         <i class="fa fa-file-text-o"></i> Detalhes
                                     </h:commandLink>
                                 </h:column>

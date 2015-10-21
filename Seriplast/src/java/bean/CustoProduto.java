@@ -138,6 +138,10 @@ public class CustoProduto {
         produto = (Produto) produtos.getRowData();
         return "custoview";
     }
+       public String select2() {
+        produto = (Produto) produtos.getRowData();
+        return "custofrm";
+    }
      
      //CUSTODESPESA
       public List<CustoDespesa> getLsCustoDespesa() {
