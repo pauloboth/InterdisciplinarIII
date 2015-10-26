@@ -5,7 +5,6 @@ import model.Produto;
 import java.util.List;
 import model.ProdutoPedido;
 import org.hibernate.Session;
-import static org.hibernate.criterion.Projections.id;
 import util.HibernateUtil;
 
 public class ProdutoDAO {

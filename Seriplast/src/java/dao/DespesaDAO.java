@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import model.Despesa;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class DespesaDAO {

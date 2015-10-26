@@ -3,8 +3,10 @@ package dao;
 import java.util.Date;
 import model.Custo;
 import java.util.List;
+import model.CustoDespesa;
+import model.ProdutoCusto;
+import model.ProdutoDespesa;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class CustoDAO {
@@ -74,4 +76,49 @@ public class CustoDAO {
         return c;
     }
 
+    public void saveList(List<ProdutoCusto> ls) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.getTransaction().begin();
+        if (ls != null && !ls.isEmpty()) {
+            for (ProdutoCusto pc : ls) {
+                if (pc.getCusto().getCus_id() > 0) {
+                    session.update(pc.getCusto());
+                } else {
+                    session.save(pc.getCusto());
+                }
+                if (pc.getDespesa().getDes_id() > 0) {
+                    session.update(pc.getDespesa());
+                } else {
+                    session.save(pc.getDespesa());
+                }
+                if (pc.getDespesames().getDsm_id() > 0) {
+                    session.update(pc.getDespesames());
+                } else {
+                    session.save(pc.getDespesames());
+                }
+                session.save(pc);
+            }
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public Custo SearchCusto(int id, int mes, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Custo c = null;
+        CustoDespesa cd = (CustoDespesa) session.createQuery("select cd from CustoDespesa cd "
+                + "join cd.custo cus "
+                + "where cd.despesa.des_id = :d "
+                + "and month(cus.cus_data_ref) = m "
+                + "and year(cus.cus_data_ref) = a ")
+                .setParameter("d", id)
+                .setParameter("m", mes)
+                .setParameter("a", ano)
+                .uniqueResult();
+        session.close();
+        if (cd != null) {
+            c = cd.getCusto();
+        }
+        return c;
+    }
 }

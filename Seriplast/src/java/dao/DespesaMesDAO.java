@@ -1,15 +1,16 @@
 package dao;
 
-import model.Categoria;
 import java.util.List;
+import model.Despesa;
+import model.DespesaMes;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
-public class CategoriaDAO {
+public class DespesaMesDAO {
 
     private Session session;
 
-    public CategoriaDAO() {
+    public DespesaMesDAO() {
         session = HibernateUtil.getSessionFactory().openSession();
     }
 
@@ -20,7 +21,7 @@ public class CategoriaDAO {
         return session;
     }
 
-    public void insert(Categoria i) {
+    public void insert(DespesaMes i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
         session.save(i);
@@ -28,7 +29,7 @@ public class CategoriaDAO {
         session.close();
     }
 
-    public void update(Categoria i) {
+    public void update(DespesaMes i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
         session.update(i);
@@ -36,7 +37,7 @@ public class CategoriaDAO {
         session.close();
     }
 
-    public void delete(Categoria i) {
+    public void delete(DespesaMes i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
         session.delete(i);
@@ -44,16 +45,17 @@ public class CategoriaDAO {
         session.close();
     }
 
-    public Categoria findById(int id) {
+    public Despesa findById(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Categoria m = (Categoria) session.get(Categoria.class, id);
+        Despesa m = (Despesa) session.get(DespesaMes.class, id);
         session.close();
+
         return m;
     }
 
-    public List<Categoria> findAll() {
+    public List<DespesaMes> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<Categoria> ls = session.createQuery("from Categoria").list();
+        List<DespesaMes> ls = session.createQuery("from DespesaMes").list();
         session.close();
         return ls;
     }

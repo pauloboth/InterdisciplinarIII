@@ -3,7 +3,6 @@ package dao;
 import model.Maquina;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class MaquinaDAO {
