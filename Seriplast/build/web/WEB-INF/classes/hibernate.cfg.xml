@@ -7,7 +7,7 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seriplast</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">123</property>
-    <!--<property name="hibernate.hbm2ddl.auto">update</property>-->
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="model.Categoria"/>
     <mapping class="model.Custo"/>
     <mapping class="model.CustoDespesa"/>
@@ -18,5 +18,6 @@
     <mapping class="model.ProdutoMaquina"/>
     <mapping class="model.Pedido"/>
     <mapping class="model.ProdutoPedido"/>
+    <mapping class="model.DespesaMes"/>
   </session-factory>
 </hibernate-configuration>

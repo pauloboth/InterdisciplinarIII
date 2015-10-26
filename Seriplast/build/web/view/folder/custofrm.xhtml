@@ -18,13 +18,29 @@
         <style>
             .textAreaTable{
                 height: 34px !important;
-                width: 300px !important;
+                resize: none;
+                /*                width: 300px !important;*/
             }
             .textAreaTable:focus{
-                height: 85px !important;
-                width: 300px !important;
+                height: 100px !important;
+                width: 400px !important;
                 position: absolute;
                 z-index: 2;
+                margin-left: -200px;
+            }
+            .lbl{
+                text-align: right;
+            }
+            .field{
+                text-align: left;
+            }
+            .erro-top{
+                font-size: 20px;
+                color: red;
+                font-weight: bold;
+            }
+            table thead th{
+                white-space: nowrap;
             }
         </style>
         <!--        <f:metadata>
@@ -38,69 +54,111 @@
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
                     <div class="row">
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
-                                <h:panelGroup class="col-sm-8" rendered="#{custoBean.despesa.des_id == 0}" >
-                                    <h:inputText pt:required="required" id="despesa" value="#{custoBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
-                                </h:panelGroup>
-                                <h:panelGroup class="col-sm-8" style="padding-top: 7px;" rendered="#{custoBean.despesa.des_id > 0}" >
-                                    <h:outputText value="#{custoBean.despesa.des_nome}"/>
-                                </h:panelGroup>
-                            </div>
+                        <div class="col-xs-12 erro-top">
+                            #{custoBean.erro}
                         </div>
-
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="valor" class="col-sm-4 control-label">Valor da Despesa:</label>
-                                <div class="col-sm-8">
-                                    <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor" value="#{custoBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus="">
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:inputText>
-                                </div>  
+                        <h:panelGroup rendered="#{custoBean.luz}">
+                            <div class="col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
+                                    <div class="col-sm-8" style="padding-top: 7px;">
+                                        <h:outputText value="#{custoBean.despesa.des_nome}"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="valor1" class="col-sm-7 control-label">Valor da Despesa:</label>
+                                    <div class="col-sm-5">
+                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor1" value="#{custoBean.valor}" title="Valor da Luz" styleClass="form-control" pt:autofocus=""/>
+                                    </div>  
+                                </div>
+                            </div> 
+                            <div class="col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="watts" class="col-sm-7 control-label">Watts Gastos:</label>
+                                    <div class="col-sm-5">
+                                        <h:inputText pt:required="required" pt:type="number" pt:min="0" id="watts" value="#{custoBean.watts}" title="Watts Gastos na Luz" styleClass="form-control" pt:autofocus=""/>
+                                    </div>  
+                                </div>
+                            </div> 
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!custoBean.luz}">
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
+                                    <h:panelGroup class="col-sm-8" rendered="#{custoBean.despesa.des_id == 0}" >
+                                        <h:inputText pt:required="required" id="despesa" value="#{custoBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
+                                    </h:panelGroup>
+                                    <h:panelGroup class="col-sm-8" style="padding-top: 7px;" rendered="#{custoBean.despesa.des_id > 0}" >
+                                        <h:outputText value="#{custoBean.despesa.des_nome}"/>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="valor" class="col-sm-4 control-label">Valor da Despesa:</label>
+                                    <div class="col-sm-8">
+                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor" value="#{custoBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus=""/>
+                                    </div>  
+                                </div>
+                            </div>
+                        </h:panelGroup>
 
                         <div class="col-xs-12">
-                            <h3> <b>Produtos que fazem parte desta despesa</b></h3>
-                            <h:panelGroup layout="block" class="list-group" rendered="#{custoBean.despesa.des_tipo == 1}">
+                            <h:panelGroup layout="block" class="list-group" rendered="#{custoBean.luz}">
+                                <h3> <b>Máquinas que gastam luz</b></h3>
+                                <div class="row">
+                                    <div class="col-xs-12" style="color: #808080">
+                                        Após preencher todos os campos clique em calcular para realizar
+                                        os cálculos necessários para a 
+                                        divisão do valor da despesa e assim ver se não pode haver algum problema.</div>
+                                </div>
                                 <c:forEach items="#{custoBean.lsMaquinas}" var="maq" varStatus="i">
-                                    <div class="list-group-item">
+                                    <div class="list-group-item" style="margin-bottom: 15px;">
                                         <div class="row">
                                             <div class="col-md-6 form-group">
-                                                <label class="col-md-5 col-xs-6">Máqiuna:</label>
-                                                <div class="col-md-7 col-xs-6">#{maq.maq_nome}</div>
+                                                <label class="col-md-5 col-xs-6 lbl">Máquina:</label>
+                                                <div class="col-md-7 col-xs-6 field">#{maq.maq_nome}</div>
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label class="col-xs-6">Gasto por Hora:</label>
-                                                <div class="col-xs-6">#{maq.maq_watss_hora} Watts</div>
+                                                <label class="col-xs-6 lbl">Gasto por Hora:</label>
+                                                <div class="col-xs-6 field">#{maq.maq_watss_hora} Watts</div>
                                             </div>
-
-                                            <h:panelGroup layout="block" class="col-xs-12">
-                                                <c:forEach items="#{maq.lsProdutoMaquina}" var="pro" varStatus="j">
-                                                    <div class="col-xs-12 list-group-item">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-xs-12">
-                                                                <label class="col-xs-6">Produto:</label>
-                                                                <div class="col-xs-6">#{pro.produto.pro_nome}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </c:forEach>
-                                            </h:panelGroup>
+                                            <div class="col-xs-12">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Produto</th>
+                                                            <th scope="col">Quant. Produzida</th>
+                                                            <th scope="col">Tempo de Produção</th>
+                                                            <th scope="col">Valor (R$)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach items="#{custoBean.lsProdutoCustoMaq}" var="pro" varStatus="j">
+                                                            <p:column rendered="#{maq.maq_id == pro.maquina.maq_id}">
+                                                                <tr>
+                                                                    <td>#{pro.produto.pro_nome}</td>
+                                                                    <td>#{pro.total}</td>
+                                                                    <td>#{pro.tempo}</td>
+                                                                    <td>#{pro.valor}</td>
+                                                                </tr>
+                                                            </p:column>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:forEach>
                             </h:panelGroup>
-                            <c:forEach items="#{custoBean.lsProdutoCusto}" var="item" varStatus="loop">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
+                            <h3> <b>Produtos que fazem parte desta despesa</b></h3>
+                            <div class="row">
+                                <div class="col-xs-12" style="color: #808080">
+                                    A participação dos produtos na despesa deve estar IGUAL a 100% para liberar o botão Salvar.</div>
+                            </div>
                             <h:dataTable value="#{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
@@ -115,48 +173,47 @@
                                     </f:facet>
                                     <h:outputText value="#{item.custo.cus_preco_produto}"/>
                                 </h:column>
-                                <h:column rendered="#{custoBean.despesa.des_tipo == 1}">
-                                    <f:facet name="header">
-                                        <h:outputText value="Luz Gasta"/>
-                                    </f:facet>
-                                    <h:outputText value=""/>
-                                </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Quant. Produzida"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="#{item.total}" title="Número de produtos fabricados" class="form-control">
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:inputText>
-
+                                    <h:outputText value="#{item.total}"/>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Participação (#{custoBean.porcent}%)"/>
                                     </f:facet>
-                                    <h:inputText pt:type="number" pt:min="0" value="#{item.participacao}" pt:set="0.1" title="Porcentagem de Participação" class="form-control">
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:inputText>
+                                    <h:inputText pt:type="number" pt:min="0" value="#{item.participacao}" pt:set="0.1" title="Porcentagem de Participação" class="form-control"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor (R$)"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.valor}"/>
+                                </h:column>
+
+                                <h:column rendered="#{custoBean.luz}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor Total (R$)"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.valor_total}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor Unit. (R$)"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.valor_unitario}"/>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Anotação"/>
                                     </f:facet>
-                                    <h:inputTextarea value="#{item.notas}" class="form-control textAreaTable"/>
-                                </h:column>
-
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Gasto Unit."/>
-                                    </f:facet>
-                                    <div style="text-align: right;">
-                                        <div style="float: left;">R$</div>
-                                        <h:outputText value="0"/>
-                                    </div>
-
+                                    <h:inputTextarea value="#{item.notas}" class="form-control textAreaTable" pt:placeholder="Anotação"/>
                                 </h:column>
 
                                 <h:column>
@@ -166,6 +223,7 @@
                                         <i class="fa fa-times"></i>
                                     </h:commandLink>
                                 </h:column>
+
                             </h:dataTable>
                             <br/>
 
@@ -194,14 +252,16 @@
                         </div>
                     </div>
 
-
-
-
                     <br/>
+
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{custoBean.listar()}" />
-                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{custoBean.salvar()}"></h:commandButton>
+                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{custoBean.salvar()}" disabled="#{!custoBean.BSave}">
+                            </h:commandButton>
+                            <h:commandButton class="btn btn-success btn-lg pull-right" value="Calcular/Atualizar" onclick="$(this).parents('form').css('opacity', 0.5)">
+                                <f:ajax execute="@form" render="@form" />
+                            </h:commandButton>
                         </div>
                     </div>
                 </h:form>
@@ -209,21 +269,3 @@
         </div>
     </ui:define>
 </ui:composition>
-<!--                            <ui:repeat value="{custoBean.lsCustos}" var="item" varStatus="loop">
-                                <div class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-xs-3">
-                                            <h:outputLabel value="Produto:"/><br/>
-                                            <h:outputText value="{item.produto.pro_nome}"/>
-                                        </div>
-                                        <div class="col-xs-3">
-                                            <h:outputLabel value="Preço:"/><br/>
-                                            <h:outputText value="{item.produto.pro_preco}"/>
-                                        </div>
-                                        <div class="col-xs-3">
-                                            <h:outputLabel value="Quantidade:"/><br/>
-                                            <h:inputText pt:type="number" value="{item.cus_quant_prod}" title="Número de produtos fabricados"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ui:repeat>-->
