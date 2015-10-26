@@ -87,12 +87,12 @@ public class Custo implements Serializable {
         this.lsCustoDespesa = lsCustoDespesa;
     }
 
-    public String getMes() {
-//        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        String mes = "";
-//        if (this.cus_mes <= 12 && this.cus_mes > 0) {
-//            mes = meses[this.cus_mes - 1];
-//        }
-        return mes;
+    public Date getCus_data_ref() {
+        return cus_data_ref;
     }
+
+    public void setCus_data_ref(Date cus_data_ref) {
+        this.cus_data_ref = cus_data_ref;
+    }
+
 }
