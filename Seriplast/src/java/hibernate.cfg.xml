@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seriplast</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">123</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="model.Categoria"/>
-        <mapping class="model.Custo"/>
-        <mapping class="model.CustoDespesa"/>
-        <mapping class="model.Despesa"/>
-        <mapping class="model.Produto"/>
-        <mapping class="model.ProdutoDespesa"/>
-        <mapping class="model.Maquina"/>
-        <mapping class="model.ProdutoMaquina"/>
-        <mapping class="model.Pedido"/>
-        <mapping class="model.ProdutoPedido"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seriplast</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">123</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <mapping class="model.Categoria"/>
+    <mapping class="model.Custo"/>
+    <mapping class="model.CustoDespesa"/>
+    <mapping class="model.Despesa"/>
+    <mapping class="model.Produto"/>
+    <mapping class="model.ProdutoDespesa"/>
+    <mapping class="model.Maquina"/>
+    <mapping class="model.ProdutoMaquina"/>
+    <mapping class="model.Pedido"/>
+    <mapping class="model.ProdutoPedido"/>
+    <mapping class="model.DespesaMes"/>
+  </session-factory>
 </hibernate-configuration>
