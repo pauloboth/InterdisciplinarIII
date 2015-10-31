@@ -140,7 +140,7 @@ public class CustoProduto {
     }
        public String select2() {
         produto = (Produto) produtos.getRowData();
-        return "custofrm";
+        return "custoprodutoano";
     }
      
      //CUSTODESPESA

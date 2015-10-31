@@ -26,23 +26,38 @@
                 z-index: 2;
             }
         </style>
-        <!--        <f:metadata>
-                    <f:viewParam name="id" value="{custoBean.despesa.des_id}"/>
-                </f:metadata>-->
-        <!--        <f:event listener="{custoBean.clearSession()}" type="preRenderView"/>-->
+    
         <div class="panel panel-body">
-            <h3 class="panel-title-top pull-left"> #{custoProduto.produto}</h3>
+            <h3 class="panel-title-top pull-left col-sm-5"> #{custoProduto.produto}</h3>
             <h3 class="panel-title-top pull-right">Custo Médio: #{custoProduto.valor}</h3>
             <f:view>
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
+                    
+                     <div class="row col-sm-12">  
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                                <div class="col-xs-8">
+                                    <h:selectOneMenu id="ano" value="#{custoBean.ano}" styleClass="form-control">
+                                        <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    
+                    
                     <div class="row">
 
                         <div class="col-xs-12">
                             <h3> <b>Custo por Mês</b></h3>
 
 
-                            <h:dataTable value="#{custoBean.despesasmess}" var="item" styleClass="table table-bordered table-striped">
+                            <h:dataTable value="#{edivanBean.despesasmess}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Mês"/>
