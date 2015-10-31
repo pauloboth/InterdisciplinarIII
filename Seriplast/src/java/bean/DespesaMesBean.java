@@ -30,7 +30,7 @@ import model.ProdutoPedido;
 
 @ManagedBean
 @SessionScoped
-public class CustoBean {
+public class DespesaMesBean {
 
     private CustoDAO dao = new CustoDAO();
     private DespesaDAO desDAO = new DespesaDAO();
@@ -60,35 +60,13 @@ public class CustoBean {
     private boolean luz = false;
     private boolean bSave = false;
 
-    private List<String> lsmes;
-
-    public CustoBean() {
+    public DespesaMesBean() {
     }
 
     public DataModel getCustos() {
         clearSession();
         this.custos = new ListDataModel(dao.findAll());
         return custos;
-    }
-
-    public List<String> getLsmes() {
-        return lsmes;
-    }
-
-    public void setLsmes(List<String> lsmes) {
-        lsmes.add("Janeiro");
-        lsmes.add("Fevereiro");
-        lsmes.add("Março");
-        lsmes.add("Abril");
-        lsmes.add("Maio");
-        lsmes.add("Junho");
-        lsmes.add("Julho");
-        lsmes.add("Agosto");
-        lsmes.add("Setembro");
-        lsmes.add("Outubro");
-        lsmes.add("Novembro");
-        lsmes.add("Dezembro");
-        this.lsmes = lsmes;
     }
 
     public void setCustos(DataModel i) {
@@ -110,7 +88,7 @@ public class CustoBean {
     }
 
     public String listar() {
-        return "custoprodutolst";
+        return "custolst";
     }
 
     public Despesa getDespesa() {

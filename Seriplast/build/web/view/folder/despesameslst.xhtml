@@ -16,50 +16,42 @@
             <h3 class="panel-title-top">Lista de Despesas do Mês</h3>
             <h:form>
                 <div class="form-horizontal">
-                    <h:link outcome="custofrm" styleClass="btn btn-success pull-right" >
+                    <h:link outcome="despesamesfrm" styleClass="btn btn-success pull-right" >
                         <i class="fa fa-plus "></i> Inserir Despesa para esse Mês
                     </h:link>
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
                                 <div class="col-xs-8">
-                                    <h:selectOneMenu id="mes" value="#{custoBean.mes}" styleClass="form-control">
-                                        <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
+                                    <h:selectOneMenu id="mes" value="#{despesaMesBean.mes}" styleClass="form-control">
+                                        <f:selectItems value="#{padraoBean.Meses(1)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
                                         <f:ajax execute="@form" render="@form" />
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
-                                <div class="col-xs-8">
-                                    <h:selectOneMenu id="ano" value="#{custoBean.ano}" styleClass="form-control">
-                                        <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:selectOneMenu>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
 
-                <h:dataTable value="${custoBean.despesasmess}" var="item" styleClass="dataTable table table-bordered table-striped">
+                <h:dataTable value="${despesaMesBean.despesasmess}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Despesa"/>
                         </f:facet>
                         <h:outputText value="${item.des_nome}"/>
                     </h:column>
-
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Último Mês"/>
+                        </f:facet>
+                        <h:outputText value="${despesaMesBean.LastMonth(item)}"/>
+                    </h:column>
                     <h:column headerClass="col-editar-header">
                         <f:facet name="header">
                             <h:outputText value="Calcular"/>
                         </f:facet>
-                        <h:commandLink action="#{custoBean.New(item.des_id)}">
+                        <h:commandLink action="#{despesaMesBean.New(item.des_id)}">
                             <i class="fa fa-usd"></i>Calcular
                         </h:commandLink>
 

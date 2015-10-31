@@ -15,6 +15,19 @@
     </ui:define>
 
     <ui:define name="main-content">
+        <script>
+            function Loader() {
+                $('#form_custos').css('opacity', 0.5);
+            }
+
+            function Top() {
+                setTimeout(function () {
+                    if ($.trim($('.erro-top').text() != ''){
+                        $("html, body").animate({scrollTop: 0}, 1000);
+                    }
+                }, 1000);
+            }
+        </script>
         <style>
             .textAreaTable{
                 height: 34px !important;
@@ -51,7 +64,7 @@
             <h3 class="panel-title-top pull-left">Dados do Custo</h3>
             <h3 class="panel-title-top pull-right">Dados referentes do mês de #{padraoBean.mesString(custoBean.mes)} de #{custoBean.ano}.</h3>
             <f:view>
-                <h:form styleClass="form-horizontal">
+                <h:form styleClass="form-horizontal" id="form_custos">
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
                     <div class="row">
                         <div class="col-xs-12 erro-top">
@@ -107,6 +120,7 @@
 
                         <div class="col-xs-12">
                             <h:panelGroup layout="block" class="list-group" rendered="#{custoBean.luz}">
+                                <p:separator/>
                                 <h3> <b>Máquinas que gastam luz</b></h3>
                                 <div class="row">
                                     <div class="col-xs-12" style="color: #808080">
@@ -153,7 +167,7 @@
                                     </div>
                                 </c:forEach>
                             </h:panelGroup>
-
+                            <p:separator/>
                             <h3> <b>Produtos que fazem parte desta despesa</b></h3>
                             <div class="row">
                                 <div class="col-xs-12" style="color: #808080">
@@ -219,7 +233,7 @@
                                 <h:column>
                                     <f:facet name="header">Remover</f:facet>
                                     <h:commandLink class="btn btn-danger" action="#{custoBean.removeProduto(item)}">
-                                        <f:ajax execute="@form" render="@form" />
+                                        <f:ajax execute="@form" render="@form"/>
                                         <i class="fa fa-times"></i>
                                     </h:commandLink>
                                 </h:column>
@@ -231,7 +245,7 @@
                                 <div class="row">
                                     <div class="col-xs-2 btn-group pull-right">
                                         <h:commandLink styleClass="btn btn-primary" action="#{custoBean.addProduto()}">
-                                            <f:ajax execute="@form" render="@form" />
+                                            <f:ajax execute="@form" render="@form"/>
                                             <i class="fa fa-plus" style="margin-right: 3px;"></i>Adicionar
                                         </h:commandLink>
                                     </div>
@@ -259,8 +273,8 @@
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{custoBean.listar()}" />
                             <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{custoBean.salvar()}" disabled="#{!custoBean.BSave}">
                             </h:commandButton>
-                            <h:commandButton class="btn btn-success btn-lg pull-right" value="Calcular/Atualizar" onclick="$(this).parents('form').css('opacity', 0.5)">
-                                <f:ajax execute="@form" render="@form" />
+                            <h:commandButton class="btn btn-success btn-lg pull-right" value="Calcular/Atualizar" onclick="Loader()">
+                                <f:ajax execute="@form" render="@form" onevent="Top"/>
                             </h:commandButton>
                         </div>
                     </div>

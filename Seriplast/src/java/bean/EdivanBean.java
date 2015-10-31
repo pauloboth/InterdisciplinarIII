@@ -151,7 +151,7 @@ public class EdivanBean {
     }
 
     private List<Despesa> Despesas(Date d) {
-        List<Despesa> desMes = desDAO.searchDespesasMes(d);
+        List<Despesa> desMes = desDAO.searchDespesasMes(11, 2015);//alterar datas
         return desMes;
     }
 

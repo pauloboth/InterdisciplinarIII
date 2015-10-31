@@ -22,18 +22,14 @@ public class ProdutoDAO {
         return session;
     }
 
-    public void insert(Produto i) {
+    public void save(Produto i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        session.save(i);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public void update(Produto i) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.update(i);
+        if (i.getPro_id() > 0) {
+            session.update(i);
+        } else {
+            session.save(i);
+        }
         session.getTransaction().commit();
         session.close();
     }

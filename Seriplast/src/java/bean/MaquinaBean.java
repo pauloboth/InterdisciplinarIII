@@ -52,11 +52,7 @@ public class MaquinaBean {
     }
 
     public String salvar() {
-        if (maquina.getMaq_id() > 0) {
-            dao.update(maquina);
-        } else {
-            dao.insert(maquina);
-        }
+        dao.save(maquina);
         clearSession();
         return "maquinalst";
     }

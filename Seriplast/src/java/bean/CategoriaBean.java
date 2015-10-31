@@ -39,11 +39,7 @@ public class CategoriaBean {
     }
 
     public String salvar() {
-        if (categoria.getCat_id() > 0) {
-            dao.update(categoria);
-        } else {
-            dao.insert(categoria);
-        }
+        dao.save(categoria);
         return "categorialst";
     }
 

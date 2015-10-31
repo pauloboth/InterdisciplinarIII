@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class ProdutoCusto {
 
     private Produto produto;
@@ -15,6 +17,7 @@ public class ProdutoCusto {
     private double valor;
     private double valor_total;
     private double valor_unitario;
+    private List<CustoDespesa> lsCustoDespsa;
 
     public ProdutoCusto() {
     }
@@ -126,6 +129,14 @@ public class ProdutoCusto {
 
     public void setCustodespesa(CustoDespesa custodespesa) {
         this.custodespesa = custodespesa;
+    }
+
+    public List<CustoDespesa> getLsCustoDespsa() {
+        return lsCustoDespsa;
+    }
+
+    public void setLsCustoDespsa(List<CustoDespesa> lsCustoDespsa) {
+        this.lsCustoDespsa = lsCustoDespsa;
     }
 
 }

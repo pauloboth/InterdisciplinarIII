@@ -64,11 +64,7 @@ public class ProdutoBean {
     }
 
     public String salvar() {
-        if (produto.getPro_id() > 0) {
-            dao.update(produto);
-        } else {
-            dao.insert(produto);
-        }
+        dao.save(produto);
         clearSession();
         return "produtolst";
     }

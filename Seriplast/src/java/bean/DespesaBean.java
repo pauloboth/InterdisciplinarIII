@@ -1,18 +1,27 @@
 package bean;
 
+import dao.CustoDAO;
 import dao.DespesaDAO;
 import dao.ProdutoDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import model.Custo;
+import model.CustoDespesa;
 import model.Despesa;
+import model.DespesaMes;
 import model.Produto;
+import model.ProdutoCusto;
 import model.ProdutoDespesa;
+import sun.util.BuddhistCalendar;
 
 @ManagedBean
 @SessionScoped
@@ -20,6 +29,7 @@ public class DespesaBean {
 
     private Despesa despesa = new Despesa();
     private DespesaDAO dao = new DespesaDAO();
+    private CustoDAO cusDAO = new CustoDAO();
     private DataModel despesas;
     private boolean isMachin = false;
     private List<Produto> lsProdutos = new ArrayList<>();
@@ -27,6 +37,8 @@ public class DespesaBean {
     private ProdutoDAO proDAO = new ProdutoDAO();
     private Produto produto = new Produto();
     private int porcent = 0;
+    private int mes = 0;
+    private int ano = 0;
 
     public DespesaBean() {
     }
@@ -57,10 +69,12 @@ public class DespesaBean {
     }
 
     public String salvar() {
-        if (despesa.getDes_id() > 0) {
-            dao.update(despesa);
-        } else {
-            dao.insert(despesa);
+        if (despesa.getDes_tipo() == 2 || despesa.getDes_tipo() == 4) {
+            dao.save(despesa);
+        } else if (despesa.getDes_tipo() == 3) {
+            Calendar cal = new BuddhistCalendar();
+            cal.add(Calendar.MONTH, 1);
+            cal.getTime();
         }
         clearSession();
         return "despesalst";
@@ -130,6 +144,9 @@ public class DespesaBean {
     }
 
     public Produto getProduto() {
+        if (produto.getPro_id() == 0) {
+            produto = lsProdutos.get(0);
+        }
         return produto;
     }
 
@@ -180,5 +197,72 @@ public class DespesaBean {
 //    }
     public String reloadList() {
         return "despesalst";
+    }
+
+    private List<ProdutoCusto> CriaProdutosCusto() {
+        List<ProdutoCusto> lsprodCus = new ArrayList<>();
+        Despesa d = this.despesa;
+        if (d.getLsProdutoDespesa() != null && !d.getLsProdutoDespesa().isEmpty()) {
+            for (ProdutoDespesa pd : d.getLsProdutoDespesa()) {
+                ProdutoCusto pc = new ProdutoCusto();
+                DespesaMes dm = new DespesaMes();
+                dm.setDespesa(d);
+                dm.setDsm_data(new Date());
+                dm.setDsm_data_ref(createDate(1, getMes(), getAno()));
+                dm.setDsm_valor(d.getDes_valor_depr());
+                pc.setDespesames(dm);
+                Custo c = new Custo();
+
+                if (d.getDes_id() > 0) {
+                    c = cusDAO.SearchCusto(d.getDes_id(), getMes(), getAno());
+                    if (c == null) {
+                        c = new Custo();
+                    }
+                }
+                c.setCus_data(new Date());
+                c.setCus_preco_produto(pc.getProduto().getPro_preco());
+                c.setProduto(pc.getProduto());
+                c.setCus_data_ref(createDate(1, getMes(), getAno()));
+                c.setLsCustoDespesa(null);
+
+                CustoDespesa cd = new CustoDespesa();
+                cd.setDespesa(d);
+                cd.setCusto(c);
+                cd.setCsd_notas(pc.getNotas());
+                cd.setCsd_cadastro(new Date());
+                cd.setCsd_valor(pc.getValor_total());
+                pc.setCusto(c);
+                pc.setCustodespesa(cd);
+                pc.setDespesa(d);
+                lsprodCus.add(pc);
+            }
+        }
+        return lsprodCus;
+    }
+
+    public int getMes() {
+        if (mes == 0) {
+            Date d = new Date();
+            mes = d.getMonth() + 1;
+        }
+        return mes;
+    }
+
+    public int getAno() {
+        if (ano == 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            ano = Integer.parseInt(sdf.format(new Date()));
+        }
+        return ano;
+    }
+
+    private Date createDate(int d, int m, int a) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+            date = (Date) sdf.parse(d + "-" + m + "-" + a);
+        } catch (ParseException ex) {
+        }
+        return date;
     }
 }

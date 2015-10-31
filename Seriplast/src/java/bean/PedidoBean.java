@@ -2,15 +2,11 @@ package bean;
 
 import dao.PedidoDAO;
 import dao.ProdutoDAO;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
@@ -19,7 +15,6 @@ import javax.faces.model.ListDataModel;
 import model.Pedido;
 import model.Produto;
 import model.ProdutoPedido;
-import sun.util.BuddhistCalendar;
 
 @ManagedBean
 @SessionScoped
@@ -66,8 +61,8 @@ public class PedidoBean {
         clearSession();
         return "pedidolst";
     }
-    
-     public String selectPedido() {
+
+    public String selectPedido() {
         pedido = (Pedido) pedidos.getRowData();
         return "pedidoview";
     }
@@ -75,12 +70,7 @@ public class PedidoBean {
     public String salvar() {
         Date d = createDate(1, mes, ano);
         pedido.setPed_data_ref(d);
-        if (pedido.getPed_id() > 0) {
-            dao.update(pedido);
-        } else {
-            pedido.setPed_data(new Date());
-            dao.insert(pedido);
-        }
+        dao.save(pedido);
         clearSession();
         return "pedidolst";
     }
@@ -180,39 +170,51 @@ public class PedidoBean {
         }
         return mes;
     }
+
     public String getMesString() {
         if (mes == 0) {
             Date d = new Date();
             mes = d.getMonth() + 1;
         }
-        if (mes ==1){
-        return "Janeiro";
+        if (mes == 1) {
+            return "Janeiro";
         }
-        if (mes ==2){
-        return "Fevereiro";
-        }if (mes ==3){
-        return "Março";
-        }if (mes ==4){
-        return "Abril";
-        }if (mes ==5){
-        return "Maio";
-        }if (mes ==6){
-        return "Junho";
-        }if (mes ==7){
-        return "Julho";
-        }if (mes ==8){
-        return "Agosto";
-        }if (mes ==9){
-        return "Setembro";
-        }if (mes ==10){
-        return "Outubro";
-        }if (mes ==11){
-        return "Novembro";
-        }if (mes ==12){
-        return "Dezembro";
-        }else
-        return "ERRO";
-        
+        if (mes == 2) {
+            return "Fevereiro";
+        }
+        if (mes == 3) {
+            return "Março";
+        }
+        if (mes == 4) {
+            return "Abril";
+        }
+        if (mes == 5) {
+            return "Maio";
+        }
+        if (mes == 6) {
+            return "Junho";
+        }
+        if (mes == 7) {
+            return "Julho";
+        }
+        if (mes == 8) {
+            return "Agosto";
+        }
+        if (mes == 9) {
+            return "Setembro";
+        }
+        if (mes == 10) {
+            return "Outubro";
+        }
+        if (mes == 11) {
+            return "Novembro";
+        }
+        if (mes == 12) {
+            return "Dezembro";
+        } else {
+            return "ERRO";
+        }
+
     }
 
     public void setMes(int mes) {

@@ -20,18 +20,14 @@ public class CategoriaDAO {
         return session;
     }
 
-    public void insert(Categoria i) {
+    public void save(Categoria i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        session.save(i);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public void update(Categoria i) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.update(i);
+        if (i.getCat_id() > 0) {
+            session.update(i);
+        } else {
+            session.save(i);
+        }
         session.getTransaction().commit();
         session.close();
     }

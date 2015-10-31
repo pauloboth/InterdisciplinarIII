@@ -76,27 +76,27 @@ public class CustoDAO {
         return c;
     }
 
-    public void saveList(List<ProdutoCusto> ls) {
+    public void saveList(ProdutoCusto pc) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        if (ls != null && !ls.isEmpty()) {
-            for (ProdutoCusto pc : ls) {
-                if (pc.getCusto().getCus_id() > 0) {
-                    session.update(pc.getCusto());
-                } else {
-                    session.save(pc.getCusto());
+        if (pc != null) {
+            if (pc.getDespesa().getDes_id() == 0) {
+                session.save(pc.getDespesa());
+            }
+            if (pc.getDespesames().getDsm_id() > 0) {
+                session.update(pc.getDespesames());
+            } else {
+                session.save(pc.getDespesames());
+            }
+            if (pc.getLsCustoDespsa() != null && !pc.getLsCustoDespsa().isEmpty()) {
+                for (CustoDespesa cd : pc.getLsCustoDespsa()) {
+                    if (cd.getCusto().getCus_id() > 0) {
+                        session.update(cd.getCusto());
+                    } else {
+                        session.save(cd.getCusto());
+                    }
+                    session.save(cd);
                 }
-                if (pc.getDespesa().getDes_id() > 0) {
-                    session.update(pc.getDespesa());
-                } else {
-                    session.save(pc.getDespesa());
-                }
-                if (pc.getDespesames().getDsm_id() > 0) {
-                    session.update(pc.getDespesames());
-                } else {
-                    session.save(pc.getDespesames());
-                }
-                session.save(pc);
             }
         }
         session.getTransaction().commit();
@@ -109,8 +109,8 @@ public class CustoDAO {
         CustoDespesa cd = (CustoDespesa) session.createQuery("select cd from CustoDespesa cd "
                 + "join cd.custo cus "
                 + "where cd.despesa.des_id = :d "
-                + "and month(cus.cus_data_ref) = m "
-                + "and year(cus.cus_data_ref) = a ")
+                + "and month(cus.cus_data_ref) = :m "
+                + "and year(cus.cus_data_ref) = :a ")
                 .setParameter("d", id)
                 .setParameter("m", mes)
                 .setParameter("a", ano)

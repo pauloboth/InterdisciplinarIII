@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import model.Pedido;
 import java.util.List;
 import model.ProdutoPedido;
@@ -21,18 +22,15 @@ public class PedidoDAO {
         return session;
     }
 
-    public void insert(Pedido i) {
+    public void save(Pedido i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        session.save(i);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public void update(Pedido i) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.update(i);
+        if (i.getPed_id() > 0) {
+            session.update(i);
+        } else {
+            i.setPed_data(new Date());
+            session.save(i);
+        }
         session.getTransaction().commit();
         session.close();
     }

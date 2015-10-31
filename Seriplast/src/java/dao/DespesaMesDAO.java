@@ -21,18 +21,14 @@ public class DespesaMesDAO {
         return session;
     }
 
-    public void insert(DespesaMes i) {
+    public void save(DespesaMes i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        session.save(i);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public void update(DespesaMes i) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.update(i);
+        if (i.getDsm_id() > 0) {
+            session.update(i);
+        } else {
+            session.save(i);
+        }
         session.getTransaction().commit();
         session.close();
     }
