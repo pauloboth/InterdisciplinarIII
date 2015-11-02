@@ -17,7 +17,7 @@
 
             </div>
             <h:form>
-                <h:dataTable value="${custoProduto.produtos}" var="item" styleClass="dataTable table table-bordered table-striped">
+                <h:dataTable value="${custoBean.produtos}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Produto"/>
@@ -34,7 +34,7 @@
                          <f:facet name="header">
                             <h:outputText value="Vizualizar"/>
                         </f:facet>
-                        <h:commandLink title="Visualalizar" action="#{custoProduto.select2()}" >
+                        <h:commandLink title="Visualalizar" action="#{custoBean.select2()}" >
                             <i class="fa fa-file-text-o"></i> Visualizar
                         </h:commandLink>
                     </h:column>

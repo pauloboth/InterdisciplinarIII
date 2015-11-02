@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 public class ProdutoCusto {
@@ -16,8 +17,13 @@ public class ProdutoCusto {
     private int tempo;
     private double valor;
     private double valor_total;
+    private double media_ano;
+    private double media_total;
     private double valor_unitario;
     private List<CustoDespesa> lsCustoDespsa;
+    
+    
+    private Date anodespesa;
 
     public ProdutoCusto() {
     }
@@ -137,6 +143,30 @@ public class ProdutoCusto {
 
     public void setLsCustoDespsa(List<CustoDespesa> lsCustoDespsa) {
         this.lsCustoDespsa = lsCustoDespsa;
+    }
+
+    public Date getAnodespesa() {
+        return anodespesa;
+    }
+
+    public void setAnodespesa(Date anodespesa) {
+        this.anodespesa = anodespesa;
+    }
+
+    public double getMedia_ano() {
+        return media_ano;
+    }
+
+    public void setMedia_ano(double media_ano) {
+        this.media_ano = media_ano;
+    }
+
+    public double getMedia_total() {
+        return media_total;
+    }
+
+    public void setMedia_total(double media_total) {
+        this.media_total = media_total;
     }
 
 }

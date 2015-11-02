@@ -75,6 +75,8 @@ public class CustoDAO {
         session.close();
         return c;
     }
+    
+    
 
     public void saveList(ProdutoCusto pc) {
         session = HibernateUtil.getSessionFactory().openSession();
@@ -122,5 +124,20 @@ public class CustoDAO {
             c = cd.getCusto();
         }
         return c;
+    }
+    
+     public List<Custo> CustoMensal(int pro_id, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<Custo> cus =  session.createQuery("select cus from Custo cus "
+                + "left outer join fetch cus.lsCustoDespesa pd "
+                + "where  cus.produto.pro_id = :pro_id "
+                + "and year(cus.cus_data_ref) = :a ")
+               
+                .setParameter("pro_id", pro_id)
+                .setParameter("a", ano)
+                .list();
+        session.close();
+       
+        return cus;
     }
 }

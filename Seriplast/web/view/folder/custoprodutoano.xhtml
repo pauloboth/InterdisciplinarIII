@@ -9,11 +9,13 @@
     <ui:define name="title">Custos</ui:define>
 
     <ui:define name="breadcrumb">
-        <li><h:link value="Lista de Custo" outcome="/faces/view/folder/custolst" /></li>
+        <li><h:link value="Lista de Custo" outcome="/faces/view/folder/custoprodutolst" /></li>
         <li><h:link value="Custo do Produto"/></li>
     </ui:define>
 
     <ui:define name="main-content">
+        <f:event listener="#{custoBean.carrega()}" type="preRenderView"/>
+        
         <style>
             .textAreaTable{
                 height: 34px !important;
@@ -26,15 +28,20 @@
                 z-index: 2;
             }
         </style>
-    
+
         <div class="panel panel-body">
-            <h3 class="panel-title-top pull-left col-sm-5"> #{custoProduto.produto}</h3>
-            <h3 class="panel-title-top pull-right">Custo Médio: #{custoProduto.valor}</h3>
+            <h3 class="panel-title-top pull-left col-sm-5"> #{custoBean.produto}</h3>
+             
+           
             <f:view>
                 <h:form styleClass="form-horizontal">
-                    <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
+                    <h3 class="panel-title-top pull-right">Custo Médio (Total): #{custoBean.getmediatotal()}</h3>
+                     <h3 class="panel-title-top pull-right">Custo Médio (#{custoBean.ano}): #{custoBean.getmediaano()}</h3>
                     
-                     <div class="row col-sm-12">  
+                    
+                    <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
+
+                    <div class="row col-sm-12">  
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
@@ -48,29 +55,43 @@
                         </div>
 
                     </div>
-                    
-                    
-                    
+
+
+
                     <div class="row">
 
                         <div class="col-xs-12">
                             <h3> <b>Custo por Mês</b></h3>
-
-
-                            <h:dataTable value="#{edivanBean.despesasmess}" var="item" styleClass="table table-bordered table-striped">
+                            <h:dataTable value="#{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Mês"/>
                                     </f:facet>
-                                    <h:outputText value="${item.des_date}"/>
+                                    <h:outputText value="${item.anodespesa}">
+                                        <f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>
+                                    </h:outputText>
+                                  
                                 </h:column>
-
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Custo (R$)"/>
+                                        <h:outputText value="Valor Total"/>
                                     </f:facet>
-                                    <h:outputText value="${item.des_valor_depr}"/>
+                                    <h:outputText value="${item.valor_total}"/>
                                 </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade Produzida"/>
+                                    </f:facet>
+                                    <h:outputText value="${item.total}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor Unitário"/>
+                                    </f:facet>
+                                    <h:outputText value="${item.valor_unitario}"/>
+                                </h:column>
+
+
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Detalhes"/>
@@ -80,6 +101,7 @@
                                     </h:commandLink>
                                 </h:column>
                             </h:dataTable>
+
                             <br/>                       
                         </div>
                     </div>
@@ -87,7 +109,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Voltar" outcome="#{custoBean.listar()}" />
-                           
+
                         </div>
                     </div>
                 </h:form>
