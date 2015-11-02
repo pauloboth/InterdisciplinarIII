@@ -54,12 +54,12 @@ public class MaquinaDAO {
         return ls;
     }
 
-    public Maquina findEdit(int id) {
+    public Maquina findEdit(int maq_id) {
         session = HibernateUtil.getSessionFactory().openSession();
         Maquina m = (Maquina) session.createQuery("select m from Maquina m "
                 + "left outer join fetch m.lsProdutoMaquina pm "
-                + "where m.maq_id = :m")
-                .setParameter("m", id).uniqueResult();
+                + "where m.maq_id = :maq_id")
+                .setParameter("maq_id", maq_id).uniqueResult();
 
         session.close();
         return m;

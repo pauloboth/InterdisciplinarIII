@@ -3,7 +3,7 @@ package bean;
 import dao.CustoDAO;
 import dao.DespesaDAO;
 import dao.MaquinaDAO;
-import dao.PedidoDAO;
+import dao.ProducaoDAO;
 import dao.ProdutoDAO;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -26,7 +26,7 @@ import model.Produto;
 import model.ProdutoCusto;
 import model.ProdutoDespesa;
 import model.ProdutoMaquina;
-import model.ProdutoPedido;
+import model.ProdutoProducao;
 
 @ManagedBean
 @SessionScoped
@@ -35,7 +35,7 @@ public class DespesaMesBean {
     private CustoDAO dao = new CustoDAO();
     private DespesaDAO desDAO = new DespesaDAO();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    private PedidoDAO pedDAO = new PedidoDAO();
+    private ProducaoDAO prdDAO = new ProducaoDAO();
     private MaquinaDAO maqDAO = new MaquinaDAO();
 
     private DataModel custos;
@@ -82,9 +82,14 @@ public class DespesaMesBean {
     }
 
     public String salvar() {
-        dao.saveList(CriaProdutoCusto());
-        clearSession();
-        return "despesameslst";
+        CalculaLuzMaquina();
+        CalcularProdutoCusto();
+        if (bSave) {
+            dao.saveList(CriaProdutoCusto());
+            clearSession();
+            return "despesameslst";
+        }
+        return "despesamesfrm";
     }
 
     public String listar() {
@@ -137,7 +142,7 @@ public class DespesaMesBean {
             if (bAdd) {
                 ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
-                produto.setLsProdutoPedido(pedDAO.totalPedidosMes(produto.getPro_id(), mes, ano));
+                produto.setLsProdutoProducao(prdDAO.totalProducaoMes(produto.getPro_id(), mes, ano));
                 pc.setProduto(produto);
                 c.setCus_preco_produto(produto.getPro_preco());
                 pc.setCusto(c);
@@ -174,7 +179,7 @@ public class DespesaMesBean {
                 ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
                 pc.setProduto(pd.getProduto());
-                pc.getProduto().setLsProdutoPedido(pedDAO.totalPedidosMes(pd.getProduto().getPro_id(), getMes(), getAno()));
+                pc.getProduto().setLsProdutoProducao(prdDAO.totalProducaoMes(pd.getProduto().getPro_id(), getMes(), getAno()));
 
                 c.setCus_preco_produto(pd.getProduto().getPro_preco());
                 pc.setCusto(c);
@@ -227,27 +232,15 @@ public class DespesaMesBean {
     }
 
     public int getMes() {
-        if (mes == 0) {
-            Date d = new Date();
-            mes = d.getMonth() + 1;
-        }
+        Date d = new Date();
+        mes = d.getMonth() + 1;
         return mes;
     }
 
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
     public int getAno() {
-        if (ano == 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-            ano = Integer.parseInt(sdf.format(new Date()));
-        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        ano = Integer.parseInt(sdf.format(new Date()));
         return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
     }
 
     public DataModel getDespesasmes() {
@@ -275,11 +268,11 @@ public class DespesaMesBean {
         return date;
     }
 
-    public int totalPedido(Produto p) {
-        p.setLsProdutoPedido(pedDAO.totalPedidosMes(p.getPro_id(), mes, ano));
+    public int totalProducao(Produto p) {
+        p.setLsProdutoProducao(prdDAO.totalProducaoMes(p.getPro_id(), mes, ano));
         int total = 0;
-        if (p.getLsProdutoPedido() != null) {
-            for (ProdutoPedido pp : p.getLsProdutoPedido()) {
+        if (p.getLsProdutoProducao()!= null) {
+            for (ProdutoProducao pp : p.getLsProdutoProducao()) {
                 total += pp.getPrp_quantidade();
             }
         }
@@ -315,6 +308,15 @@ public class DespesaMesBean {
                     pc.setProduto(pm.getProduto());
                     pc.setTempo(pm.getPrm_tem_pro());
                     lsProdutoCustoMaq.add(pc);
+                    boolean bAdd = true;
+                    for (ProdutoCusto pcs : lsProdutoCusto) {
+                        if (pcs.getProduto().getPro_id() == pc.getProduto().getPro_id()) {
+                            bAdd = false;
+                        }
+                    }
+                    if (bAdd) {
+                        lsProdutoCusto.add(pc);
+                    }
                 }
             }
         }
@@ -404,7 +406,7 @@ public class DespesaMesBean {
         }
         for (ProdutoCusto pc : this.lsProdutoCusto) {
             this.porcent += pc.getParticipacao();
-            double valorT = pc.getProduto().getPro_preco();
+            double valorT = 0;
             if (this.restValor > 0) {
                 double val = (this.restValor * pc.getParticipacao()) / 100;
                 valorT += val;
@@ -459,27 +461,21 @@ public class DespesaMesBean {
                 Custo c = new Custo();
 
                 if (d.getDes_id() > 0) {
-                    c = dao.SearchCusto(d.getDes_id(), pc.getProduto().getPro_id(), getMes(), getAno());
+                    c = dao.SearchCusto(pc.getProduto().getPro_id(), getMes(), getAno());
                     if (c == null) {
                         c = new Custo();
                     }
                 }
-                if (c.getCus_id() == 0) {
-                    c.setCus_data(new Date());
-                    c.setCus_preco_produto(pc.getProduto().getPro_preco());
-                    c.setProduto(pc.getProduto());
-                    c.setCus_data_ref(createDate(1, getMes(), getAno()));
-                    c.setLsCustoDespesa(null);
-                }
-                if (c.getCus_preco_produto() == 0) {
-                    c.setCus_preco_produto(pc.getProduto().getPro_preco());
-                }
+                c.setCus_preco_produto(pc.getProduto().getPro_preco());
+                c.setProduto(pc.getProduto());
+                c.setCus_data_ref(createDate(1, getMes(), getAno()));
+                c.setLsCustoDespesa(null);
 
                 CustoDespesa cd = new CustoDespesa();
                 cd.setDespesa(d);
                 cd.setCusto(c);
                 cd.setCsd_notas(pc.getNotas());
-                cd.setCsd_cadastro(new Date());
+                cd.setCsd_data(new Date());
                 cd.setCsd_valor(pc.getValor_total());
                 pc.setCusto(c);
                 pc.setCustodespesa(cd);
@@ -493,13 +489,13 @@ public class DespesaMesBean {
 
     public String LastMonth(Despesa d) {
         String m = "Nenhum";
-//        try {
-//            DespesaMes dm = desDAO.lastMonth(d.getDes_id());
-//            if (dm.getDsm_id() > 0) {
-//                m = mesToString(dm.getDsm_data_ref());
-//            }
-//        } catch (Exception ex) {
-//        }
+        try {
+            DespesaMes dm = desDAO.lastMonth(d.getDes_id());
+            if (dm.getDsm_id() > 0) {
+                m = mesToString(dm.getDsm_data_ref());
+            }
+        } catch (Exception ex) {
+        }
         return m;
     }
 

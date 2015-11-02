@@ -88,6 +88,7 @@ public class CustoDAO {
             if (pc.getDespesames().getDsm_id() > 0) {
                 session.update(pc.getDespesames());
             } else {
+                pc.getDespesames().setDsm_data(new Date());
                 session.save(pc.getDespesames());
             }
             if (pc.getLsCustoDespsa() != null && !pc.getLsCustoDespsa().isEmpty()) {
@@ -95,6 +96,7 @@ public class CustoDAO {
                     if (cd.getCusto().getCus_id() > 0) {
                         session.update(cd.getCusto());
                     } else {
+                        cd.getCusto().setCus_data(new Date());
                         session.save(cd.getCusto());
                     }
                     session.save(cd);
@@ -105,24 +107,17 @@ public class CustoDAO {
         session.close();
     }
 
-    public Custo SearchCusto(int des_id, int pro_id, int mes, int ano) {
+    public Custo SearchCusto(int pro_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Custo c = null;
-        CustoDespesa cd = (CustoDespesa) session.createQuery("select cd from CustoDespesa cd "
-                + "join cd.custo cus join cd.produto pro "
-                + "where cd.despesa.des_id = :des_id "
-                + "and pro.pro_id = :pro_id"
-                + "and month(cus.cus_data_ref) = :m "
-                + "and year(cus.cus_data_ref) = :a ")
-                .setParameter("des_id", des_id)
+        Custo c = (Custo) session.createQuery("select c from Custo c "
+                + "where c.produto.pro_id = :pro_id "
+                + "and month(c.cus_data_ref) = :m "
+                + "and year(c.cus_data_ref) = :a ")
                 .setParameter("pro_id", pro_id)
                 .setParameter("m", mes)
                 .setParameter("a", ano)
                 .uniqueResult();
         session.close();
-        if (cd != null) {
-            c = cd.getCusto();
-        }
         return c;
     }
     

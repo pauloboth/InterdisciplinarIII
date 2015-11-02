@@ -182,13 +182,6 @@
 
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Preço (R$)"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.custo.cus_preco_produto}"/>
-                                </h:column>
-
-                                <h:column>
-                                    <f:facet name="header">
                                         <h:outputText value="Quant. Produzida"/>
                                     </f:facet>
                                     <h:outputText value="#{item.total}"/>
@@ -201,14 +194,14 @@
                                     <h:inputText pt:type="number" pt:min="0" value="#{item.participacao}" pt:set="0.1" title="Porcentagem de Participação" class="form-control"/>
                                 </h:column>
 
-                                <h:column>
+                                <h:column rendered="#{despesaMesBean.luz}">
                                     <f:facet name="header">
                                         <h:outputText value="Valor (R$)"/>
                                     </f:facet>
                                     <h:outputText value="#{item.valor}"/>
                                 </h:column>
 
-                                <h:column rendered="#{despesaMesBean.luz}">
+                                <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Valor Total (R$)"/>
                                     </f:facet>
@@ -270,7 +263,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{despesaMesBean.listar()}" />
-                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{despesaMesBean.salvar()}" disabled="#{!despesaMesBean.BSave}">
+                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{despesaMesBean.salvar()}" disabled="#{!despesaMesBean.BSave}" onclick="return confirm('Tem certeza que os valores estão corretos? Esse dados não poderão mais ser alterados posteriomente!');">
                             </h:commandButton>
                             <h:commandButton class="btn btn-success btn-lg pull-right" value="Calcular/Atualizar" onclick="Loader()">
                                 <f:ajax execute="@form" render="@form" onevent="Top"/>

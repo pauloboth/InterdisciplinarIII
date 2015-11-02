@@ -110,7 +110,7 @@ public class ProdutoBean {
     }
 
     public List<Despesa> getLsDespesas() {
-        lsDespesas = desDAO.findAll(1);
+        lsDespesas = desDAO.findAllEdit();
         lsDespesasAll = lsDespesas;
         reloadDespesas();
         return lsDespesas;
@@ -182,30 +182,38 @@ public class ProdutoBean {
 
     private void reloadMaquinas() {
         lsMaquinas = new ArrayList<>();
-        for (Maquina m : lsMaquinasAll) {
-            boolean bAdd = true;
-            for (ProdutoMaquina pm : produto.getLsProdutoMaquina()) {
-                if (pm.getMaquina().getMaq_id() == m.getMaq_id()) {
-                    bAdd = false;
+        if (lsMaquinasAll != null) {
+            for (Maquina m : lsMaquinasAll) {
+                boolean bAdd = true;
+                if (produto != null && produto.getLsProdutoMaquina() != null) {
+                    for (ProdutoMaquina pm : produto.getLsProdutoMaquina()) {
+                        if (pm.getMaquina().getMaq_id() == m.getMaq_id()) {
+                            bAdd = false;
+                        }
+                    }
                 }
-            }
-            if (bAdd) {
-                lsMaquinas.add(m);
+                if (bAdd) {
+                    lsMaquinas.add(m);
+                }
             }
         }
     }
 
     private void reloadDespesas() {
         lsDespesas = new ArrayList<>();
-        for (Despesa d : lsDespesasAll) {
-            boolean bAdd = true;
-            for (ProdutoDespesa pd : produto.getLsProdutoDespesa()) {
-                if (pd.getDespesa().getDes_id() == d.getDes_id()) {
-                    bAdd = false;
+        if (lsDespesasAll != null) {
+            for (Despesa d : lsDespesasAll) {
+                boolean bAdd = true;
+                if (produto != null && produto.getLsProdutoDespesa() != null) {
+                    for (ProdutoDespesa pd : produto.getLsProdutoDespesa()) {
+                        if (pd.getDespesa().getDes_id() == d.getDes_id()) {
+                            bAdd = false;
+                        }
+                    }
                 }
-            }
-            if (bAdd) {
-                lsDespesas.add(d);
+                if (bAdd) {
+                    lsDespesas.add(d);
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ public class CustoDespesa implements Serializable {
     @JoinColumn(name = "des_id", referencedColumnName = "des_id")
     private Despesa despesa;
 
-    private Date csd_cadastro;
+    private Date csd_data;
     private String csd_notas;
     private double csd_valor;
 
@@ -49,12 +49,12 @@ public class CustoDespesa implements Serializable {
         this.custo = custo;
     }
 
-    public Date getCsd_cadastro() {
-        return csd_cadastro;
+    public Date getCsd_data() {
+        return csd_data;
     }
 
-    public void setCsd_cadastro(Date csd_cadastro) {
-        this.csd_cadastro = csd_cadastro;
+    public void setCsd_data(Date csd_data) {
+        this.csd_data = csd_data;
     }
 
     public String getCsd_notas() {

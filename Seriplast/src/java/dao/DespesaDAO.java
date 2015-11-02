@@ -40,33 +40,36 @@ public class DespesaDAO {
         }
     }
 
-    public void saveList(List<ProdutoCusto> lsPc) {
+    public void saveList(Despesa i, List<DespesaMes> lsDm, List<CustoDespesa> lsCd) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        if (lsPc != null && !lsPc.isEmpty()) {
-            for (ProdutoCusto pc : lsPc) {
-                if (pc.getDespesa().getDes_id() > 0) {
-                    session.update(pc.getDespesa());
+        if (i.getDes_id() > 0) {
+            session.update(i);
+        } else {
+            i.setDes_date(new Date());
+            session.save(i);
+        }
+        if (lsDm != null) {
+            for (DespesaMes dm : lsDm) {
+                if (dm.getDsm_id() > 0) {
+                    session.update(dm);
                 } else {
-                    session.save(pc.getDespesa());
+                    dm.setDsm_data(new Date());
+                    session.save(dm);
                 }
-
-                if (pc.getDespesames().getDsm_id() > 0) {
-                    session.update(pc.getDespesames());
-                } else {
-                    session.save(pc.getDespesames());
-                }
-
-                if (pc.getCusto().getCus_id() > 0) {
-                    session.update(pc.getCusto());
-                } else {
-                    session.save(pc.getCusto());
-                }
-
-                session.save(pc.getCustodespesa());
             }
         }
-        session.getTransaction().commit();
+        for (CustoDespesa cd : lsCd) {
+            if (cd.getCusto().getCus_id() > 0) {
+                session.update(cd.getCusto());
+            } else {
+                cd.setCsd_data(new Date());
+                session.save(cd.getCusto());
+            }
+            cd.setCsd_data(new Date());
+            session.save(cd);
+        }
+        //session.getTransaction().commit();
         session.close();
     }
 
@@ -88,13 +91,16 @@ public class DespesaDAO {
         return m;
     }
 
-    public List<Despesa> findAll(int status) {
+    public List<Despesa> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
-        String sql = "";
-        if (status > 0) {
-            sql += " and des_status = " + status;
-        }
-        List<Despesa> ls = session.createQuery("from Despesa where 1 = 1 " + sql).list();
+        List<Despesa> ls = session.createQuery("from Despesa").list();
+        session.close();
+        return ls;
+    }
+
+    public List<Despesa> findAllEdit() {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<Despesa> ls = session.createQuery("from Despesa where des_tipo in (1, 2) and des_status = 1").list();
         session.close();
         return ls;
     }

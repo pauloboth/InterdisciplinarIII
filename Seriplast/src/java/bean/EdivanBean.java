@@ -3,7 +3,7 @@ package bean;
 import dao.CustoDAO;
 import dao.DespesaDAO;
 import dao.MaquinaDAO;
-import dao.PedidoDAO;
+import dao.ProducaoDAO;
 import dao.ProdutoDAO;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -26,7 +26,7 @@ import model.Produto;
 import model.ProdutoCusto;
 import model.ProdutoDespesa;
 import model.ProdutoMaquina;
-import model.ProdutoPedido;
+import model.ProdutoProducao;
 
 @ManagedBean
 @SessionScoped
@@ -35,7 +35,7 @@ public class EdivanBean {
     private CustoDAO dao = new CustoDAO();
     private DespesaDAO desDAO = new DespesaDAO();
     private ProdutoDAO proDAO = new ProdutoDAO();
-    private PedidoDAO pedDAO = new PedidoDAO();
+    private ProducaoDAO pedDAO = new ProducaoDAO();
     private MaquinaDAO maqDAO = new MaquinaDAO();
 
     private DataModel custos;

@@ -100,7 +100,7 @@ public class CustoProduto {
     
     //DESPESA
     public List<Despesa> getLsDespesas() {
-        lsDespesas = desDAO.findAll(1);
+        lsDespesas = desDAO.findAll();
         lsDespesasAll = lsDespesas;
         reloadDespesas();
         return lsDespesas;

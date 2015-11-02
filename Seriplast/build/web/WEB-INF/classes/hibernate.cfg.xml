@@ -16,8 +16,8 @@
     <mapping class="model.ProdutoDespesa"/>
     <mapping class="model.Maquina"/>
     <mapping class="model.ProdutoMaquina"/>
-    <mapping class="model.Pedido"/>
-    <mapping class="model.ProdutoPedido"/>
     <mapping class="model.DespesaMes"/>
+    <mapping class="model.Producao"/>
+    <mapping class="model.ProdutoProducao"/>
   </session-factory>
 </hibernate-configuration>

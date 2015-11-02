@@ -1,6 +1,6 @@
 package bean;
 
-import dao.PedidoDAO;
+import dao.ProducaoDAO;
 import dao.ProdutoDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,17 +12,17 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import model.Pedido;
+import model.Producao;
 import model.Produto;
-import model.ProdutoPedido;
+import model.ProdutoProducao;
 
 @ManagedBean
 @SessionScoped
-public class PedidoBean {
+public class ProducaoBean {
 
-    private Pedido pedido = new Pedido();
-    private PedidoDAO dao = new PedidoDAO();
-    private DataModel pedidos;
+    private Producao producao = new Producao();
+    private ProducaoDAO dao = new ProducaoDAO();
+    private DataModel producoes;
 
     private List<Produto> lsProdutos = new ArrayList<>();
     private List<Produto> lsProdutosAll = new ArrayList<>();
@@ -31,60 +31,60 @@ public class PedidoBean {
     private int mes = 0;
     private int ano = 0;
 
-    public PedidoBean() {
+    public ProducaoBean() {
     }
 
-    public DataModel getPedidos() {
+    public DataModel getProducoes() {
         clearSession();
 
-        this.pedidos = new ListDataModel(dao.findMes(mes, ano));
-        return pedidos;
+        this.producoes = new ListDataModel(dao.findMes(mes, ano));
+        return producoes;
     }
 
-    public void setPedidos(DataModel i) {
-        this.pedidos = i;
+    public void setProducoes(DataModel i) {
+        this.producoes = i;
     }
 
-    public String edit(Pedido i) {
-        pedido = dao.findEdit(i.getPed_id());
-        mes = pedido.getPed_data_ref().getMonth() + 1;
+    public String edit(Producao i) {
+        producao = dao.findEdit(i.getPrd_id());
+        mes = producao.getPrd_data_ref().getMonth() + 1;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        ano = Integer.parseInt(sdf.format(pedido.getPed_data_ref()));
-        return "pedidofrm";
+        ano = Integer.parseInt(sdf.format(producao.getPrd_data_ref()));
+        return "producaofrm";
     }
 
-    public String delete(Pedido i) {
+    public String delete(Producao i) {
         try {
             dao.delete(i);
         } catch (Exception e) {
         }
         clearSession();
-        return "pedidolst";
+        return "producaolst";
     }
 
-    public String selectPedido() {
-        pedido = (Pedido) pedidos.getRowData();
-        return "pedidoview";
+    public String selectProducao() {
+        producao = (Producao) producoes.getRowData();
+        return "producaoview";
     }
 
     public String salvar() {
         Date d = createDate(1, mes, ano);
-        pedido.setPed_data_ref(d);
-        dao.save(pedido);
+        producao.setPrd_data_ref(d);
+        dao.save(producao);
         clearSession();
-        return "pedidolst";
+        return "producaolst";
     }
 
     public String listar() {
-        return "pedidolst";
+        return "producaolst";
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Producao getProducao() {
+        return producao;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setProducao(Producao producao) {
+        this.producao = producao;
     }
 
     public List<Produto> getLsProdutos() {
@@ -108,59 +108,61 @@ public class PedidoBean {
 
     public void addProdutoP() {
         if (produto != null) {
-            if (this.pedido.getLsProdutoPedido() == null) {
-                this.pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+            if (this.producao.getLsProdutoProducao()== null) {
+                this.producao.setLsProdutoProducao(new ArrayList<ProdutoProducao>());
             }
             boolean bAdd = true;
-            for (ProdutoPedido pm : this.pedido.getLsProdutoPedido()) {
+            for (ProdutoProducao pm : this.producao.getLsProdutoProducao()) {
                 if (pm.getProduto().getPro_id() == produto.getPro_id()) {
                     bAdd = false;
                 }
             }
             if (bAdd) {
-                ProdutoPedido pm = new ProdutoPedido();
-                pm.setPedido(pedido);
+                ProdutoProducao pm = new ProdutoProducao();
+                pm.setProducao(producao);
                 pm.setProduto(produto);
-                this.pedido.getLsProdutoPedido().add(pm);
+                this.producao.getLsProdutoProducao().add(pm);
                 produto = new Produto();
             }
             reloadProdutos();
         }
     }
 
-    public void removeProduto(ProdutoPedido pd) {
-        this.pedido.getLsProdutoPedido().remove(pd);
+    public void removeProduto(ProdutoProducao pd) {
+        this.producao.getLsProdutoProducao().remove(pd);
         reloadProdutos();
     }
 
     private void reloadProdutos() {
-        if (pedido == null) {
-            pedido = new Pedido();
+        if (producao == null) {
+            producao = new Producao();
         }
-        if (pedido.getLsProdutoPedido() == null) {
-            pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+        if (producao.getLsProdutoProducao() == null) {
+            producao.setLsProdutoProducao(new ArrayList<ProdutoProducao>());
         }
         lsProdutos = new ArrayList<>();
-        for (Produto p : lsProdutosAll) {
-            boolean bAdd = true;
-            for (ProdutoPedido pm : this.pedido.getLsProdutoPedido()) {
-                if (pm.getProduto().getPro_id() == p.getPro_id()) {
-                    bAdd = false;
+        if (lsProdutosAll != null) {
+            for (Produto p : lsProdutosAll) {
+                boolean bAdd = true;
+                for (ProdutoProducao pm : this.producao.getLsProdutoProducao()) {
+                    if (pm.getProduto().getPro_id() == p.getPro_id()) {
+                        bAdd = false;
+                    }
                 }
-            }
-            if (bAdd) {
-                lsProdutos.add(p);
+                if (bAdd) {
+                    lsProdutos.add(p);
+                }
             }
         }
     }
 
     private void clearSession() {
-        this.pedido = new Pedido();
-        this.pedido.setLsProdutoPedido(new ArrayList<ProdutoPedido>());
+        this.producao = new Producao();
+        this.producao.setLsProdutoProducao(new ArrayList<ProdutoProducao>());
         this.produto = new Produto();
         this.lsProdutos = new ArrayList<>();
         this.lsProdutosAll = new ArrayList<>();
-        this.pedidos = new ArrayDataModel();
+        this.producoes = new ArrayDataModel();
     }
 
     public int getMes() {

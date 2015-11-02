@@ -1,17 +1,17 @@
 package dao;
 
 import java.util.Date;
-import model.Pedido;
+import model.Producao;
 import java.util.List;
-import model.ProdutoPedido;
+import model.ProdutoProducao;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
-public class PedidoDAO {
+public class ProducaoDAO {
 
     private Session session;
 
-    public PedidoDAO() {
+    public ProducaoDAO() {
         session = HibernateUtil.getSessionFactory().openSession();
     }
 
@@ -22,20 +22,20 @@ public class PedidoDAO {
         return session;
     }
 
-    public void save(Pedido i) {
+    public void save(Producao i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        if (i.getPed_id() > 0) {
+        if (i.getPrd_id() > 0) {
             session.update(i);
         } else {
-            i.setPed_data(new Date());
+            i.setPrd_data(new Date());
             session.save(i);
         }
         session.getTransaction().commit();
         session.close();
     }
 
-    public void delete(Pedido i) {
+    public void delete(Producao i) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
         session.delete(i);
@@ -43,58 +43,58 @@ public class PedidoDAO {
         session.close();
     }
 
-    public Pedido findById(int id) {
+    public Producao findById(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Pedido m = (Pedido) session.get(Pedido.class, id);
+        Producao m = (Producao) session.get(Producao.class, id);
         session.close();
         return m;
     }
 
-    public List<Pedido> findAll() {
+    public List<Producao> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<Pedido> ls = session.createQuery("from Pedido").list();
+        List<Producao> ls = session.createQuery("from Producao").list();
         session.close();
         return ls;
     }
 
-    public List<Pedido> findMes(int mes, int ano) {
+    public List<Producao> findMes(int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         String sql = "";
         if (mes > 0 && mes < 13 && ano > 0) {
-            sql += " and month(ped_data_ref) = " + mes + " and year(ped_data_ref) = " + ano + "";
+            sql += " and month(prd_data_ref) = " + mes + " and year(prd_data_ref) = " + ano + "";
         }
-        List<Pedido> ls = session.createQuery("from Pedido where 1 = 1 " + sql).list();
+        List<Producao> ls = session.createQuery("from Producao where 1 = 1 " + sql).list();
         session.close();
         return ls;
     }
 
-    public Pedido findEdit(int id) {
+    public Producao findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Pedido p = (Pedido) session.createQuery("select p from Pedido p "
-                + "left outer join fetch p.lsProdutoPedido pm "
-                + "where p.ped_id = :p")
+        Producao p = (Producao) session.createQuery("select p from Producao p "
+                + "left outer join fetch p.lsProdutoProducao pm "
+                + "where p.prd_id = :p")
                 .setParameter("p", id).uniqueResult();
         session.close();
         return p;
     }
 
-    public List<ProdutoPedido> totalPedidosMes(int pro_id, int mes, int ano) {
+    public List<ProdutoProducao> totalProducaoMes(int pro_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp "
-                + "join pp.pedido ped "
+        List<ProdutoProducao> lsPp = session.createQuery("select pp from ProdutoProducao pp "
+                + "join pp.producao prd "
                 + "where pp.produto.pro_id = :p "
-                + "and month(ped.ped_data_ref) = :mes and year(ped.ped_data_ref) = :ano")
+                + "and month(prd.prd_data_ref) = :mes and year(prd.prd_data_ref) = :ano")
                 .setParameter("p", pro_id).setParameter("mes", mes).setParameter("ano", ano).list();
         session.close();
         return lsPp;
     }
     
-      public List<ProdutoPedido> totalPedidosAno(int pro_id, int ano) {
+      public List<ProdutoProducao> totalProducaoAno(int pro_id, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp "
-                + "join pp.pedido ped "
+        List<ProdutoProducao> lsPp = session.createQuery("select pp from ProdutoProducao pp "
+                + "join pp.producao prd "
                 + "where pp.produto.pro_id = :p "
-                + "and year(ped.ped_data_ref) = :ano")
+                + "and year(prd.prd_data_ref) = :ano")
                 .setParameter("p", pro_id).setParameter("ano", ano).list();
         session.close();
         return lsPp;

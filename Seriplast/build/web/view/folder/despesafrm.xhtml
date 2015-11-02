@@ -28,6 +28,11 @@
                 width: 300px !important;
                 position: absolute;
             }
+            .erro-top{
+                font-size: 20px;
+                color: red;
+                font-weight: bold;
+            }
         </style>
         <div class="panel panel-body">
             <h3 class="panel-title-top">Dados da Despesa</h3>
@@ -35,7 +40,9 @@
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="idiCodigo" value="#{despesaBean.despesa.des_id}" />
                     <div class="row">
-
+                        <div class="col-xs-12 erro-top">
+                            #{despesaBean.erro}
+                        </div>
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="nome" class="col-sm-4 control-label">Nome:</label>

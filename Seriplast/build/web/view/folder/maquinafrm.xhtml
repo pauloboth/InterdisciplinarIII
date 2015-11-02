@@ -20,7 +20,7 @@
             }
             .textAreaTable{
                 height: 34px !important;
-                width: 300px !important;
+                max-width: 300px !important;
             }
             .textAreaTable:focus{
                 height: 85px !important;
@@ -34,18 +34,18 @@
                 <h:form styleClass="form-horizontal">
                     <h:inputHidden id="cat_id" value="#{maquinaBean.maquina.maq_id}" />
                     <div class="row">
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-8 col-xs-12">
                             <div class="form-group">
-                                <h:outputLabel value="Nome: " for="nome" styleClass="control-label col-sm-4" />
-                                <div class="col-sm-8">
+                                <h:outputLabel value="Nome: " for="nome" styleClass="control-label col-sm-3" />
+                                <div class="col-sm-9">
                                     <h:inputText pt:required="required" size="250" id="nome" value="#{maquinaBean.maquina.maq_nome}" title="Nome da Máquina" styleClass="form-control" pt:autofocus="" />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-12">
+                        <div class="col-md-4 col-xs-12">
                             <div class="form-group">
-                                <h:outputLabel value="Gasto (watts/hora): " for="gasto" styleClass="control-label col-sm-4" />
-                                <div class="col-sm-8">
+                                <h:outputLabel value="Gasto (watts/hora): " for="gasto" styleClass="control-label col-sm-6" />
+                                <div class="col-sm-6">
                                     <h:inputText pt:required="required" pt:type="number" pt:min="0" id="gasto" value="#{maquinaBean.maquina.maq_watss_hora}" title="Gasto de Energia da Máquina" styleClass="form-control" pt:autofocus="" />
                                 </div>
                             </div>

@@ -37,10 +37,10 @@
                         <f:facet name="header">
                             <h:outputText value="Editar"/>
                         </f:facet>
-                        <h:commandLink action="${despesaBean.edit(item)}" rendered="${item.des_tipo != 1}">
+                        <h:commandLink action="${despesaBean.edit(item)}" rendered="${item.des_tipo != 1 and item.des_tipo != 5}">
                             <i class="fa fa-pencil"></i> Editar
                         </h:commandLink>
-                        <h:commandLink disabled="true" rendered="${item.des_tipo == 1}">
+                        <h:commandLink disabled="true" rendered="${item.des_tipo == 1 or item.des_tipo == 5}">
                             <i class="fa fa-times"></i> Não Editável
                         </h:commandLink>
                     </h:column>

@@ -3,7 +3,7 @@ package bean;
 import dao.CustoDAO;
 import dao.DespesaDAO;
 import dao.MaquinaDAO;
-import dao.PedidoDAO;
+import dao.ProducaoDAO;
 import dao.ProdutoDAO;
 
 import java.text.ParseException;
@@ -20,10 +20,10 @@ import model.Custo;
 import model.CustoDespesa;
 import model.Despesa;
 import model.Maquina;
-import model.Pedido;
+import model.Producao;
 import model.Produto;
 import model.ProdutoCusto;
-import model.ProdutoPedido;
+import model.ProdutoProducao;
 
 @ManagedBean
 @SessionScoped
@@ -39,9 +39,9 @@ public class CustoBean {
     private DataModel despesasmess;
     double valor = 0;
 
-    private Pedido pedido = new Pedido();
-    private PedidoDAO pedDAO = new PedidoDAO();
-    private List<ProdutoPedido> lstprodutopedido = new ArrayList<>();
+    private Producao pedido = new Producao();
+    private ProducaoDAO pedDAO = new ProducaoDAO();
+    private List<ProdutoProducao> lstprodutopedido = new ArrayList<>();
 
     private Despesa despesa = new Despesa();
     private Produto produto = new Produto();
@@ -182,8 +182,8 @@ public class CustoBean {
                     }
                 }
                 int total = 0;
-                List<ProdutoPedido> lsPp = pedDAO.totalPedidosMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
-                for (ProdutoPedido pp : lsPp) {
+                List<ProdutoProducao> lsPp = pedDAO.totalProducaoMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
+                for (ProdutoProducao pp : lsPp) {
                     total += pp.getPrp_quantidade();
                 }
                 if (total > 0) {
@@ -200,7 +200,7 @@ public class CustoBean {
             }
 //            for (ProdutoCusto pc : lsProdutoCusto) {
 //                lstprodutopedido = pedDAO.totalPedidosAno(produto.getPro_id(), getAno());
-//                for (ProdutoPedido pp : lstprodutopedido) {
+//                for (ProdutoProducao pp : lstprodutopedido) {
 //                    quantidade = pp.getPrp_quantidade() + quantidade;
 //                    pc.setValor_total(pc.getValor_total() / quantidade);
 //                }
@@ -231,7 +231,7 @@ public class CustoBean {
 //                }
 //                int total = 0;
 //                List<ProdutoPedido> lsPp = pedDAO.totalPedidosMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
-//                for (ProdutoPedido pp : lsPp) {
+//                for (ProdutoProducao pp : lsPp) {
 //                    total += pp.getPrp_quantidade();
 //                }
 //                if (total > 0) {
@@ -253,7 +253,6 @@ public class CustoBean {
 //        }
 //        valor = valor / i;
 //        produtocusto.setMedia_total(valor);
-
     }
 
     public double getmediaano() {
@@ -262,7 +261,7 @@ public class CustoBean {
     }
 
     public double getmediatotal() {
-       carrega();
+        carrega();
         return produtocusto.getMedia_total();
     }
 
@@ -272,10 +271,6 @@ public class CustoBean {
 
     public void setLsProdutoCusto(List<ProdutoCusto> lsProdutoCusto) {
         this.lsProdutoCusto = lsProdutoCusto;
-    }
-
-    public String getErro() {
-        return Erro;
     }
 
     public String mesToString(Date d) {

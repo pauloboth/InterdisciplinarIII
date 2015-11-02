@@ -7,19 +7,19 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="title">Pedidos</ui:define>
+    <ui:define name="title">Produções</ui:define>
 
     <ui:define name="breadcrumb">
-        <li><h:link value="Pedidos"/></li>
+        <li><h:link value="Produções"/></li>
     </ui:define>
 
     <ui:define name="main-content">
         <div class="panel panel-body">
-            <h3 class="panel-title-top">Lista de Pedidos</h3>
+            <h3 class="panel-title-top">Lista de Produções</h3>
             <h:form>
                 <div class="form-horizontal">
-                    <h:link outcome="pedidofrm" styleClass="btn btn-success pull-right" >
-                        <i class="fa fa-plus "></i> Inserir Pedido
+                    <h:link outcome="producaofrm" styleClass="btn btn-success pull-right" >
+                        <i class="fa fa-plus "></i> Inserir Produção
                     </h:link>
 
                     <div class="row">
@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
                                 <div class="col-xs-8">
-                                    <h:selectOneMenu id="mes" value="#{pedidoBean.mes}" styleClass="form-control" pt:autofocus=""  >
+                                    <h:selectOneMenu id="mes" value="#{producaoBean.mes}" styleClass="form-control" pt:autofocus=""  >
                                         <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
                                         <f:ajax execute="@form" render="@form" />
                                     </h:selectOneMenu>
@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
                                 <div class="col-xs-8">
-                                    <h:selectOneMenu id="ano" value="#{pedidoBean.ano}" styleClass="form-control" pt:autofocus="">
+                                    <h:selectOneMenu id="ano" value="#{producaoBean.ano}" styleClass="form-control" pt:autofocus="">
                                         <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
                                         <f:ajax execute="@form" render="@form" />
                                     </h:selectOneMenu>
@@ -50,20 +50,20 @@
 
                 </div>
 
-                <h:dataTable value="${pedidoBean.pedidos}" var="item" styleClass="dataTable table table-bordered table-striped">
+                <h:dataTable value="${producaoBean.producoes}" var="item" styleClass="dataTable table table-bordered table-striped">
 <!--                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Cliente"/>
                         </f:facet>
-                        <h:outputText value="${item.getPed_cliente()}"/>
+                        <h:outputText value="${item.getPrd_cliente()}"/>
                     </h:column>-->
                     
                     <h:column>
                          <f:facet name="header">
                             <h:outputText value="Cliente"/>
                         </f:facet>
-                        <h:commandLink title="Cliente" action="#{pedidoBean.selectPedido()}" >
-                            <i class="fa fa-file-text-o"></i> ${item.getPed_cliente()}
+                        <h:commandLink title="Cliente" action="#{producaoBean.selectProducao()}" >
+                            <i class="fa fa-file-text-o"></i> ${item.getPrd_cliente()}
                         </h:commandLink>
                     </h:column>
                     
@@ -71,7 +71,7 @@
                         <f:facet name="header">
                             <h:outputText value="Mês Referente"/>
                         </f:facet>
-                        <h:outputText value="${item.getPed_data_ref()}">
+                        <h:outputText value="${item.getPrd_data_ref()}">
                             <f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>
                         </h:outputText>
                     </h:column> 
@@ -79,7 +79,7 @@
                         <f:facet name="header">
                             <h:outputText value="Cadastro"/>
                         </f:facet>
-                        <h:outputText value="${item.getPed_data()}">
+                        <h:outputText value="${item.getPrd_data()}">
                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm" timeZone="#{padraoBean.timeZone}"/>
                         </h:outputText>
                     </h:column>
@@ -87,7 +87,7 @@
                         <f:facet name="header">
                             <h:outputText value="Editar"/>
                         </f:facet>
-                        <h:commandLink action="${pedidoBean.edit(item)}" rendered="#{item.bEdit()}">
+                        <h:commandLink action="${producaoBean.edit(item)}" rendered="#{item.bEdit()}">
                             <i class="fa fa-pencil"></i> Editar
                         </h:commandLink>
                         <h:commandLink disabled="true" rendered="#{!item.bEdit()}">
@@ -98,7 +98,7 @@
                         <f:facet name="header">
                             <h:outputText value="Excluir"/>
                         </f:facet>
-                        <h:commandLink onclick="return confirm('Deseja realmente excluir esse Pedido?');" action="${pedidoBean.delete(item)}" rendered="#{item.bEdit()}">
+                        <h:commandLink onclick="return confirm('Deseja realmente excluir essa Produção?');" action="${producaoBean.delete(item)}" rendered="#{item.bEdit()}">
                             <i class="fa fa-trash"></i> Excluir
                         </h:commandLink>
                         <h:commandLink disabled="true" rendered="#{!item.bEdit()}">

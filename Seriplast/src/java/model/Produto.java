@@ -37,7 +37,7 @@ public class Produto implements Serializable {
     private List<ProdutoMaquina> lsProdutoMaquina;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<ProdutoPedido> lsProdutoPedido;
+    private List<ProdutoProducao> lsProdutoProducao;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoDespesa> lsProdutoDespesa;
@@ -112,13 +112,15 @@ public class Produto implements Serializable {
         this.lsProdutoMaquina = lsProdutoMaquina;
     }
 
-    public List<ProdutoPedido> getLsProdutoPedido() {
-        return lsProdutoPedido;
+    public List<ProdutoProducao> getLsProdutoProducao() {
+        return lsProdutoProducao;
     }
 
-    public void setLsProdutoPedido(List<ProdutoPedido> lsProdutoPedido) {
-        this.lsProdutoPedido = lsProdutoPedido;
+    public void setLsProdutoProducao(List<ProdutoProducao> lsProdutoProducao) {
+        this.lsProdutoProducao = lsProdutoProducao;
     }
+
+
 
     public List<ProdutoDespesa> getLsProdutoDespesa() {
         return lsProdutoDespesa;
@@ -177,7 +179,7 @@ public class Produto implements Serializable {
 //    public static int totalPedido() {
 //        int total = 0;
 //        if (this.lsProdutoPedido != null) {
-//            for (ProdutoPedido pp : this.lsProdutoPedido) {
+//            for (ProdutoProducao pp : this.lsProdutoPedido) {
 //                total += pp.getPrp_quantidade();
 //            }
 //        }

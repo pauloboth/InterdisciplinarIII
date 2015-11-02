@@ -8,8 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "produtopedido")
-public class ProdutoPedido implements Serializable {
+@Table(name = "produtoproducao")
+public class ProdutoProducao implements Serializable {
 
     @Id
     @ManyToOne
@@ -18,13 +18,13 @@ public class ProdutoPedido implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "ped_id", referencedColumnName = "ped_id")
-    private Pedido pedido;
+    @JoinColumn(name = "prd_id", referencedColumnName = "prd_id")
+    private Producao producao;
 
     private int prp_quantidade;
     private String prp_notas;
 
-    public ProdutoPedido() {
+    public ProdutoProducao() {
     }
 
     public Produto getProduto() {
@@ -35,12 +35,12 @@ public class ProdutoPedido implements Serializable {
         this.produto = produto;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Producao getProducao() {
+        return producao;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setProducao(Producao producao) {
+        this.producao = producao;
     }
 
     public int getPrp_quantidade() {

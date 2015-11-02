@@ -29,8 +29,8 @@ public class ProdutoCusto {
     }
 
     public int getTotal() {
-        if (total == 0 && this.produto != null && this.produto.getLsProdutoPedido() != null) {
-            for (ProdutoPedido pp : this.produto.getLsProdutoPedido()) {
+        if (total == 0 && this.produto != null && this.produto.getLsProdutoProducao() != null) {
+            for (ProdutoProducao pp : this.produto.getLsProdutoProducao()) {
                 total += pp.getPrp_quantidade();
             }
         }
