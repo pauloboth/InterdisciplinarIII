@@ -478,7 +478,7 @@ public class CustoBean {
                 Custo c = new Custo();
 
                 if (d.getDes_id() > 0) {
-                    c = dao.SearchCusto(d.getDes_id(), getMes(), getAno());
+                    c = dao.SearchCusto(d.getDes_id(), pc.getProduto().getPro_id(), getMes(), getAno());
                     if (c == null) {
                         c = new Custo();
                     }

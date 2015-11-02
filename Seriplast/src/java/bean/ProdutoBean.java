@@ -217,7 +217,6 @@ public class ProdutoBean {
         this.lsMaquinas = new ArrayList<>();
         this.lsMaquinasAll = new ArrayList<>();
         this.maquina = new Maquina();
-        this.produto.setLsProdutoDespesa(new ArrayList<ProdutoDespesa>());
-        this.produto.setLsProdutoMaquina(new ArrayList<ProdutoMaquina>());
+        this.produto = new Produto();
     }
 }

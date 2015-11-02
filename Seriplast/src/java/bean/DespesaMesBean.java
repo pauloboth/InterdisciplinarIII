@@ -39,7 +39,7 @@ public class DespesaMesBean {
     private MaquinaDAO maqDAO = new MaquinaDAO();
 
     private DataModel custos;
-    private DataModel despesasmess;
+    private DataModel despesasmes;
 
     private Despesa despesa = new Despesa();
     private Produto produto = new Produto();
@@ -78,17 +78,17 @@ public class DespesaMesBean {
             dao.delete(i);
         } catch (Exception e) {
         }
-        return "custolst";
+        return "despesameslst";
     }
 
     public String salvar() {
         dao.saveList(CriaProdutoCusto());
         clearSession();
-        return "custolst";
+        return "despesameslst";
     }
 
     public String listar() {
-        return "custolst";
+        return "despesameslst";
     }
 
     public Despesa getDespesa() {
@@ -183,17 +183,20 @@ public class DespesaMesBean {
             }
             try {
                 DespesaMes dm = desDAO.lastMonth(despesa.getDes_id());
-                if (dm.getDsm_data_ref().getMonth() == new Date().getMonth() && dm.getDsm_data_ref().getYear() == new Date().getYear()) {
-                    Erro = "Já foi encontrado um lançamento desta despesa para este mês!";
-                } else {
-                    Erro = "";
+                if (dm != null && dm.getDsm_data_ref() != null) {
+                    if (dm.getDsm_data_ref().getMonth() == new Date().getMonth()
+                            && dm.getDsm_data_ref().getYear() == new Date().getYear()) {
+                        Erro = "Já foi encontrado um lançamento desta despesa para este mês!";
+                    } else {
+                        Erro = "";
+                    }
                 }
             } catch (Exception ex) {
             }
         } else {
             clearSession();
         }
-        return "custofrm";
+        return "despesamesfrm";
     }
 
     public Produto getProduto() {
@@ -247,14 +250,14 @@ public class DespesaMesBean {
         this.ano = ano;
     }
 
-    public DataModel getDespesasmess() {
+    public DataModel getDespesasmes() {
         clearSession();
-        despesasmess = new ListDataModel(Despesas());
-        return despesasmess;
+        despesasmes = new ListDataModel(Despesas());
+        return despesasmes;
     }
 
-    public void setDespesasmess(DataModel despesasmess) {
-        this.despesasmess = despesasmess;
+    public void setDespesasmes(DataModel despesasmes) {
+        this.despesasmes = despesasmes;
     }
 
     private List<Despesa> Despesas() {
@@ -456,17 +459,21 @@ public class DespesaMesBean {
                 Custo c = new Custo();
 
                 if (d.getDes_id() > 0) {
-                    c = dao.SearchCusto(d.getDes_id(), getMes(), getAno());
+                    c = dao.SearchCusto(d.getDes_id(), pc.getProduto().getPro_id(), getMes(), getAno());
                     if (c == null) {
                         c = new Custo();
                     }
                 }
-
-                c.setCus_data(new Date());
-                c.setCus_preco_produto(pc.getProduto().getPro_preco());
-                c.setProduto(pc.getProduto());
-                c.setCus_data_ref(createDate(1, getMes(), getAno()));
-                c.setLsCustoDespesa(null);
+                if (c.getCus_id() == 0) {
+                    c.setCus_data(new Date());
+                    c.setCus_preco_produto(pc.getProduto().getPro_preco());
+                    c.setProduto(pc.getProduto());
+                    c.setCus_data_ref(createDate(1, getMes(), getAno()));
+                    c.setLsCustoDespesa(null);
+                }
+                if (c.getCus_preco_produto() == 0) {
+                    c.setCus_preco_produto(pc.getProduto().getPro_preco());
+                }
 
                 CustoDespesa cd = new CustoDespesa();
                 cd.setDespesa(d);
@@ -506,7 +513,7 @@ public class DespesaMesBean {
 
     private void clearSession() {
         this.custos = new ArrayDataModel();
-        this.despesasmess = new ArrayDataModel();
+        this.despesasmes = new ArrayDataModel();
         this.despesa = new Despesa();
         this.produto = new Produto();
         this.lsProdutos = new ArrayList<>();
@@ -519,8 +526,8 @@ public class DespesaMesBean {
         this.restValor = valor;
         this.watts = 0;
         this.porcent = 0;
-        this.mes = 0;
-        this.ano = 0;
+//        this.mes = 0;
+//        this.ano = 0;
         this.luz = false;
         this.bSave = false;
     }

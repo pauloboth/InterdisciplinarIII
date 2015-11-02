@@ -42,8 +42,8 @@ public class Produto implements Serializable {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoDespesa> lsProdutoDespesa;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Custo> lsCusto;
+//    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+//    private List<Custo> lsCusto;
 
     public Produto() {
     }
@@ -128,13 +128,13 @@ public class Produto implements Serializable {
         this.lsProdutoDespesa = lsProdutoDespesa;
     }
 
-    public List<Custo> getLsCusto() {
-        return lsCusto;
-    }
-
-    public void setLsCusto(List<Custo> lsCusto) {
-        this.lsCusto = lsCusto;
-    }
+//    public List<Custo> getLsCusto() {
+//        return lsCusto;
+//    }
+//
+//    public void setLsCusto(List<Custo> lsCusto) {
+//        this.lsCusto = lsCusto;
+//    }
 
     @Override
     public int hashCode() {

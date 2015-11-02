@@ -80,10 +80,10 @@ public class PedidoDAO {
 
     public List<ProdutoPedido> totalPedidosMes(int pro_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp"
-                + " join pp.pedido ped"
-                + " where pp.produto.pro_id = :p"
-                + " and month(ped.ped_data_ref) = :mes and year(ped.ped_data_ref) = :ano")
+        List<ProdutoPedido> lsPp = session.createQuery("select pp from ProdutoPedido pp "
+                + "join pp.pedido ped "
+                + "where pp.produto.pro_id = :p "
+                + "and month(ped.ped_data_ref) = :mes and year(ped.ped_data_ref) = :ano")
                 .setParameter("p", pro_id).setParameter("mes", mes).setParameter("ano", ano).list();
         session.close();
         return lsPp;

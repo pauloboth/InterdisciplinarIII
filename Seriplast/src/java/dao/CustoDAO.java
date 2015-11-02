@@ -103,15 +103,17 @@ public class CustoDAO {
         session.close();
     }
 
-    public Custo SearchCusto(int id, int mes, int ano) {
+    public Custo SearchCusto(int des_id, int pro_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         Custo c = null;
         CustoDespesa cd = (CustoDespesa) session.createQuery("select cd from CustoDespesa cd "
-                + "join cd.custo cus "
-                + "where cd.despesa.des_id = :d "
+                + "join cd.custo cus join cd.produto pro "
+                + "where cd.despesa.des_id = :des_id "
+                + "and pro.pro_id = :pro_id"
                 + "and month(cus.cus_data_ref) = :m "
                 + "and year(cus.cus_data_ref) = :a ")
-                .setParameter("d", id)
+                .setParameter("des_id", des_id)
+                .setParameter("pro_id", pro_id)
                 .setParameter("m", mes)
                 .setParameter("a", ano)
                 .uniqueResult();

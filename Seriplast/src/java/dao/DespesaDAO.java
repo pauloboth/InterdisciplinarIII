@@ -2,8 +2,10 @@ package dao;
 
 import java.util.Date;
 import java.util.List;
+import model.CustoDespesa;
 import model.Despesa;
 import model.DespesaMes;
+import model.ProdutoCusto;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
@@ -36,6 +38,36 @@ public class DespesaDAO {
             session.getTransaction().commit();
             session.close();
         }
+    }
+
+    public void saveList(List<ProdutoCusto> lsPc) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.getTransaction().begin();
+        if (lsPc != null && !lsPc.isEmpty()) {
+            for (ProdutoCusto pc : lsPc) {
+                if (pc.getDespesa().getDes_id() > 0) {
+                    session.update(pc.getDespesa());
+                } else {
+                    session.save(pc.getDespesa());
+                }
+
+                if (pc.getDespesames().getDsm_id() > 0) {
+                    session.update(pc.getDespesames());
+                } else {
+                    session.save(pc.getDespesames());
+                }
+
+                if (pc.getCusto().getCus_id() > 0) {
+                    session.update(pc.getCusto());
+                } else {
+                    session.save(pc.getCusto());
+                }
+
+                session.save(pc.getCustodespesa());
+            }
+        }
+        session.getTransaction().commit();
+        session.close();
     }
 
     public void delete(Despesa i) {
@@ -73,7 +105,6 @@ public class DespesaDAO {
         Despesa d = (Despesa) session.createQuery("select d from Despesa d "
                 + "left outer join fetch d.lsProdutoDespesa pd where d.des_id = :d")
                 .setParameter("d", id).uniqueResult();
-
         session.close();
         return d;
     }
@@ -90,9 +121,9 @@ public class DespesaDAO {
 
     public DespesaMes lastMonth(int id_des) {
         session = HibernateUtil.getSessionFactory().openSession();
-        DespesaMes dm = new DespesaMes();
+        DespesaMes dm = null;
         Query q = session.createQuery("select dm from DespesaMes dm "
-                + "left outer join fetch dm.despesa d "
+                + "left outer join dm.despesa d "
                 + "where d.des_id = :d");
         q.setParameter("d", id_des);
         List<DespesaMes> ls = q.list();
@@ -102,6 +133,5 @@ public class DespesaDAO {
         }
         return dm;
     }
-    
-    
+
 }

@@ -22,8 +22,8 @@
 
             function Top() {
                 setTimeout(function () {
-                    if ($.trim($('.erro-top').text() != ''){
-                        $("html, body").animate({scrollTop: 0}, 1000);
+                    if ($.trim($('.erro-top').text()) !== '') {
+                        $("html, body").animate({scrollTop: 0}, 500);
                     }
                 }, 1000);
             }
@@ -61,8 +61,7 @@
                 </f:metadata>-->
         <!--        <f:event listener="{despesaMesBean.clearSession()}" type="preRenderView"/>-->
         <div class="panel panel-body">
-            <h3 class="panel-title-top pull-left">Dados do Custo</h3>
-            <h3 class="panel-title-top pull-right">Dados referentes do mês de #{padraoBean.mesString(despesaMesBean.mes)} de #{despesaMesBean.ano}.</h3>
+            <h3 class="panel-title-top">Dados sobre o lançamento da Despesa referentes do mês de #{padraoBean.mesString(despesaMesBean.mes)} de #{despesaMesBean.ano}.</h3>
             <f:view>
                 <h:form styleClass="form-horizontal" id="form_custos">
                     <h:inputHidden id="idDespesa" value="#{despesaMesBean.despesa.des_id}" />
