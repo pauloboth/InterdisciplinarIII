@@ -106,7 +106,18 @@
                                     <span class="menu-text">Início</span>
                                 </h:link>
                             </li>
-
+                            <li class="#{view.viewId.contains('/view/folder/maquina') ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/maquinalst">
+                                    <span class="fa fa-flash"></span>
+                                    <span class="menu-text">Máquinas</span>
+                                </h:link>
+                            </li>
+                            <li class="#{view.viewId.contains('/view/folder/despesalst') || view.viewId.contains('/view/folder/despesafrm') ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/despesalst">
+                                    <span class="fa fa-money"></span>
+                                    <span class="menu-text">Despesas</span>
+                                </h:link>
+                            </li>
 
                             <li class="#{view.viewId.contains('/view/folder/categoria') ? 'active' : ''}">
                                 <h:link outcome="/faces/view/folder/categorialst">
@@ -120,24 +131,6 @@
                                     <span class="menu-text">Produtos</span>
                                 </h:link>
                             </li>
-                            <li class="#{view.viewId.contains('/view/folder/despesalst') || view.viewId.contains('/view/folder/despesafrm') ? 'active' : ''}">
-                                <h:link outcome="/faces/view/folder/despesalst">
-                                    <span class="fa fa-money"></span>
-                                    <span class="menu-text">Despesas</span>
-                                </h:link>
-                            </li>
-                            <li class="#{view.viewId.contains('/view/folder/custo') ? 'active' : ''}">
-                                <h:link outcome="/faces/view/folder/custoprodutolst">
-                                    <span class="fa fa-usd"></span>
-                                    <span class="menu-text">Custo dos Produtos</span>
-                                </h:link>
-                            </li>
-                            <li class="#{view.viewId.contains('/view/folder/maquina') ? 'active' : ''}">
-                                <h:link outcome="/faces/view/folder/maquinalst">
-                                    <span class="fa fa-flash"></span>
-                                    <span class="menu-text">Máquinas</span>
-                                </h:link>
-                            </li>
                             <li class="#{view.viewId.contains('/view/folder/producao') ? 'active' : ''}">
                                 <h:link outcome="/faces/view/folder/producaolst">
                                     <span class="fa fa-pencil-square-o"></span>
@@ -148,6 +141,12 @@
                                 <h:link outcome="/faces/view/folder/despesameslst">
                                     <span class="fa fa-calendar"></span>
                                     <span class="menu-text">Despesas do Mês</span>
+                                </h:link>
+                            </li>
+                                     <li class="#{view.viewId.contains('/view/folder/custo') ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/custoprodutolst">
+                                    <span class="fa fa-usd"></span>
+                                    <span class="menu-text">Custo dos Produtos</span>
                                 </h:link>
                             </li>
 
