@@ -1,5 +1,6 @@
 package dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import model.CustoDespesa;
@@ -40,11 +41,45 @@ public class DespesaDAO {
         }
     }
 
+    private void deleteFuturosLancamentos(int des_id) {
+        int mes = new Date().getDate() + 1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        int ano = Integer.parseInt(sdf.format(new Date()));
+        List<CustoDespesa> lsCd = session.createQuery("select cd from CustoDespesa cd "
+                + "join cd.custo c "
+                + "where cd.despesa.des_id = :des_id "
+                + "and month(c.cus_data_ref) >= :mes "
+                + "and year(c.cus_data_ref) >= :ano")
+                .setParameter("des_id", des_id)
+                .setParameter("mes", mes)
+                .setParameter("ano", ano)
+                .list();
+        if (lsCd != null && !lsCd.isEmpty()) {
+            for (CustoDespesa cd : lsCd) {
+                session.delete(cd);
+            }
+        }
+        List<DespesaMes> lsDm = session.createQuery("select dm from DespesaMes dm "
+                + "where dm.despesa.des_id = :des_id "
+                + "and month(dm.dsm_data_ref) >= :mes "
+                + "and year(dm.dsm_data_ref) >= :ano")
+                .setParameter("des_id", des_id)
+                .setParameter("mes", mes)
+                .setParameter("ano", ano)
+                .list();
+        if (lsDm != null && !lsDm.isEmpty()) {
+            for (DespesaMes dm : lsDm) {
+                session.delete(dm);
+            }
+        }
+    }
+
     public void saveList(Despesa i, List<DespesaMes> lsDm, List<CustoDespesa> lsCd) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
         if (i.getDes_id() > 0) {
             session.update(i);
+            deleteFuturosLancamentos(i.getDes_id());
         } else {
             i.setDes_date(new Date());
             session.save(i);
@@ -69,7 +104,7 @@ public class DespesaDAO {
             cd.setCsd_data(new Date());
             session.save(cd);
         }
-        //session.getTransaction().commit();
+        session.getTransaction().commit();
         session.close();
     }
 
@@ -117,10 +152,10 @@ public class DespesaDAO {
 
     public List<Despesa> searchDespesasMes(int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        List<Despesa> ls = session.createQuery("select d from Despesa d where des_status = 1 "
-                + "and (des_tipo = 2 or des_tipo = 1 "
-                + "or (des_tipo = 4 and month(des_date) = :m and year(des_date) = :a))")
-                .setParameter("m", mes).setParameter("a", ano).list();
+        List<Despesa> ls = session.createQuery("select d from Despesa d where 1=1 "
+                + "and (des_tipo in (1, 2)"
+                + "or (des_tipo in (4, 5) and month(des_date) = :mes and year(des_date) = :ano))")
+                .setParameter("mes", mes).setParameter("ano", ano).list();
         session.close();
         return ls;
     }
@@ -140,4 +175,28 @@ public class DespesaDAO {
         return dm;
     }
 
+    public List<CustoDespesa> findCustoDespesaMes(int des_id, int mes, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<CustoDespesa> lsCd = session.createQuery("select cd from CustoDespesa cd "
+                + "join cd.custo c "
+                + "where cd.despesa.des_id = :des_id "
+                + "and month(c.cus_data_ref) = :mes and year(c.cus_data_ref) = :ano")
+                .setParameter("des_id", des_id)
+                .setParameter("mes", mes)
+                .setParameter("ano", ano).list();
+        session.close();
+        return lsCd;
+    }
+
+    public void ExcluirLance(List<CustoDespesa> lsCd) {
+        if (lsCd != null && !lsCd.isEmpty()) {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.getTransaction().begin();
+            for (CustoDespesa cd : lsCd) {
+                session.delete(cd);
+            }
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
 }

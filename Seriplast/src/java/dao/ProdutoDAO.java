@@ -1,9 +1,7 @@
 package dao;
 
-import java.util.ArrayList;
 import model.Produto;
 import java.util.List;
-import model.ProdutoProducao;
 import org.hibernate.Session;
 import util.HibernateUtil;
 

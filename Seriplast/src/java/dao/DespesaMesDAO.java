@@ -1,6 +1,8 @@
 package dao;
 
 import java.util.List;
+import model.Custo;
+import model.CustoDespesa;
 import model.Despesa;
 import model.DespesaMes;
 import org.hibernate.Session;
@@ -54,6 +56,22 @@ public class DespesaMesDAO {
         List<DespesaMes> ls = session.createQuery("from DespesaMes").list();
         session.close();
         return ls;
+    }
+
+    public DespesaMes findDespesaMes(int des_id, int mes, int ano) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        String sql = "";
+        if (des_id > 0) {
+            sql += " and dm.despesa.des_id = " + des_id;
+        }
+        DespesaMes dm = (DespesaMes) session.createQuery("from DespesaMes dm "
+                + "where month(dm.dsm_data_ref) = :mes and year(dm.dsm_data_ref) = :ano "
+                + sql)
+                //.setParameter("des_id", des_id)
+                .setParameter("mes", mes)
+                .setParameter("ano", ano).uniqueResult();
+        session.close();
+        return dm;
     }
 
 }

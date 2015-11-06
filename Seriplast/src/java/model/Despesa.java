@@ -36,9 +36,6 @@ public class Despesa implements Serializable {
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CustoDespesa> lsCustoDespesa;
 
-    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<DespesaMes> lsDespesaMes;
-
     public Despesa() {
     }
 
@@ -128,14 +125,6 @@ public class Despesa implements Serializable {
 
     public void setDes_date(Date des_date) {
         this.des_date = des_date;
-    }
-
-    public List<DespesaMes> getLsDespesaMes() {
-        return lsDespesaMes;
-    }
-
-    public void setLsDespesaMes(List<DespesaMes> lsDespesaMes) {
-        this.lsDespesaMes = lsDespesaMes;
     }
 
     @Override

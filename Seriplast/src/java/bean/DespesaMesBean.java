@@ -2,6 +2,7 @@ package bean;
 
 import dao.CustoDAO;
 import dao.DespesaDAO;
+import dao.DespesaMesDAO;
 import dao.MaquinaDAO;
 import dao.ProducaoDAO;
 import dao.ProdutoDAO;
@@ -37,6 +38,7 @@ public class DespesaMesBean {
     private ProdutoDAO proDAO = new ProdutoDAO();
     private ProducaoDAO prdDAO = new ProducaoDAO();
     private MaquinaDAO maqDAO = new MaquinaDAO();
+    private DespesaMesDAO dsmDAO = new DespesaMesDAO();
 
     private DataModel custos;
     private DataModel despesasmes;
@@ -49,6 +51,7 @@ public class DespesaMesBean {
     private List<ProdutoCusto> lsProdutoCusto = new ArrayList<>();
     private List<ProdutoCusto> lsProdutoCustoMaq = new ArrayList<>();
     private List<Maquina> lsMaquinas = new ArrayList<>();
+    private List<DespesaMes> lsDespesaMes = new ArrayList<>();
 
     private String Erro = "";
     private double valor = 0;
@@ -61,6 +64,28 @@ public class DespesaMesBean {
     private boolean bSave = false;
 
     public DespesaMesBean() {
+    }
+
+    public List<DespesaMes> getLsDespesaMes() {
+        List<Despesa> des = desDAO.searchDespesasMes(getMes(), getAno());
+        lsDespesaMes = new ArrayList<>();
+        if (des != null) {
+            for (Despesa d : des) {
+                DespesaMes dm = dsmDAO.findDespesaMes(d.getDes_id(), getMes(), getAno());
+                List<CustoDespesa> lsCd = desDAO.findCustoDespesaMes(d.getDes_id(), getMes(), getAno());
+                if (lsCd == null || lsCd.isEmpty()) {
+                    dm = new DespesaMes();
+                    dm.setDespesa(d);
+                    if (d.getDes_status() != 1) {
+                        dm = null;
+                    }
+                }
+                if (dm != null) {
+                    lsDespesaMes.add(dm);
+                }
+            }
+        }
+        return lsDespesaMes;
     }
 
     public DataModel getCustos() {
@@ -142,7 +167,7 @@ public class DespesaMesBean {
             if (bAdd) {
                 ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
-                produto.setLsProdutoProducao(prdDAO.totalProducaoMes(produto.getPro_id(), mes, ano));
+                produto.setLsProdutoProducao(prdDAO.totalProducaoMes(produto.getPro_id(), getMes(), getAno()));
                 pc.setProduto(produto);
                 c.setCus_preco_produto(produto.getPro_preco());
                 pc.setCusto(c);
@@ -171,10 +196,18 @@ public class DespesaMesBean {
         reloadProdutos();
     }
 
-    public String New(int id) {
+    public String Lancar(int id) {
         lsProdutoCusto = new ArrayList<>();
         if (id != 0) {
             despesa = desDAO.findEdit(id);
+            DespesaMes desMes = dsmDAO.findDespesaMes(despesa.getDes_id(), getMes(), getAno());
+            if (desMes != null && desMes.getDsm_id() > 0) {
+                valor = desMes.getDsm_valor();
+                watts = desMes.getDsm_quantidade();
+            } else {
+                valor = 0;
+                watts = 0;
+            }
             for (ProdutoDespesa pd : despesa.getLsProdutoDespesa()) {
                 ProdutoCusto pc = new ProdutoCusto();
                 Custo c = new Custo();
@@ -185,18 +218,6 @@ public class DespesaMesBean {
                 pc.setCusto(c);
                 pc.setParticipacao(pd.getPrd_por_part());
                 lsProdutoCusto.add(pc);
-            }
-            try {
-                DespesaMes dm = desDAO.lastMonth(despesa.getDes_id());
-                if (dm != null && dm.getDsm_data_ref() != null) {
-                    if (dm.getDsm_data_ref().getMonth() == new Date().getMonth()
-                            && dm.getDsm_data_ref().getYear() == new Date().getYear()) {
-                        Erro = "Já foi encontrado um lançamento desta despesa para este mês!";
-                    } else {
-                        Erro = "";
-                    }
-                }
-            } catch (Exception ex) {
             }
         } else {
             clearSession();
@@ -232,15 +253,27 @@ public class DespesaMesBean {
     }
 
     public int getMes() {
-        Date d = new Date();
-        mes = d.getMonth() + 1;
+        if (mes == 0) {
+            Date d = new Date();
+            mes = d.getMonth() + 1;
+        }
         return mes;
     }
 
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
     public int getAno() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        ano = Integer.parseInt(sdf.format(new Date()));
+        if (ano == 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            ano = Integer.parseInt(sdf.format(new Date()));
+        }
         return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
     public DataModel getDespesasmes() {
@@ -271,7 +304,7 @@ public class DespesaMesBean {
     public int totalProducao(Produto p) {
         p.setLsProdutoProducao(prdDAO.totalProducaoMes(p.getPro_id(), mes, ano));
         int total = 0;
-        if (p.getLsProdutoProducao()!= null) {
+        if (p.getLsProdutoProducao() != null) {
             for (ProdutoProducao pp : p.getLsProdutoProducao()) {
                 total += pp.getPrp_quantidade();
             }
@@ -445,7 +478,6 @@ public class DespesaMesBean {
                 d.setDes_status(2);
                 d.setDes_date(new Date());
                 d.setLsCustoDespesa(null);
-                d.setLsDespesaMes(null);
             }
             prodCus.setDespesa(d);
 
@@ -526,5 +558,15 @@ public class DespesaMesBean {
 //        this.ano = 0;
         this.luz = false;
         this.bSave = false;
+    }
+
+    public String ExcluirLance(int des_id) {
+        try {
+            List<CustoDespesa> lsCd = desDAO.findCustoDespesaMes(des_id, getMes(), getAno());
+            desDAO.ExcluirLance(lsCd);
+        } catch (Exception ex) {
+            Erro = "Não foi possível exluir o parcionamento deste lançamento!";
+        }
+        return "despesameslst";
     }
 }

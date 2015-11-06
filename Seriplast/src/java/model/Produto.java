@@ -31,7 +31,6 @@ public class Produto implements Serializable {
     private int pro_status;
     private double pro_preco;
     private String pro_notas;
-    private int pro_tem_pro;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoMaquina> lsProdutoMaquina;
@@ -44,7 +43,6 @@ public class Produto implements Serializable {
 
 //    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 //    private List<Custo> lsCusto;
-
     public Produto() {
     }
 
@@ -96,14 +94,6 @@ public class Produto implements Serializable {
         this.pro_notas = pro_notas;
     }
 
-    public int getPro_tem_pro() {
-        return pro_tem_pro;
-    }
-
-    public void setPro_tem_pro(int pro_tem_pro) {
-        this.pro_tem_pro = pro_tem_pro;
-    }
-
     public List<ProdutoMaquina> getLsProdutoMaquina() {
         return lsProdutoMaquina;
     }
@@ -120,8 +110,6 @@ public class Produto implements Serializable {
         this.lsProdutoProducao = lsProdutoProducao;
     }
 
-
-
     public List<ProdutoDespesa> getLsProdutoDespesa() {
         return lsProdutoDespesa;
     }
@@ -129,14 +117,6 @@ public class Produto implements Serializable {
     public void setLsProdutoDespesa(List<ProdutoDespesa> lsProdutoDespesa) {
         this.lsProdutoDespesa = lsProdutoDespesa;
     }
-
-//    public List<Custo> getLsCusto() {
-//        return lsCusto;
-//    }
-//
-//    public void setLsCusto(List<Custo> lsCusto) {
-//        this.lsCusto = lsCusto;
-//    }
 
     @Override
     public int hashCode() {
@@ -175,15 +155,5 @@ public class Produto implements Serializable {
             return "";
         }
     }
-//
-//    public static int totalPedido() {
-//        int total = 0;
-//        if (this.lsProdutoPedido != null) {
-//            for (ProdutoProducao pp : this.lsProdutoPedido) {
-//                total += pp.getPrp_quantidade();
-//            }
-//        }
-//        return total;
-//    }
 
 }
