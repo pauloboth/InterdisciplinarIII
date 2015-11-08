@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <h:head>
-        <!--        <link rel="icon" href="{resource['img/favicon.ico']}" sizes="16x16" />-->
+        <link rel="icon" href="#{resource['img/favicon.png']}" sizes="16x16" />
         <title>Login - SERIPLAST</title>
-<!--        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Signika:400,700" rel="stylesheet" type="text/css"/>-->
+        <!--        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Signika:400,700" rel="stylesheet" type="text/css"/>-->
         <h:outputStylesheet name="./bootstrap/css/bootstrap.min.css" />
         <h:outputStylesheet name="./font-awesome/css/font-awesome.min.css" />
         <h:outputStylesheet name="./css/css.css" />
@@ -17,22 +17,20 @@
             <meta http-equiv="refresh" content="0;view/index.xhtml"></meta>
         </c:if>
         <script type="text/javascript">
-            $(function() {
+            $(function () {
                 $('#input-user').focus();
             });
         </script>
     </h:head>
-    
+
     <h:body styleClass="page-login">
         <div class="page-container">
-            <div class="logo">
-                <h1>
-                    <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.jpg" style="width: 400px;"></h:graphicImage>
-                </h1>
-            </div>
             <div class="login-container">
                 <div class="form-login">
                     <form name="frmLogin" method="POST" action="j_security_check">
+                        <div style="text-align: center">
+                            <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.png" style="transform: rotate(2deg); width: 200px;"/>
+                        </div>
                         <h3 class="title">Faça login em sua conta</h3>
                         <h:panelGroup layout="block" styleClass="alert alert-danger alert-dismissable" rendered="${param.fail == 1}">
                             <button class="close" type="button">
@@ -53,15 +51,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn-lg btn btn-primary btn-block input-send">
+                            <button type="submit" class="btn-lg btn btn-success btn-block input-send">
+                                <i class="fa fa-sign-in"></i>
                                 Login
-                                <i class="fa fa-chevron-right"></i>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="copyright">
+            <div style="margin-top: 5px; text-align: center; color: #fff;  text-shadow: 1px 1px 2px #000;">
                 2015 © SERIPLAST Serigrafia
             </div>
         </div>

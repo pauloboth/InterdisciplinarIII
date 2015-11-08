@@ -60,8 +60,7 @@ public class DespesaMesBean {
     private int mes = 0;
     private int ano = 0;
     private boolean luz = false;
-    private boolean bSave1 = false;
-    private boolean bSave2 = false;
+    private boolean bSave = false;
 
     public DespesaMesBean() {
     }
@@ -100,7 +99,7 @@ public class DespesaMesBean {
     public String salvar() {
         CalculaLuzMaquina();
         CalcularProdutoCusto();
-        if ((luz && bSave1 && bSave2) || (!luz && bSave2)) {
+        if (bSave) {
             dao.saveList(CriaProdutoCusto());
             clearSession();
             return "despesameslst";
@@ -191,6 +190,9 @@ public class DespesaMesBean {
         lsProdutoCusto = new ArrayList<>();
         if (id != 0) {
             despesa = desDAO.findEdit(id);
+            if (despesa.getDes_tipo() == 1) {
+                luz = true;
+            }
             DespesaMes desMes = dsmDAO.findDespesaMes(despesa.getDes_id(), getMes(), getAno());
             if (desMes != null && desMes.getDsm_id() > 0) {
                 valor = desMes.getDsm_valor();
@@ -355,11 +357,7 @@ public class DespesaMesBean {
     }
 
     public boolean isLuz() {
-        if (despesa.getDes_tipo() == 1) {
-            luz = true;
-        } else {
-            luz = false;
-        }
+        luz = despesa.getDes_tipo() == 1;
         return luz;
     }
 
@@ -375,15 +373,8 @@ public class DespesaMesBean {
         return Erro;
     }
 
-    public boolean isBSave1() {
-        return bSave1;
-    }
-
-    public boolean isBSave2() {
-        if (!luz) {
-            bSave1 = true;
-        }
-        return bSave2;
+    public boolean isBSave() {
+        return bSave;
     }
 
     private void CalculaLuzMaquina() {
@@ -420,10 +411,10 @@ public class DespesaMesBean {
             }
             if (valorTotal > this.valor) {
                 this.Erro = "O Valor total gasto foi maior que o informado!";
-                this.bSave1 = false;
+                this.bSave = false;
             } else if (this.valor > 0) {
                 Erro = "";
-                this.bSave1 = true;
+                this.bSave = true;
             }
 
         }
@@ -465,7 +456,9 @@ public class DespesaMesBean {
             pc.setValor_total(valorT);
         }
         if (this.porcent != 100) {
-            this.bSave2 = false;
+            this.bSave = false;
+        } else if (!luz) {
+            this.bSave = true;
         }
     }
 
@@ -556,9 +549,7 @@ public class DespesaMesBean {
 //        this.mes = 0;
 //        this.ano = 0;
         this.luz = false;
-
-        this.bSave1 = false;
-        this.bSave2 = false;
+        this.bSave = false;
     }
 
     public String ExcluirLance(int des_id) {

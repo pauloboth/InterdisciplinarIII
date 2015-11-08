@@ -6,37 +6,40 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <body>
         <ui:composition template="../modelos/default.xhtml">
-            <ui:define name="title">
-                ${usuarioBean.pTitle}
-            </ui:define>
+            <ui:define name="title">Usuários</ui:define>
 
             <ui:define name="breadcrumb">
-                <li>Configurações</li>
-                <li>${usuarioBean.pTitle}</li>
+                <li><h:link value="Usuários"/></li>
             </ui:define>
 
             <ui:define name="main-content">
                 <div class="panel panel-body">
-                    <h3><h:outputText value="Lista de ${usuarioBean.pTitle}"/></h3>
+                    <h3 class="panel-title-top">Lista de Usuários</h3>
                     <div class="btns-top-table">
-                        <h:link outcome="usuariofrm" styleClass="btn btn-success">
-                            <i class="fa fa-plus"></i> Inserir ${usuarioBean.sTitle}
+                        <h:link outcome="usuariofrm" styleClass="btn btn-primary">
+                            <i class="fa fa-plus"></i> Inserir Usuário
                         </h:link>
                     </div>
                     <h:form>
                         <h:dataTable value="${usuarioBean.usuarios}" var="item" styleClass="dataTable table table-bordered table-striped">
-                            
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="${item.getUsu_nome()}"/>
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="Login"/>
                                 </f:facet>
-                                <h:outputText value="${item.getUsuLogin()}"/>
+                                <h:outputText value="${item.getUsu_login()}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="Status"/>
                                 </f:facet>
-                                <h:outputText value="${item.getUsuStatus() == true ? 'Ativo' : 'Inativo' }"/>
+                                <h:outputText value="${item.isUsu_status() == true ? 'Ativo' : 'Inativo' }"/>
                             </h:column>
                             <h:column headerClass="col-editar-header">
                                 <f:facet name="header">
@@ -50,7 +53,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="Excluir"/>
                                 </f:facet>
-                                <h:commandLink onclick="return confirm('Deseja realmente excluir o ${usuarioBean.sTitle}?');" action="${usuarioBean.delete(item)}">
+                                <h:commandLink onclick="return confirm('Deseja realmente excluir o Usuário?');" action="${usuarioBean.delete(item)}">
                                     <i class="fa fa-trash"></i> Excluir
                                 </h:commandLink>
                             </h:column>

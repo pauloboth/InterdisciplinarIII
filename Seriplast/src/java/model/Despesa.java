@@ -33,7 +33,7 @@ public class Despesa implements Serializable {
     @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProdutoDespesa> lsProdutoDespesa;
 
-    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustoDespesa> lsCustoDespesa;
 
     public Despesa() {

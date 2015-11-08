@@ -33,7 +33,8 @@ public class Custo implements Serializable {
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
     private Produto produto;
 
-    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "custo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustoDespesa> lsCustoDespesa;
 
     public Custo() {

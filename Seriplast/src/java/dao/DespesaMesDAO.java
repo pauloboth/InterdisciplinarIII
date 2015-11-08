@@ -63,10 +63,9 @@ public class DespesaMesDAO {
         if (des_id > 0) {
             sql += " and dm.despesa.des_id = " + des_id;
         }
-        DespesaMes dm = (DespesaMes) session.createQuery("from DespesaMes dm "
+        DespesaMes dm = (DespesaMes) session.createQuery("select dm from DespesaMes dm "
                 + "where month(dm.dsm_data_ref) = :mes and year(dm.dsm_data_ref) = :ano "
                 + sql)
-                //.setParameter("des_id", des_id)
                 .setParameter("mes", mes)
                 .setParameter("ano", ano).uniqueResult();
         session.close();
