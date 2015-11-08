@@ -43,11 +43,10 @@ public class DespesaMesDAO {
         session.close();
     }
 
-    public Despesa findById(int id) {
+    public DespesaMes findById(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Despesa m = (Despesa) session.get(DespesaMes.class, id);
+        DespesaMes m = (DespesaMes) session.get(DespesaMes.class, id);
         session.close();
-
         return m;
     }
 
@@ -74,4 +73,13 @@ public class DespesaMesDAO {
         return dm;
     }
 
+    public DespesaMes findUnicaDespesa(int des_id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        DespesaMes m = (DespesaMes) session.createQuery("select dm from DespesaMes dm join "
+                + "dm.despesa = d "
+                + "where d.des_id = :des_id and d.des_tipo = 5")
+                .setParameter("des_id", des_id).uniqueResult();
+        session.close();
+        return m;
+    }
 }

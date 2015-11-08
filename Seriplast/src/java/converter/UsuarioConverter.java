@@ -1,7 +1,7 @@
-package set.converter;
+package converter;
 
-import set.dao.UsuarioDAO;
-import set.model.Usuario;
+import dao.UsuarioDAO;
+import model.Usuario;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,6 +17,6 @@ public class UsuarioConverter implements javax.faces.convert.Converter {
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uIComponent, Object object) {
-        return "" + ((Usuario) object).getUsuLogin();
+        return "" + ((Usuario) object).getUsu_login();
     }
 }

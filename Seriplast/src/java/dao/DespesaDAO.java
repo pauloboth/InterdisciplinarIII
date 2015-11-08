@@ -188,12 +188,18 @@ public class DespesaDAO {
         return lsCd;
     }
 
-    public void ExcluirLance(List<CustoDespesa> lsCd) {
+    public void ExcluirLance(List<CustoDespesa> lsCd, DespesaMes dm, Despesa d) {
         if (lsCd != null && !lsCd.isEmpty()) {
             session = HibernateUtil.getSessionFactory().openSession();
             session.getTransaction().begin();
             for (CustoDespesa cd : lsCd) {
                 session.delete(cd);
+            }
+            if (dm != null && dm.getDsm_id() > 0) {
+                session.delete(dm);
+            }
+            if (d != null && d.getDes_id() > 0) {
+                session.delete(d);
             }
             session.getTransaction().commit();
             session.close();

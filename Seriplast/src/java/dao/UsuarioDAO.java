@@ -1,6 +1,6 @@
-package set.dao;
+package dao;
 
-import set.model.Usuario;
+import model.Usuario;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,19 +21,15 @@ public class UsuarioDAO {
         return session;
     }
 
-    public void insert(Usuario b) {
+    public void save(Usuario i) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.save(b);
-        t.commit();
-        session.close();
-    }
-
-    public void update(Usuario b) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        session.merge(b);
-        t.commit();
+        session.getTransaction().begin();
+        if (i.getUsu_id() > 0) {
+            session.update(i);
+        } else {
+            session.save(i);
+        }
+        session.getTransaction().commit();
         session.close();
     }
 

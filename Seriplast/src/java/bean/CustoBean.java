@@ -2,7 +2,6 @@ package bean;
 
 import dao.CustoDAO;
 import dao.DespesaDAO;
-import dao.MaquinaDAO;
 import dao.ProducaoDAO;
 import dao.ProdutoDAO;
 
@@ -19,7 +18,6 @@ import javax.faces.model.ListDataModel;
 import model.Custo;
 import model.CustoDespesa;
 import model.Despesa;
-import model.Maquina;
 import model.Producao;
 import model.Produto;
 import model.ProdutoCusto;

@@ -1,7 +1,7 @@
-package set.bean;
+package bean;
 
-import set.dao.UsuarioDAO;
-import set.model.Usuario;
+import dao.UsuarioDAO;
+import model.Usuario;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.servlet.http.Part;
@@ -48,11 +48,10 @@ public class LoginBean {
     }
 
     public void save() {
-        dao.update(usuario);
+        dao.save(usuario);
     }
 
 //    public String getImageUrl(int rep_codigo) {
 //        return "/PraticaII/DirectServlet?method=image&id=" + rep_codigo;
 //    }
-
 }

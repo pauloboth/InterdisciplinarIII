@@ -40,7 +40,6 @@ public class DespesaMesBean {
     private MaquinaDAO maqDAO = new MaquinaDAO();
     private DespesaMesDAO dsmDAO = new DespesaMesDAO();
 
-    private DataModel custos;
     private DataModel despesasmes;
 
     private Despesa despesa = new Despesa();
@@ -61,12 +60,14 @@ public class DespesaMesBean {
     private int mes = 0;
     private int ano = 0;
     private boolean luz = false;
-    private boolean bSave = false;
+    private boolean bSave1 = false;
+    private boolean bSave2 = false;
 
     public DespesaMesBean() {
     }
 
     public List<DespesaMes> getLsDespesaMes() {
+        clearSession();
         List<Despesa> des = desDAO.searchDespesasMes(getMes(), getAno());
         lsDespesaMes = new ArrayList<>();
         if (des != null) {
@@ -88,16 +89,6 @@ public class DespesaMesBean {
         return lsDespesaMes;
     }
 
-    public DataModel getCustos() {
-        clearSession();
-        this.custos = new ListDataModel(dao.findAll());
-        return custos;
-    }
-
-    public void setCustos(DataModel i) {
-        this.custos = i;
-    }
-
     public String delete(Custo i) {
         try {
             dao.delete(i);
@@ -109,7 +100,7 @@ public class DespesaMesBean {
     public String salvar() {
         CalculaLuzMaquina();
         CalcularProdutoCusto();
-        if (bSave) {
+        if ((luz && bSave1 && bSave2) || (!luz && bSave2)) {
             dao.saveList(CriaProdutoCusto());
             clearSession();
             return "despesameslst";
@@ -331,29 +322,31 @@ public class DespesaMesBean {
     }
 
     public List<ProdutoCusto> getLsProdutoCustoMaq() {
-        lsProdutoCustoMaq = new ArrayList<>();
-        lsMaquinas = maqDAO.findAll();
-        for (Maquina m : lsMaquinas) {
-            if (m.getLsProdutoMaquina() != null) {
-                for (ProdutoMaquina pm : m.getLsProdutoMaquina()) {
-                    ProdutoCusto pc = new ProdutoCusto();
-                    pc.setMaquina(m);
-                    pc.setProduto(pm.getProduto());
-                    pc.setTempo(pm.getPrm_tem_pro());
-                    lsProdutoCustoMaq.add(pc);
-                    boolean bAdd = true;
-                    for (ProdutoCusto pcs : lsProdutoCusto) {
-                        if (pcs.getProduto().getPro_id() == pc.getProduto().getPro_id()) {
-                            bAdd = false;
+        if (luz) {
+            lsProdutoCustoMaq = new ArrayList<>();
+            lsMaquinas = maqDAO.findAll();
+            for (Maquina m : lsMaquinas) {
+                if (m.getLsProdutoMaquina() != null) {
+                    for (ProdutoMaquina pm : m.getLsProdutoMaquina()) {
+                        ProdutoCusto pc = new ProdutoCusto();
+                        pc.setMaquina(m);
+                        pc.setProduto(pm.getProduto());
+                        pc.setTempo(pm.getPrm_tem_pro());
+                        lsProdutoCustoMaq.add(pc);
+                        boolean bAdd = true;
+                        for (ProdutoCusto pcs : lsProdutoCusto) {
+                            if (pcs.getProduto().getPro_id() == pc.getProduto().getPro_id()) {
+                                bAdd = false;
+                            }
                         }
-                    }
-                    if (bAdd) {
-                        lsProdutoCusto.add(pc);
+                        if (bAdd) {
+                            lsProdutoCusto.add(pc);
+                        }
                     }
                 }
             }
+            CalculaLuzMaquina();
         }
-        CalculaLuzMaquina();
         return lsProdutoCustoMaq;
     }
 
@@ -382,8 +375,15 @@ public class DespesaMesBean {
         return Erro;
     }
 
-    public boolean isBSave() {
-        return bSave;
+    public boolean isBSave1() {
+        return bSave1;
+    }
+
+    public boolean isBSave2() {
+        if (!luz) {
+            bSave1 = true;
+        }
+        return bSave2;
     }
 
     private void CalculaLuzMaquina() {
@@ -420,10 +420,10 @@ public class DespesaMesBean {
             }
             if (valorTotal > this.valor) {
                 this.Erro = "O Valor total gasto foi maior que o informado!";
-                this.bSave = false;
+                this.bSave1 = false;
             } else if (this.valor > 0) {
                 Erro = "";
-                this.bSave = true;
+                this.bSave1 = true;
             }
 
         }
@@ -431,7 +431,7 @@ public class DespesaMesBean {
 
     private void CalcularProdutoCusto() {
         this.porcent = 0;
-        if (this.lsProdutoCustoMaq == null) {
+        if (this.lsProdutoCustoMaq == null || !luz) {
             this.lsProdutoCustoMaq = new ArrayList<>();
         }
         if (this.lsProdutoCusto == null) {
@@ -465,7 +465,7 @@ public class DespesaMesBean {
             pc.setValor_total(valorT);
         }
         if (this.porcent != 100) {
-            this.bSave = false;
+            this.bSave2 = false;
         }
     }
 
@@ -540,7 +540,6 @@ public class DespesaMesBean {
     }
 
     private void clearSession() {
-        this.custos = new ArrayDataModel();
         this.despesasmes = new ArrayDataModel();
         this.despesa = new Despesa();
         this.produto = new Produto();
@@ -557,13 +556,17 @@ public class DespesaMesBean {
 //        this.mes = 0;
 //        this.ano = 0;
         this.luz = false;
-        this.bSave = false;
+
+        this.bSave1 = false;
+        this.bSave2 = false;
     }
 
     public String ExcluirLance(int des_id) {
         try {
             List<CustoDespesa> lsCd = desDAO.findCustoDespesaMes(des_id, getMes(), getAno());
-            desDAO.ExcluirLance(lsCd);
+            DespesaMes dm = dsmDAO.findUnicaDespesa(des_id);
+            Despesa d = desDAO.findEdit(des_id);
+            desDAO.ExcluirLance(lsCd, dm, d);
         } catch (Exception ex) {
             Erro = "Não foi possível exluir o parcionamento deste lançamento!";
         }

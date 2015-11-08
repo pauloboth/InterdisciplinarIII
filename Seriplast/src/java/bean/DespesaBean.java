@@ -64,6 +64,7 @@ public class DespesaBean {
         try {
             dao.delete(i);
         } catch (Exception e) {
+            Erro = "Não foi possível excluir está Despesa. Ela já pode ter sido lançada!";
         }
         clearSession();
         return "despesalst";
