@@ -263,7 +263,7 @@
                     <div class="form-group">
                         <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Cancelar" outcome="#{despesaMesBean.listar()}" />
-                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{despesaMesBean.salvar()}" disabled="#{!despesaMesBean.BSave}" onclick="return confirm('Tem certeza que os valores estão corretos? Esse dados não poderão mais ser alterados posteriomente!');">
+                            <h:commandButton styleClass="btn btn-success" value="Salvar" action="#{despesaMesBean.salvar()}" disabled="#{!despesaMesBean.BSave1 and !despesaMesBean.BSave2}" onclick="return confirm('Tem certeza que os valores estão corretos? Esse dados não poderão mais ser alterados posteriomente!');">
                             </h:commandButton>
                             <h:commandButton class="btn btn-success btn-lg pull-right" value="Calcular/Atualizar" onclick="Loader()">
                                 <f:ajax execute="@form" render="@form" onevent="Top"/>

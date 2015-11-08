@@ -19,6 +19,9 @@
                 </h:link>
             </div>
             <h:form>
+                <div class="col-xs-12 erro-top">
+                    #{despesaBean.erro}
+                </div>
                 <h:dataTable value="${despesaBean.despesas}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
                         <f:facet name="header">

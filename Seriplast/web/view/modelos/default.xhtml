@@ -72,10 +72,7 @@
                         <h1 class="logo">
                             <h:graphicImage alt="SERIPLAST Serigrafia" name="img/logo.png" style="transform: rotate(2deg);"></h:graphicImage>
                         </h1>
-
                     </h:link>
-
-
                 </div>
 
                 <div class="page-title" style="text-align: center">
@@ -143,35 +140,18 @@
                                     <span class="menu-text">Despesas do Mês</span>
                                 </h:link>
                             </li>
-                                     <li class="#{view.viewId.contains('/view/folder/custo') ? 'active' : ''}">
+                            <li class="#{view.viewId.contains('/view/folder/custo') ? 'active' : ''}">
                                 <h:link outcome="/faces/view/folder/custoprodutolst">
                                     <span class="fa fa-usd"></span>
                                     <span class="menu-text">Custo dos Produtos</span>
                                 </h:link>
                             </li>
-
-                            <!--                            <li class="menu-dropdown {view.viewId.contains('/cfg/') ? 'open' : ''}">
-                                                            <a href="javascript:void(0);">
-                                                                <span class="fa fa-cogs"></span>
-                                                                <span class="menu-text">Configurações</span>
-                                                                <span class="fa dropdown-chevron pull-right"></span>
-                                                            </a>
-                                                            <ul class="submenu">
-                                                                <li class="{view.viewId.contains('/usuario') ? 'active' : ''}">
-                                                                    <h:link outcome="/faces/view/set/usuariolst">
-                                                                        <span class="fa fa-users"></span>
-                                                                        <span class="menu-text">Usuários</span>
-                                                                    </h:link>
-                                                                </li>
-                                                                <li class="{view.viewId.contains('/pessoa') ? 'active' : ''}">
-                                                                    <h:link outcome="/faces/view/set/pessoalst">
-                                                                        <span class="fa fa-user"></span>
-                                                                        <span class="menu-text">Pessoas</span>
-                                                                    </h:link>
-                                                                </li>
-                                                            </ul>
-                                                        </li>-->
-
+                            <li class="#{view.viewId.contains('/view/folder/usuario') ? 'active' : ''}">
+                                <h:link outcome="/faces/view/folder/usuariolst">
+                                    <span class="fa fa-users"></span>
+                                    <span class="menu-text">Usuários</span>
+                                </h:link>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -1,27 +1,27 @@
 ///// FONTES /////
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(../fonts/opensans/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(../fonts/opensans/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(../fonts/opensans/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(../fonts/opensans/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
 }
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../fonts/opensans/k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2) format('woff2'), url(../fonts/opensans/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../fonts/opensans/k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2) format('woff2'), url(../fonts/opensans/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
 }
 @font-face {
-  font-family: 'Signika';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Signika'), local('Signika-Regular'), url(../fonts/signika/q41y_9MUP_N8ipOH4ORRvw.woff2) format('woff2'), url(../fonts/signika/_M5k9_BZTkfaM2dnN0vNGw.woff) format('woff');
+    font-family: 'Signika';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Signika'), local('Signika-Regular'), url(../fonts/signika/q41y_9MUP_N8ipOH4ORRvw.woff2) format('woff2'), url(../fonts/signika/_M5k9_BZTkfaM2dnN0vNGw.woff) format('woff');
 }
 @font-face {
-  font-family: 'Signika';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Signika-Bold'), url(../fonts/signika/7M5kxD4eGxuhgFaIk95pBfk_vArhqVIZ0nv9q090hN8.woff2) format('woff2'), url(../fonts/signika/7M5kxD4eGxuhgFaIk95pBRsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+    font-family: 'Signika';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Signika-Bold'), url(../fonts/signika/7M5kxD4eGxuhgFaIk95pBfk_vArhqVIZ0nv9q090hN8.woff2) format('woff2'), url(../fonts/signika/7M5kxD4eGxuhgFaIk95pBRsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
 }
 
 ///// VARIÁVEIS /////
@@ -29,7 +29,7 @@
 @fontesTexto: 'Open Sans', Tahoma, Arial, sans-serif;
 
 // Cores
-@corPrimaria: #00456A;
+@corPrimaria: #A2192B;
 @corSecundaria: #777777;
 @corHoverBranco: #F5F5F5;
 
@@ -129,29 +129,29 @@
     .col-excluir-header {
         max-width: 50px;
     }
-    
+
     div.dataTables_paginate {
         padding: 0;
-        
+
         .paginate_button {
             padding: 0;
-            
+
             &:hover {
                 color: @corPrimaria;
                 border: 1px solid transparent;
                 background: none;
             }
         }
-        
+
         ul.pagination {
             margin: 0;
 
             > .disabled > a,
             > .disabled > a:focus,
-            > .disabled > a:hover,
-            > .disabled > span,
-            > .disabled > span:focus,
-            > .disabled > span:hover {
+                > .disabled > a:hover,
+                > .disabled > span,
+                > .disabled > span:focus,
+                > .disabled > span:hover {
                 color: #bebebe;
             }
 
@@ -167,7 +167,7 @@ body {
 // Página de login
 .page-login {
     font-family: @fontesTexto;
-    
+
     .logo {
         margin: 3% auto 0;
         text-align: center;
@@ -234,19 +234,19 @@ body {
     border-radius: 5px;
     color: @corSecundaria;
     padding: 10px 0;
-    
+
     i {
         display: block;
         width: 100%;
         text-align: center;
     }
-    
+
     &:hover {
         background: #e5e5e5;
         text-decoration: none;
         color: @corPrimaria;
     }
-    
+
     span {
         font-size: 16px;
     }
@@ -278,12 +278,12 @@ body {
         font-family: @fontesTexto;
     }
     &:hover > a,
-    &:active > a {
+        &:active > a {
         color: @corPrimaria;
     }
-    
+
     &:hover > a.dropdown-icon .badge,
-    &:active > a.dropdown-icon .badge {
+        &:active > a.dropdown-icon .badge {
         background-color: darken(@corRed, 20%);
     }
     > a.dropdown-icon {
@@ -324,27 +324,27 @@ body {
     margin-right: -100%;
     position: relative;
     width: @sidebarWidth;
-    
+
     a:hover,
-    a:active, 
-    a:focus {
+        a:active, 
+        a:focus {
         text-decoration: none;
         outline: none;
     }
-    
+
     .page-sidebar-menu {
         list-style: none;
         margin: 10px 0;
         padding: 0;
         color: @corSecundaria;
         font-size: 14px;
-        
+
         li {
             border: 0;
             display: block;
             margin: 0;
             padding: 0;
-            
+
             > a {
                 color: @corSecundaria;
                 border: none;
@@ -354,33 +354,33 @@ body {
                 padding: 15px;
             }
         }
-        
+
         > li  a  .glyphicon,
         > li  a  .fa {
             font-size: 18px;
         }
         > li > a > .right-arrow { //unused
-            height: 0px;
-            width: 0px;
-            border-style: solid;
-            border-width: 10px;
-            border-left-color: @corPrimaria;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            border-right-color: transparent;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            margin-top: -10px;
+                                  height: 0px;
+                                  width: 0px;
+                                  border-style: solid;
+                                  border-width: 10px;
+                                  border-left-color: @corPrimaria;
+                                  border-top-color: transparent;
+                                  border-bottom-color: transparent;
+                                  border-right-color: transparent;
+                                  position: absolute;
+                                  left: 0;
+                                  top: 50%;
+                                  margin-top: -10px;
         }
-        
+
         li.open > a,
         li:hover > a,
-        li.active > a {
+            li.active > a {
             background-color: @corHoverBranco;
             color: @corPrimaria;
         }
-        
+
         li.active > a {
             border-left: 3px solid @corPrimaria;
             //margin-left: -2px;
@@ -403,14 +403,14 @@ body {
                 margin: 3px 0 5px 0;
                 list-style-type: none;
                 box-shadow: 0px 1px 10px -6px inset;
-                
+
                 > li {
                     a {
                         padding: 8px 10px 8px 30px;
                     }
                     > .submenu {
                         margin: 2px 0;
-                        
+
                         > li {
                             a {
                                 padding: 8px 10px 8px 40px;
@@ -419,10 +419,10 @@ body {
                     }
                 }
             }
-            
+
             &.open {
                 > a > .dropdown-chevron:before,
-                > .dropdown-chevron:before {
+                    > .dropdown-chevron:before {
                     content: "\f078";
                 }
                 > .submenu {
@@ -436,18 +436,18 @@ body {
 .page-content-wrapper {
     float: left;
     width: 100%;
-    
+
     .page-content {
         margin-left: @sidebarWidth;
         min-height: 600px;
         padding: 10px 0 0 20px;
-        
+
         > .page-title h2 {
             font-family: @fontesTitulo;
             color: @corPrimaria;
             margin: 10px 0;
         }
-        
+
     }
 }
 
@@ -456,7 +456,7 @@ body {
     td {
         padding: 10px;
     }
-    
+
     input, label {
         cursor: pointer;
     }
@@ -468,13 +468,13 @@ body {
 .pergunta-link {
     line-height: 30px;
     cursor: pointer;
-    
+
     &:hover  {
         //Para a div.pergunta-link funcionar como a.pergunta-link
         background-color: #f5f5f5;
         color: #555;
         text-decoration: none;
-        
+
         .btn-group {
             display: inline-block;
         }
@@ -498,18 +498,18 @@ body {
         position: relative;
         cursor: pointer;
     }
-    
+
     .ink {
         display: block;
         position: absolute;
         background: lighten(@corPrimaria, 70%);
-	border-radius: 100%;
-	transform: scale(0);
+        border-radius: 100%;
+        transform: scale(0);
     }
     .ink.animate{
         animation: ripple 0.65s linear;
     }
     @keyframes ripple {
-	100% {opacity: 0; transform: scale(2.5);}
+        100% {opacity: 0; transform: scale(2.5);}
     }
 }
