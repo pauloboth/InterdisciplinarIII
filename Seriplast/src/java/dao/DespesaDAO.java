@@ -12,20 +12,20 @@ import org.hibernate.Session;
 import util.HibernateUtil;
 
 public class DespesaDAO {
-
+    
     private Session session;
-
+    
     public DespesaDAO() {
         session = HibernateUtil.getSessionFactory().openSession();
     }
-
+    
     public Session getSession() {
         if (session == null || !session.isOpen() || !session.isConnected()) {
             session = HibernateUtil.getSessionFactory().openSession();
         }
         return session;
     }
-
+    
     public void save(Despesa i) {
         if (i.getDes_tipo() != 1) {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -40,7 +40,7 @@ public class DespesaDAO {
             session.close();
         }
     }
-
+    
     private void deleteFuturosLancamentos(int des_id) {
         int mes = new Date().getDate() + 1;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
@@ -73,7 +73,7 @@ public class DespesaDAO {
             }
         }
     }
-
+    
     public void saveList(Despesa i, List<DespesaMes> lsDm, List<CustoDespesa> lsCd) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
@@ -107,7 +107,7 @@ public class DespesaDAO {
         session.getTransaction().commit();
         session.close();
     }
-
+    
     public void delete(Despesa i) {
         if (i.getDes_tipo() != 1) {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -117,39 +117,43 @@ public class DespesaDAO {
             session.close();
         }
     }
-
+    
     public Despesa findById(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
         Despesa m = (Despesa) session.get(Despesa.class, id);
         session.close();
-
+        
         return m;
     }
-
+    
     public List<Despesa> findAll() {
         session = HibernateUtil.getSessionFactory().openSession();
         List<Despesa> ls = session.createQuery("from Despesa").list();
         session.close();
         return ls;
     }
-
+    
     public List<Despesa> findAllEdit() {
         session = HibernateUtil.getSessionFactory().openSession();
         List<Despesa> ls = session.createQuery("from Despesa where des_tipo in (1, 2) and des_status = 1").list();
         session.close();
         return ls;
     }
-
+    
     public Despesa findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
         // Query para retornar o Despesa e a lista de produtos (fetch)
         Despesa d = (Despesa) session.createQuery("select d from Despesa d "
                 + "left outer join fetch d.lsProdutoDespesa pd where d.des_id = :d")
                 .setParameter("d", id).uniqueResult();
+        Despesa d2 = (Despesa) session.createQuery("select d from Despesa d "
+                + "left outer join fetch d.lsCustoDespesa pd where d.des_id = :d")
+                .setParameter("d", id).uniqueResult();
         session.close();
+        d.setLsCustoDespesa(d2.getLsCustoDespesa());
         return d;
     }
-
+    
     public List<Despesa> searchDespesasMes(int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         List<Despesa> ls = session.createQuery("select d from Despesa d where 1=1 "
@@ -159,7 +163,7 @@ public class DespesaDAO {
         session.close();
         return ls;
     }
-
+    
     public DespesaMes lastMonth(int id_des) {
         session = HibernateUtil.getSessionFactory().openSession();
         DespesaMes dm = null;
@@ -174,7 +178,7 @@ public class DespesaDAO {
         }
         return dm;
     }
-
+    
     public List<CustoDespesa> findCustoDespesaMes(int des_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         List<CustoDespesa> lsCd = session.createQuery("select cd from CustoDespesa cd "
@@ -187,7 +191,7 @@ public class DespesaDAO {
         session.close();
         return lsCd;
     }
-
+    
     public void ExcluirLance(List<CustoDespesa> lsCd, DespesaMes dm, Despesa d) {
         if (lsCd != null && !lsCd.isEmpty()) {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -198,7 +202,7 @@ public class DespesaDAO {
             if (dm != null && dm.getDsm_id() > 0) {
                 session.delete(dm);
             }
-            if (d != null && d.getDes_id() > 0) {
+            if (d != null && d.getDes_id() > 0 && d.getDes_tipo() == 5) {
                 session.delete(d);
             }
             session.getTransaction().commit();

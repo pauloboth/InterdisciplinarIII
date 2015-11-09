@@ -74,9 +74,9 @@ public class DespesaMesDAO {
 
     public DespesaMes findUnicaDespesa(int des_id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        DespesaMes m = (DespesaMes) session.createQuery("select dm from DespesaMes dm join "
-                + "dm.despesa = d "
-                + "where d.des_id = :des_id and d.des_tipo = 5")
+        DespesaMes m = (DespesaMes) session.createQuery("select dm from DespesaMes dm "
+                + "join dm.despesa d "
+                + "where d.des_id = :des_id")
                 .setParameter("des_id", des_id).uniqueResult();
         session.close();
         return m;
