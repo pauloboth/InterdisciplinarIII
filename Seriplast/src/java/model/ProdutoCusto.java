@@ -21,6 +21,7 @@ public class ProdutoCusto {
     private double media_total;
     private double valor_unitario;
     private List<CustoDespesa> lsCustoDespsa;
+    private double custo_compra;
     
     
     private Date anodespesa;
@@ -167,6 +168,14 @@ public class ProdutoCusto {
 
     public void setMedia_total(double media_total) {
         this.media_total = media_total;
+    }
+
+    public double getCusto_compra() {
+        return custo_compra;
+    }
+
+    public void setCusto_compra(double custo_compra) {
+        this.custo_compra = custo_compra;
     }
 
 }

@@ -99,4 +99,15 @@ public class ProducaoDAO {
         session.close();
         return lsPp;
     }
+      
+      public List<ProdutoProducao> totalProducao(int pro_id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        List<ProdutoProducao> lsPp = session.createQuery("select pp from ProdutoProducao pp "
+                + "join pp.producao prd "
+                + "where pp.produto.pro_id = :p "
+                )
+                .setParameter("p", pro_id).list();
+        session.close();
+        return lsPp;
+    }
 }

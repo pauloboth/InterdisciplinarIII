@@ -179,39 +179,51 @@ public class CustoBean {
                         valor_total += cd.getCsd_valor();
                     }
                 }
-                int total = 0;
+                int total_produzido = 0;
                 List<ProdutoProducao> lsPp = pedDAO.totalProducaoMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
                 for (ProdutoProducao pp : lsPp) {
-                    total += pp.getPrp_quantidade();
+                    total_produzido += pp.getPrp_quantidade();
                 }
-                if (total > 0) {
-                    valor_uni = valor_total / total;
-                    valor_uni = Double.parseDouble(Math.round(valor_uni * 1000) + "") / 1000;
+               
+                
+                valor_total = valor_total + produto.getPro_preco()*total_produzido;
+                if (total_produzido > 0) {
+                    valor_uni = valor_total / total_produzido; 
                 }
-                pc.setTotal(total);
-                valor_total = Double.parseDouble(Math.round(valor_total * 1000) + "") / 1000;
+                pc.setCusto_compra(produto.getPro_preco());
+                pc.setTotal(total_produzido);
                 pc.setValor_total(valor_total);
                 pc.setValor_unitario(valor_uni);
                 pc.setAnodespesa(c.getCus_data_ref());
                 lsProdutoCusto.add(pc);
 
             }
-//            for (ProdutoCusto pc : lsProdutoCusto) {
-//                lstprodutopedido = pedDAO.totalPedidosAno(produto.getPro_id(), getAno());
-//                for (ProdutoProducao pp : lstprodutopedido) {
-//                    quantidade = pp.getPrp_quantidade() + quantidade;
-//                    pc.setValor_total(pc.getValor_total() / quantidade);
-//                }
-//            }
+            for (ProdutoCusto pc : lsProdutoCusto) {
+                lstprodutopedido = pedDAO.totalProducaoAno(produto.getPro_id(), getAno());
+                for (ProdutoProducao pp : lstprodutopedido) {
+                    quantidade = pp.getPrp_quantidade() + quantidade;
+                 //   pc.setValor_total(pc.getValor_total() / quantidade);
+                   
+                }
+            }
 
         }
         //CARREGA MEDIA DO ANO
-        for (ProdutoCusto pc : lsProdutoCusto) {
-            i = i + 1;
-            valor += pc.getValor_unitario();
+        for (ProdutoCusto pcc : lsProdutoCusto) {
+          //  i = i + 1;
+            valor += pcc.getValor_unitario();
+            
         }
-        valor = valor / i;
-        produtocusto.setMedia_ano(valor);
+        //formata valor
+        double transforma;
+        valor = valor / lsProdutoCusto.size();
+        transforma = valor *100;
+        transforma = Double.parseDouble(""+ Math.round(transforma))/100;
+        
+        produtocusto.setMedia_ano(transforma);
+        
+        
+        
 
 //        CARREGA MEDIA TOTAL
 //        lsCustosAll = cusDAO.findAll();
@@ -228,16 +240,16 @@ public class CustoBean {
 //                    }
 //                }
 //                int total = 0;
-//                List<ProdutoPedido> lsPp = pedDAO.totalPedidosMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
+//                List<ProdutoProducao> lsPp = pedDAO.totalProducao(produto.getPro_id());
 //                for (ProdutoProducao pp : lsPp) {
 //                    total += pp.getPrp_quantidade();
 //                }
 //                if (total > 0) {
 //                    valor_uni = valor_total / total;
-//                    valor_uni = Double.parseDouble(Math.round(valor_uni * 1000) + "") / 1000;
+//                    //valor_uni = Double.parseDouble(Math.round(valor_uni * 1000) + "") / 1000;
 //                }
 //                pc.setTotal(total);
-//                valor_total = Double.parseDouble(Math.round(valor_total * 1000) + "") / 1000;
+//                //valor_total = Double.parseDouble(Math.round(valor_total * 1000) + "") / 1000;
 //                pc.setValor_total(valor_total);
 //                pc.setValor_unitario(valor_uni);
 //                pc.setAnodespesa(c.getCus_data_ref());
@@ -246,11 +258,15 @@ public class CustoBean {
 //        }
 //
 //        for (ProdutoCusto pc : lsProdutoCustoAll) {
-//            i = i + 1;
+//           // i = i + 1;
 //            valor += pc.getValor_unitario();
 //        }
-//        valor = valor / i;
-//        produtocusto.setMedia_total(valor);
+//        double transforma2=0;
+//        valor = valor / lsProdutoCustoAll.size();
+//        transforma2 = valor *100;
+//        transforma2 = Double.parseDouble(""+ Math.round(transforma2))/100;
+//        produtocusto.setMedia_total(transforma2);
+        
     }
 
     public double getmediaano() {
