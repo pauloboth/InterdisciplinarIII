@@ -38,7 +38,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="nome" class="col-sm-4 control-label">Nome:</label>
+                                <label for="nome" class="col-sm-4 control-label">Nome*:</label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:required="required" id="nome" value="#{produtoBean.produto.pro_nome}" title="Nome do Produto" styleClass="form-control" pt:autofocus="" />
                                 </div>  
@@ -47,7 +47,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="status" class="col-sm-4 control-label">Status: </label>
+                                <label for="status" class="col-sm-4 control-label">Status*: </label>
                                 <div class="col-sm-8">
                                     <h:selectOneMenu pt:required="required" id="status" value="#{produtoBean.produto.pro_status}" title="Status" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="1" itemLabel="Ativo"/>
@@ -59,7 +59,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="preco" class="col-sm-4 control-label">Custo de Compra: </label>
+                                <label for="preco" class="col-sm-4 control-label">Custo de Compra*: </label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:type="number" pt:required="required" pt:step="0.10" pt:min="0" id="preco" value="#{produtoBean.produto.pro_preco}" title="Preço do produto" styleClass="form-control" pt:autofocus="" style="text-align: right" />
                                 </div>  
@@ -68,7 +68,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="categoria" class="col-sm-4 control-label">Categoria: </label>
+                                <label for="categoria" class="col-sm-4 control-label">Categoria*: </label>
                                 <div class="col-sm-8">
                                     <h:selectOneMenu id="categoria" converter="categoriaConverter" value="#{produtoBean.produto.categoria}" styleClass="form-control" pt:autofocus="" >
                                         <f:selectItems value="#{produtoBean.lsCategorias}" var="cat" itemLabel="#{cat.toString()}" itemValue="#{cat}"/>

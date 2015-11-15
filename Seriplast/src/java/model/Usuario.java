@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,15 +20,15 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "usu_id")
     private int usu_id;
 
-    @Id
+    private String usu_nome;
+    private String usu_email;
     private String usu_login;
     private String usu_senha;
     private boolean usu_status;
-    private String usu_nome;
 
-    @OneToMany
-    @JoinColumn(name = "usu_login", referencedColumnName = "usu_login")
-    private List<Grupo> grupos;
+    @ManyToOne
+    @JoinColumn(name = "gro_id", referencedColumnName = "gro_id")
+    private Grupo grupo;
 
     public Usuario() {
     }
@@ -73,12 +73,23 @@ public class Usuario implements Serializable {
         this.usu_nome = usu_nome;
     }
 
-    public List<Grupo> getGrupos() {
-        return grupos;
+    public String getUsu_email() {
+        return usu_email;
     }
 
-    public void setGrupos(List<Grupo> grupos) {
-        this.grupos = grupos;
+    public void setUsu_email(String usu_email) {
+        this.usu_email = usu_email;
     }
 
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public String toString() {
+        return getUsu_nome();
+    }
 }

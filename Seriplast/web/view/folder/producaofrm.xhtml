@@ -44,7 +44,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="cliente" class="col-sm-4 control-label">Cliente:</label>
+                                <label for="cliente" class="col-sm-4 control-label">Cliente*:</label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:required="required" id="cliente" value="#{producaoBean.producao.prd_cliente}" title="Nome do Cliente" styleClass="form-control" pt:autofocus="" />
                                 </div>  
@@ -53,7 +53,7 @@
 
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <h:outputLabel class="col-xs-2 control-label" value="Mês:"/>
+                                <h:outputLabel class="col-xs-2 control-label" value="Mês*:"/>
                                 <div class="col-xs-8">
                                     <h:selectOneMenu id="mes" value="#{producaoBean.mes}" styleClass="form-control" pt:autofocus=""  >
                                         <f:selectItems value="#{padraoBean.Meses(12)}" var="m" itemLabel="#{padraoBean.mesString(m)}" itemValue="#{m}"/>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                                <h:outputLabel class="col-xs-2 control-label" value="Ano*:"/>
                                 <div class="col-xs-8">
                                     <h:selectOneMenu id="ano" value="#{producaoBean.ano}" styleClass="form-control" pt:autofocus="">
                                         <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>

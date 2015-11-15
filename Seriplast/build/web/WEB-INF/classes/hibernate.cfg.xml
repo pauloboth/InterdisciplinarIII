@@ -6,7 +6,9 @@
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seriplast</property>
     <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">erl</property>
+    <property name="hibernate.connection.password">123</property>
+<!--    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>-->
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="model.Categoria"/>
     <mapping class="model.Custo"/>
@@ -19,5 +21,7 @@
     <mapping class="model.DespesaMes"/>
     <mapping class="model.Producao"/>
     <mapping class="model.ProdutoProducao"/>
+    <mapping class="model.Grupo"/>
+    <mapping class="model.Usuario"/>
   </session-factory>
 </hibernate-configuration>

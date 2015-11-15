@@ -1,19 +1,23 @@
 package bean;
 
+import dao.GrupoDAO;
 import dao.UsuarioDAO;
+import java.util.ArrayList;
+import java.util.List;
 import model.Usuario;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import model.Grupo;
 
 @ManagedBean
-@RequestScoped
 public class UsuarioBean {
 
     private Usuario usuario = new Usuario();
     private UsuarioDAO dao = new UsuarioDAO();
     private DataModel usuarios;
+    private List<Grupo> lsGrupo = new ArrayList<>();
+    private GrupoDAO gruDAO = new GrupoDAO();
 
     public UsuarioBean() {
     }
@@ -52,6 +56,11 @@ public class UsuarioBean {
 
     public String listar() {
         return "usuariolst";
+    }
+
+    public List<Grupo> getLsGrupo() {
+        lsGrupo = gruDAO.findAll();
+        return lsGrupo;
     }
 
 }

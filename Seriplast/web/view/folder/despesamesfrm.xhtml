@@ -72,7 +72,7 @@
                         <h:panelGroup rendered="#{despesaMesBean.luz}">
                             <div class="col-sm-4 col-xs-12">
                                 <div class="form-group">
-                                    <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
+                                    <label for="despesa" class="col-sm-4 control-label">Despesa*:</label>
                                     <div class="col-sm-8" style="padding-top: 7px;">
                                         <h:outputText value="#{despesaMesBean.despesa.des_nome}"/>
                                     </div>
@@ -80,17 +80,17 @@
                             </div>
                             <div class="col-sm-4 col-xs-12">
                                 <div class="form-group">
-                                    <label for="valor1" class="col-sm-7 control-label">Valor da Despesa:</label>
+                                    <label for="valor1" class="col-sm-7 control-label">Valor da Despesa*:</label>
                                     <div class="col-sm-5">
-                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor1" value="#{despesaMesBean.valor}" title="Valor da Luz" styleClass="form-control" pt:autofocus=""/>
+                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor1" value="#{despesaMesBean.valor}" title="Valor da Luz" styleClass="form-control" pt:autofocus="" style="text-align: right"/>
                                     </div>  
                                 </div>
                             </div> 
                             <div class="col-sm-4 col-xs-12">
                                 <div class="form-group">
-                                    <label for="watts" class="col-sm-7 control-label">Watts Gastos:</label>
+                                    <label for="watts" class="col-sm-7 control-label">Watts Gastos*:</label>
                                     <div class="col-sm-5">
-                                        <h:inputText pt:required="required" pt:type="number" pt:min="0" id="watts" value="#{despesaMesBean.watts}" title="Watts Gastos na Luz" styleClass="form-control" pt:autofocus=""/>
+                                        <h:inputText pt:required="required" pt:type="number" pt:min="0" id="watts" value="#{despesaMesBean.watts}" title="Watts Gastos na Luz" styleClass="form-control" pt:autofocus="" style="text-align: right"/>
                                     </div>  
                                 </div>
                             </div> 
@@ -98,7 +98,7 @@
                         <h:panelGroup rendered="#{!despesaMesBean.luz}">
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="despesa" class="col-sm-4 control-label">Despesa:</label>
+                                    <label for="despesa" class="col-sm-4 control-label">Despesa*:</label>
                                     <h:panelGroup class="col-sm-8" rendered="#{despesaMesBean.despesa.des_id == 0}" >
                                         <h:inputText pt:required="required" id="despesa" value="#{despesaMesBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
                                     </h:panelGroup>
@@ -109,9 +109,9 @@
                             </div>
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="valor" class="col-sm-4 control-label">Valor da Despesa:</label>
+                                    <label for="valor" class="col-sm-4 control-label">Valor da Despesa*:</label>
                                     <div class="col-sm-8">
-                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor" value="#{despesaMesBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus=""/>
+                                        <h:inputText pt:required="required" pt:type="number" pt:step="0.10" pt:min="0" id="valor" value="#{despesaMesBean.valor}" title="Valor da Despesa" styleClass="form-control" pt:autofocus="" style="text-align: right"/>
                                     </div>  
                                 </div>
                             </div>

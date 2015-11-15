@@ -30,30 +30,35 @@
         </style>
 
         <div class="panel panel-body">
-            <h3 class="panel-title-top pull-left col-sm-5"> #{custoBean.produto}</h3>
+            <h3 class="panel-title-top pull-left col-sm-5"> #{custoBean.produto.pro_nome}</h3>
 
 
             <f:view>
                 <h:form styleClass="form-horizontal">
-                    <h3 class="panel-title-top pull-right">Custo Médio (Total): #{custoBean.getmediatotal()}</h3>
-                    <h3 class="panel-title-top pull-right">Custo Médio (#{custoBean.ano}): #{custoBean.getmediaano()}</h3>
-
-
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
+                    <div class="pull-right" style="margin-top: -40px;">
+                        <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio Total:
+                            <h:outputText value="#{custoBean.getmediatotal()}">
+                                <f:convertNumber currencySymbol="R$" type="currency" />
+                            </h:outputText>
+                        </h3>
+                        <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio de #{custoBean.ano}: 
+                            <h:outputText value="#{custoBean.getmediaano()}">
+                                <f:convertNumber currencySymbol="R$" type="currency" />
+                            </h:outputText>
+                        </h3> 
+                    </div>
 
-                    <div class="row col-sm-12">  
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
-                                <div class="col-xs-8">
-                                    <h:selectOneMenu id="ano" value="#{custoBean.ano}" styleClass="form-control">
-                                        <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:selectOneMenu>
-                                </div>
+                    <div class="col-sm-3 row pull-left">
+                        <div class="form-group">
+                            <h:outputLabel class="col-xs-2 control-label" value="Ano:"/>
+                            <div class="col-xs-8">
+                                <h:selectOneMenu id="ano" value="#{custoBean.ano}" styleClass="form-control">
+                                    <f:selectItems value="#{padraoBean.Anos(1)}" var="a" itemLabel="#{a}" itemValue="#{a}"/>
+                                    <f:ajax execute="@form" render="@form" />
+                                </h:selectOneMenu>
                             </div>
                         </div>
-
                     </div>
 
 

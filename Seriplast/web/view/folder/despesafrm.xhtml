@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="nome" class="col-sm-4 control-label">Nome:</label>
+                                <label for="nome" class="col-sm-4 control-label">Nome*:</label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:required="required" id="nome" value="#{despesaBean.despesa.des_nome}" title="Nome da Despesa" styleClass="form-control" pt:autofocus="" />
                                 </div>  
@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="status" class="col-sm-4 control-label">Status: </label>
+                                <label for="status" class="col-sm-4 control-label">Status*: </label>
                                 <div class="col-sm-8">
                                     <h:selectOneMenu pt:required="required" id="status" value="#{despesaBean.despesa.des_status}" title="Status" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="1" itemLabel="Ativo"/>
@@ -67,7 +67,7 @@
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="tipo" class="col-sm-4 control-label">Tipo: </label>
+                                <label for="tipo" class="col-sm-4 control-label">Tipo*: </label>
                                 <div class="col-sm-8">
                                     <h:selectOneMenu pt:required="required" pt:id="tipo_desp" id="tipo" value="#{despesaBean.despesa.des_tipo}" title="Tipo" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="2" itemLabel="Mensal"/>
@@ -81,7 +81,7 @@
 
                         <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
                             <div class="form-group">
-                                <label for="valor" class="col-sm-4 control-label">Valor: </label>
+                                <label for="valor" class="col-sm-4 control-label">Valor*: </label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:type="number" pt:required="required" pt:step="0.10" pt:min="0" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
                                 </div>  
@@ -90,7 +90,7 @@
 
                         <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
                             <div class="form-group">
-                                <label for="inicio_dpr" class="col-sm-4 control-label">Início:  </label>
+                                <label for="inicio_dpr" class="col-sm-4 control-label">Início*:  </label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:type="date" pt:required="required" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
                                         <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{padraoBean.timeZone}"/>
@@ -101,7 +101,7 @@
 
                         <h:panelGroup class="col-md-6 col-xs-12" rendered="#{despesaBean.despesa.des_tipo == 3}">
                             <div class="form-group">
-                                <label for="depr_mes" class="col-sm-4 control-label">Meses:  </label>
+                                <label for="depr_mes" class="col-sm-4 control-label">Meses*:  </label>
                                 <div class="col-sm-8">
                                     <h:inputText pt:type="number" pt:required="required" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
                                 </div>  
