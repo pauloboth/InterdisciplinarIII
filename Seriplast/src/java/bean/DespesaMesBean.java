@@ -483,13 +483,9 @@ public class DespesaMesBean {
             prodCus.setDespesames(dm);
             List<CustoDespesa> lscd = new ArrayList<>();
             for (ProdutoCusto pc : this.lsProdutoCusto) {
-                Custo c = new Custo();
-
-                if (d.getDes_id() > 0) {
-                    c = dao.SearchCusto(pc.getProduto().getPro_id(), getMes(), getAno());
-                    if (c == null) {
-                        c = new Custo();
-                    }
+                Custo c = dao.SearchCusto(pc.getProduto().getPro_id(), getMes(), getAno());
+                if (c == null) {
+                    c = new Custo();
                 }
                 c.setCus_preco_produto(pc.getProduto().getPro_preco());
                 c.setProduto(pc.getProduto());
@@ -556,7 +552,7 @@ public class DespesaMesBean {
         try {
             List<CustoDespesa> lsCd = desDAO.findCustoDespesaMes(des_id, getMes(), getAno());
             DespesaMes dm = dsmDAO.findUnicaDespesa(des_id);
-            Despesa d = desDAO.findEdit(des_id);
+            Despesa d = desDAO.findById(des_id);
             desDAO.ExcluirLance(lsCd, dm, d);
         } catch (Exception ex) {
             Erro = "Não foi possível exluir o parcionamento deste lançamento!";
