@@ -183,7 +183,8 @@ public class CustoBean {
 
             // se não estiver, passa todos os custos      
             for (Custo c : lsCustos) {
-
+               
+                
                 double valor_total_mes = 0;
                 double valor_total_custo = 0;
                 double valor_total_compra_mes = 0;
