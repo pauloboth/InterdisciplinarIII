@@ -15,6 +15,7 @@
 
     <ui:define name="main-content">
         <f:event listener="#{custoBean.carrega()}" type="preRenderView"/>
+        <f:event listener="#{custoBean.carrega2()}" type="preRenderView"/>
 
         <style>
             .textAreaTable{
@@ -35,6 +36,10 @@
 
             <f:view>
                 <h:form styleClass="form-horizontal">
+
+                  
+
+
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
                     <div class="pull-right" style="margin-top: -40px;">
                         <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio Total:
@@ -78,39 +83,57 @@
                                         </h:outputText>
                                     </div>
                                 </h:column>
+                                
+                                  <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade Produzida"/>
+                                    </f:facet>
+                                    <div style="text-align: center">
+                                        <h:outputText value="${item.quantidade_produzida_mes}">
+
+                                        </h:outputText>
+                                    </div>
+                                </h:column>
+                                    <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor Compra"/>
+
+                                    </f:facet>
+
+                                    <div style="text-align: right">
+                                        <h:outputText value="${item.custo_compra_total}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </div>
+
+                                </h:column>
+                                 <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor Despesas"/>
+
+                                    </f:facet>
+
+                                    <div style="text-align: right">
+                                        <h:outputText value="${item.valor_mes_sp}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </div>
+
+                                </h:column>
+                                
+                             
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Custo total de Produção"/>
                                     </f:facet>
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.valor_total}">
+                                        <h:outputText value="${item.valor}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>
                                 </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Quantidade Produzida"/>
-                                    </f:facet>
-                                    <div style="text-align: center">
-                                        <h:outputText value="${item.total}">
-
-                                        </h:outputText>
-                                    </div>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Custo de Compra"/>
-
-                                    </f:facet>
-
-                                    <div style="text-align: right">
-                                        <h:outputText value="${item.custo_compra}">
-                                            <f:convertNumber currencySymbol="R$" type="currency" />
-                                        </h:outputText>
-                                    </div>
-
-                                </h:column>
+                              
+                               
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Custo Final por Unidade"/>
