@@ -12,16 +12,22 @@ public class ProdutoCusto {
     private DespesaMes despesames;
     private CustoDespesa custodespesa;
     private int total;
+    private int quantidade_produzida_mes;
+    private int quantidade_produzida_ano;
+    private int quantidade_produzida_total;
     private int participacao;
     private String notas;
     private int tempo;
     private double valor;
+    private double valor_mes;
+    private double valor_mes_sp;
     private double valor_total;
     private double media_ano;
     private double media_total;
     private double valor_unitario;
     private List<CustoDespesa> lsCustoDespsa;
-    private double custo_compra;
+    private double custo_compra_total;
+    private double custo_compra_unidade;
     
     
     private Date anodespesa;
@@ -170,12 +176,62 @@ public class ProdutoCusto {
         this.media_total = media_total;
     }
 
-    public double getCusto_compra() {
-        return custo_compra;
+ 
+
+    public int getQuantidade_produzida_mes() {
+        return quantidade_produzida_mes;
     }
 
-    public void setCusto_compra(double custo_compra) {
-        this.custo_compra = custo_compra;
+    public void setQuantidade_produzida_mes(int quantidade_produzida_mes) {
+        this.quantidade_produzida_mes = quantidade_produzida_mes;
+    }
+
+    public int getQuantidade_produzida_ano() {
+        return quantidade_produzida_ano;
+    }
+
+    public void setQuantidade_produzida_ano(int quantidade_produzida_ano) {
+        this.quantidade_produzida_ano = quantidade_produzida_ano;
+    }
+
+    public int getQuantidade_produzida_total() {
+        return quantidade_produzida_total;
+    }
+
+    public void setQuantidade_produzida_total(int quantidade_produzida_total) {
+        this.quantidade_produzida_total = quantidade_produzida_total;
+    }
+
+    public double getValor_mes() {
+        return valor_mes;
+    }
+
+    public void setValor_mes(double valor_mes) {
+        this.valor_mes = valor_mes;
+    }
+
+    public double getCusto_compra_total() {
+        return custo_compra_total;
+    }
+
+    public void setCusto_compra_total(double custo_compra_total) {
+        this.custo_compra_total = custo_compra_total;
+    }
+
+    public double getCusto_compra_unidade() {
+        return custo_compra_unidade;
+    }
+
+    public void setCusto_compra_unidade(double custo_compra_unidade) {
+        this.custo_compra_unidade = custo_compra_unidade;
+    }
+
+    public double getValor_mes_sp() {
+        return valor_mes_sp;
+    }
+
+    public void setValor_mes_sp(double valor_mes_sp) {
+        this.valor_mes_sp = valor_mes_sp;
     }
 
 }

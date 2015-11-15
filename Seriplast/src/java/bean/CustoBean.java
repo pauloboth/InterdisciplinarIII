@@ -36,6 +36,7 @@ public class CustoBean {
     private DataModel custos;
     private DataModel despesasmess;
     double valor = 0;
+    double valor_total = 0;
 
     private Producao pedido = new Producao();
     private ProducaoDAO pedDAO = new ProducaoDAO();
@@ -48,6 +49,7 @@ public class CustoBean {
     private List<Produto> lsProdutos = new ArrayList<>();
     private List<Produto> lsProdutosAll = new ArrayList<>();
     private List<ProdutoCusto> lsProdutoCusto = new ArrayList<>();
+    private List<ProdutoCusto> lsProdutoCusto_juntando_mes = new ArrayList<>();
     private List<ProdutoCusto> lsProdutoCustoAll = new ArrayList<>();
 
     private List<Custo> lsCustos = new ArrayList<>();
@@ -160,72 +162,191 @@ public class CustoBean {
     }
 
     public void carrega() {
+        //cria atributos
         int quantidade = 0;
+        int total_produzido_mes = 0;
         i = 0;
         valor = 0;
 
+        //Cria listas
         lsProdutoCusto = null;
+        lsProdutoCusto_juntando_mes = null;
         lstprodutopedido = null;
         lsProdutoCusto = new ArrayList<>();
-        lsCustos = cusDAO.CustoMensal(produto.getPro_id(), getAno());
-        if (lsCustos != null && !lsCustos.isEmpty()) {
-            for (Custo c : lsCustos) {
-                ProdutoCusto pc = new ProdutoCusto();
-                double valor_total = 0;
-                double valor_uni = 0;
-                if (c.getLsCustoDespesa() != null && !c.getLsCustoDespesa().isEmpty()) {
-                    for (CustoDespesa cd : c.getLsCustoDespesa()) {
+        lsProdutoCusto_juntando_mes = new ArrayList<>();
 
-                        valor_total += cd.getCsd_valor();
-                    }
-                }
-                int total_produzido = 0;
+        //pega todos os custos do ano, que tiver o produto selecionado
+        lsCustos = cusDAO.CustoMensal(produto.getPro_id(), getAno());
+
+        //testa se lista de custo não esta vazia
+        if (lsCustos != null && !lsCustos.isEmpty()) {
+
+            // se não estiver, passa todos os custos      
+            for (Custo c : lsCustos) {
+
+                double valor_total_mes = 0;
+                double valor_total_custo = 0;
+                double valor_total_compra_mes = 0;
+                double valor_compra_mes = 0;
+                double valor_unitario = 0;
+                double valor_mes_sp = 0;
+
+                total_produzido_mes = 0;
+                //verifica a quantidade produzida do produto selecionado
                 List<ProdutoProducao> lsPp = pedDAO.totalProducaoMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
                 for (ProdutoProducao pp : lsPp) {
-                    total_produzido += pp.getPrp_quantidade();
-                }
-               
-                
-                valor_total = valor_total + produto.getPro_preco()*total_produzido;
-                if (total_produzido > 0) {
-                    valor_uni = valor_total / total_produzido; 
-                }
-                pc.setCusto_compra(produto.getPro_preco());
-                pc.setTotal(total_produzido);
-                pc.setValor_total(valor_total);
-                pc.setValor_unitario(valor_uni);
-                pc.setAnodespesa(c.getCus_data_ref());
-                lsProdutoCusto.add(pc);
+                    //passa a lista de produção (saber quantas unidades)
+                    total_produzido_mes += pp.getPrp_quantidade();
 
-            }
-            for (ProdutoCusto pc : lsProdutoCusto) {
-                lstprodutopedido = pedDAO.totalProducaoAno(produto.getPro_id(), getAno());
-                for (ProdutoProducao pp : lstprodutopedido) {
-                    quantidade = pp.getPrp_quantidade() + quantidade;
-                 //   pc.setValor_total(pc.getValor_total() / quantidade);
-                   
                 }
+
+                //testa se tem despesas ligadas ao custo passado no for
+                if (c.getLsCustoDespesa() != null && !c.getLsCustoDespesa().isEmpty()) {
+                    //se tiver passa a lista de despesas do custo 
+                    
+                    for (CustoDespesa cd : c.getLsCustoDespesa()) {
+                        valor_total_mes = 0;
+                        ProdutoCusto pc = new ProdutoCusto();
+                        ///passa valor da despesa para valor_total
+                        valor_total_mes += cd.getCsd_valor();
+                        valor_compra_mes = cd.getCusto().getCus_preco_produto();
+                        valor_total_custo = cd.getCsd_valor();
+
+                        //pega o valor total do mes e soma com o preço de compra do produto (soma todo o valor de compra junto ao custo)
+                        valor_mes_sp = valor_total_mes;
+                        valor_total_compra_mes = valor_compra_mes * total_produzido_mes;
+                        valor_total_mes = valor_total_mes + valor_total_compra_mes;
+                        //testa se produziu realmente
+                        if (total_produzido_mes > 0) {
+                            valor_unitario = valor_total_mes / total_produzido_mes;
+                        }
+                        //salva
+                        
+                        pc.setCusto_compra_total(valor_total_compra_mes);
+                        pc.setValor_unitario(valor_unitario);
+                        pc.setAnodespesa(c.getCus_data_ref());
+                        pc.setValor(valor_total_compra_mes+valor_mes_sp);
+                        pc.setCusto_compra_unidade(valor_compra_mes);
+                        pc.setQuantidade_produzida_mes(total_produzido_mes);
+                        pc.setValor_mes(valor_total_custo);
+                        pc.setValor_mes_sp(valor_mes_sp);
+                       
+                        lsProdutoCusto.add(pc);
+                    }
+
+                }
+
             }
 
         }
         //CARREGA MEDIA DO ANO
+        // //passa toda a lista de produtos com custos criada (para calcular o custo anual)
         for (ProdutoCusto pcc : lsProdutoCusto) {
-          //  i = i + 1;
+            //pega o valor unitario do ano
             valor += pcc.getValor_unitario();
-            
+
         }
         //formata valor
         double transforma;
         valor = valor / lsProdutoCusto.size();
-        transforma = valor *100;
-        transforma = Double.parseDouble(""+ Math.round(transforma))/100;
-        
+        transforma = valor * 100;
+        transforma = Double.parseDouble("" + Math.round(transforma)) / 100;
+        //seta o valor para pegar na tela
         produtocusto.setMedia_ano(transforma);
-        
-        
-        
 
-//        CARREGA MEDIA TOTAL
+    }
+
+//      public void carregabkp() {
+//        //cria atributos
+//        int quantidade = 0;
+//        int quantidade_total = 0;
+//        i = 0;
+//        valor = 0;
+//        
+//        //Cria listas
+//        lsProdutoCusto = null;
+//        lstprodutopedido = null;
+//        lsProdutoCusto = new ArrayList<>();
+//        //pega todos os custos do ano, que tiver o produto selecionado
+//        lsCustos = cusDAO.CustoMensal(produto.getPro_id(), getAno());
+//        
+//        //testa se lista de custo não esta vazia
+//        if (lsCustos != null && !lsCustos.isEmpty()) {
+//        // se não estiver, passa todos os custos      
+//            for (Custo c : lsCustos) {
+//                ProdutoCusto pc = new ProdutoCusto();
+//                double valor_total = 0;        
+//                double valor_unitario = 0;
+//               // double valor_uni_total = 0;
+//                
+//              //
+//                if (c.getLsCustoDespesa() != null && !c.getLsCustoDespesa().isEmpty()) {
+//                    for (CustoDespesa cd : c.getLsCustoDespesa()) {
+//
+//                        valor_total += cd.getCsd_valor();
+//                    }
+//                }
+//                int total_produzido = 0;
+//                int total_produzido_total = 0;
+//                List<ProdutoProducao> lsPp = pedDAO.totalProducaoMes(produto.getPro_id(), c.getCus_data_ref().getMonth() + 1, getAno());
+//                for (ProdutoProducao pp : lsPp) {
+//                    total_produzido += pp.getPrp_quantidade();
+//                }
+//               
+//                
+//                //////////////////<
+////                List<ProdutoProducao> lsPptotal = pedDAO.totalProducao(produto.getPro_id());
+////                for (ProdutoProducao pptotal : lsPp) {
+////                    total_produzido += pptotal.getPrp_quantidade();
+////                    
+////                    valor_total_total = valor_total_total + produto.getPro_preco()*total_produzido;
+////                if (total_produzido_total > 0) {
+////                    valor_uni_total = valor_total_total / total_produzido_total; 
+////                }
+////                }
+//                //////////////////>
+//                
+//                
+//                valor_total = valor_total + produto.getPro_preco()*total_produzido;
+//                if (total_produzido > 0) {
+//                    valor_unitario = valor_total / total_produzido; 
+//                }
+//                
+//                pc.setCusto_compra(produto.getPro_preco());
+//                pc.setTotal(total_produzido);
+//                pc.setValor_total(valor_total);
+//                pc.setValor_unitario(valor_unitario);
+//                pc.setAnodespesa(c.getCus_data_ref());
+//                lsProdutoCusto.add(pc);
+//
+//            }
+//            for (ProdutoCusto pc : lsProdutoCusto) {
+//                lstprodutopedido = pedDAO.totalProducaoAno(produto.getPro_id(), getAno());
+//                for (ProdutoProducao pp : lstprodutopedido) {
+//                    quantidade = pp.getPrp_quantidade() + quantidade;
+//                 //   pc.setValor_total(pc.getValor_total() / quantidade);
+//                   
+//                }
+//            }
+//
+//        }
+//        //CARREGA MEDIA DO ANO
+//        for (ProdutoCusto pcc : lsProdutoCusto) {
+//          //  i = i + 1;
+//            valor += pcc.getValor_unitario();
+//            
+//        }
+//        //formata valor
+//        double transforma;
+//        valor = valor / lsProdutoCusto.size();
+//        transforma = valor *100;
+//        transforma = Double.parseDouble(""+ Math.round(transforma))/100;
+//        
+//        produtocusto.setMedia_ano(transforma);
+//        
+//    }
+    public void carrega2() {
+
 //        lsCustosAll = cusDAO.findAll();
 //
 //        if (lsCustosAll != null && !lsCustosAll.isEmpty()) {
@@ -266,11 +387,9 @@ public class CustoBean {
 //        transforma2 = valor *100;
 //        transforma2 = Double.parseDouble(""+ Math.round(transforma2))/100;
 //        produtocusto.setMedia_total(transforma2);
-        
     }
 
     public double getmediaano() {
-        carrega();
         return produtocusto.getMedia_ano();
     }
 
