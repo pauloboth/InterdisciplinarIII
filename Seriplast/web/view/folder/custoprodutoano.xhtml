@@ -43,7 +43,7 @@
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
                     <div class="pull-right" style="margin-top: -40px;">
                         <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio Total:
-                            <h:outputText value="#{custoBean.getmediatotal()}">
+                            <h:outputText value="#{custoBean.getmediatotal(custoBean.produto)}">
                                 <f:convertNumber currencySymbol="R$" type="currency" />
                             </h:outputText>
                         </h3>
@@ -78,7 +78,7 @@
                                         <h:outputText value="Mês"/>
                                     </f:facet>
                                     <div style="text-align: center">
-                                        <h:outputText value="${item.mess}">
+                                        <h:outputText value="${item.messtring}">
                                             <!--<f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>-->
                                         </h:outputText>
                                     </div>
@@ -139,7 +139,7 @@
                                         <h:outputText value="Custo Final por Unidade"/>
                                     </f:facet>
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.valor_unitario}">
+                                        <h:outputText value="${(item.valor+item.custo_compra_total)/item.quantidade_produzida_mes}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>

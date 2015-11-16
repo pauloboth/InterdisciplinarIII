@@ -8,6 +8,7 @@ public class ProdutoCusto {
 
    
     private int mess;
+    private String messtring;
     private Produto produto;
     private Custo custo;
     private Maquina maquina;
@@ -250,6 +251,14 @@ public class ProdutoCusto {
 
     public void setMess(int mess) {
         this.mess = mess;
+    }
+
+    public String getMesstring() {
+        return messtring;
+    }
+
+    public void setMesstring(String messtring) {
+        this.messtring = messtring;
     }
 
    
