@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ProdutoCusto {
+    private String nomedespesa;
 
+   
+    private int mess;
     private Produto produto;
     private Custo custo;
     private Maquina maquina;
@@ -54,6 +57,13 @@ public class ProdutoCusto {
 
     public void setParticipacao(int participacao) {
         this.participacao = participacao;
+    }
+     public String getNomedespesa() {
+        return nomedespesa;
+    }
+
+    public void setNomedespesa(String nomedespesa) {
+        this.nomedespesa = nomedespesa;
     }
 
     public String getNotas() {
@@ -233,5 +243,15 @@ public class ProdutoCusto {
     public void setValor_mes_sp(double valor_mes_sp) {
         this.valor_mes_sp = valor_mes_sp;
     }
+
+    public int getMess() {
+        return mess;
+    }
+
+    public void setMess(int mess) {
+        this.mess = mess;
+    }
+
+   
 
 }
