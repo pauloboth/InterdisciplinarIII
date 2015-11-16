@@ -45,6 +45,7 @@ public class CustoBean {
     private Despesa despesa = new Despesa();
     private Produto produto = new Produto();
     private ProdutoCusto produtocusto = new ProdutoCusto();
+    private DataModel produtocustos;
 
     private List<Produto> lsProdutos = new ArrayList<>();
     private List<Produto> lsProdutosAll = new ArrayList<>();
@@ -73,6 +74,35 @@ public class CustoBean {
     public String select2() {
         produto = (Produto) produtos.getRowData();
         return "custoprodutoano";
+    }
+
+    public String select3() {
+        produtocusto = (ProdutoCusto) produtocustos.getRowData();
+        return "custoprodutomes";
+    }
+
+    public ProdutoCusto getProdutocusto() {
+        return produtocusto;
+    }
+
+    public void setProdutocusto(ProdutoCusto produtocusto) {
+        this.produtocusto = produtocusto;
+    }
+
+    public DataModel getProdutocustos() {
+        return produtocustos;
+    }
+
+    public void setProdutocustos(DataModel produtocustos) {
+        this.produtocustos = produtocustos;
+    }
+
+    public List<ProdutoCusto> getLsProdutoCusto_juntando_mes() {
+        return lsProdutoCusto_juntando_mes;
+    }
+
+    public void setLsProdutoCusto_juntando_mes(List<ProdutoCusto> lsProdutoCusto_juntando_mes) {
+        this.lsProdutoCusto_juntando_mes = lsProdutoCusto_juntando_mes;
     }
 
     public DataModel getCustos() {
@@ -169,6 +199,7 @@ public class CustoBean {
         valor = 0;
 
         //Cria listas
+        // lsCustos = null;
         lsProdutoCusto = null;
         lsProdutoCusto_juntando_mes = null;
         lstprodutopedido = null;
@@ -183,8 +214,7 @@ public class CustoBean {
 
             // se não estiver, passa todos os custos      
             for (Custo c : lsCustos) {
-               
-                
+
                 double valor_total_mes = 0;
                 double valor_total_custo = 0;
                 double valor_total_compra_mes = 0;
@@ -204,7 +234,7 @@ public class CustoBean {
                 //testa se tem despesas ligadas ao custo passado no for
                 if (c.getLsCustoDespesa() != null && !c.getLsCustoDespesa().isEmpty()) {
                     //se tiver passa a lista de despesas do custo 
-                    
+
                     for (CustoDespesa cd : c.getLsCustoDespesa()) {
                         valor_total_mes = 0;
                         ProdutoCusto pc = new ProdutoCusto();
@@ -222,16 +252,16 @@ public class CustoBean {
                             valor_unitario = valor_total_mes / total_produzido_mes;
                         }
                         //salva
-                        
+
                         pc.setCusto_compra_total(valor_total_compra_mes);
                         pc.setValor_unitario(valor_unitario);
                         pc.setAnodespesa(c.getCus_data_ref());
-                        pc.setValor(valor_total_compra_mes+valor_mes_sp);
+                        pc.setValor(valor_total_compra_mes + valor_mes_sp);
                         pc.setCusto_compra_unidade(valor_compra_mes);
                         pc.setQuantidade_produzida_mes(total_produzido_mes);
                         pc.setValor_mes(valor_total_custo);
                         pc.setValor_mes_sp(valor_mes_sp);
-                       
+
                         lsProdutoCusto.add(pc);
                     }
 

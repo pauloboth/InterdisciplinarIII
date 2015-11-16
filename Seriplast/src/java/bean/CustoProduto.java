@@ -16,6 +16,7 @@ import model.CustoDespesa;
 import model.Despesa;
 import model.Maquina;
 import model.Produto;
+import model.ProdutoCusto;
 import model.ProdutoDespesa;
 import model.ProdutoMaquina;
 
@@ -142,6 +143,8 @@ public class CustoProduto {
         produto = (Produto) produtos.getRowData();
         return "custoprodutoano";
     }
+     
+     
      
      //CUSTODESPESA
       public List<CustoDespesa> getLsCustoDespesa() {

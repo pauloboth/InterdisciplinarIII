@@ -15,7 +15,7 @@
 
     <ui:define name="main-content">
         <f:event listener="#{custoBean.carrega()}" type="preRenderView"/>
-        <f:event listener="#{custoBean.carrega2()}" type="preRenderView"/>
+       
 
         <style>
             .textAreaTable{
@@ -40,19 +40,19 @@
                   
 
 
-                    <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
-                    <div class="pull-right" style="margin-top: -40px;">
+                    <h:inputHidden id="idDespesa" value="{custoBean.despesa.des_id}" />
+<!--                    <div class="pull-right" style="margin-top: -40px;">
                         <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio Total:
-                            <h:outputText value="#{custoBean.getmediatotal()}">
+                            <h:outputText value="{custoBean.getmediatotal()}">
                                 <f:convertNumber currencySymbol="R$" type="currency" />
                             </h:outputText>
                         </h3>
-                        <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio de #{custoBean.ano}: 
-                            <h:outputText value="#{custoBean.getmediaano()}">
+                        <h3 class="panel-title-top pull-right" style="width: 100%; text-align: right">Custo Médio de {custoBean.ano}: 
+                            <h:outputText value="{custoBean.getmediaano()}">
                                 <f:convertNumber currencySymbol="R$" type="currency" />
                             </h:outputText>
                         </h3> 
-                    </div>
+                    </div>-->
 
                     <div class="col-sm-3 row pull-left">
                         <div class="form-group">
@@ -72,14 +72,14 @@
 
                         <div class="col-xs-12">
                             <h3> <b>Custo por Mês</b></h3>
-                            <h:dataTable value="#{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
+<!--                            <h:dataTable value="{custoBean.lsProdutoCusto}" var="item" styleClass="table table-bordered table-striped">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Mês"/>
                                     </f:facet>
                                     <div style="text-align: center">
-                                        <h:outputText value="${item.anodespesa}">
-                                            <f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>
+                                        <h:outputText value="{item.anodespesa}">
+                                            <f:convertDateTime pattern="MMMM (yyyy)" timeZone="{padraoBean.timeZone}"/>
                                         </h:outputText>
                                     </div>
                                 </h:column>
@@ -89,7 +89,7 @@
                                         <h:outputText value="Quantidade Produzida"/>
                                     </f:facet>
                                     <div style="text-align: center">
-                                        <h:outputText value="${item.quantidade_produzida_mes}">
+                                        <h:outputText value="{item.quantidade_produzida_mes}">
 
                                         </h:outputText>
                                     </div>
@@ -101,7 +101,7 @@
                                     </f:facet>
 
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.custo_compra_total}">
+                                        <h:outputText value="{item.custo_compra_total}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>
@@ -114,7 +114,7 @@
                                     </f:facet>
 
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.valor_mes_sp}">
+                                        <h:outputText value="{item.valor_mes_sp}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>
@@ -127,7 +127,7 @@
                                         <h:outputText value="Custo total de Produção"/>
                                     </f:facet>
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.valor}">
+                                        <h:outputText value="{item.valor}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>
@@ -139,7 +139,7 @@
                                         <h:outputText value="Custo Final por Unidade"/>
                                     </f:facet>
                                     <div style="text-align: right">
-                                        <h:outputText value="${item.valor_unitario}">
+                                        <h:outputText value="{item.valor_unitario}">
                                             <f:convertNumber currencySymbol="R$" type="currency" />
                                         </h:outputText>
                                     </div>
@@ -150,11 +150,11 @@
                                     <f:facet name="header">
                                         <h:outputText value="Detalhes"/>
                                     </f:facet>
-                                    <h:commandLink title="Detalhes" action="#{custoBean.select3()}" >
+                                    <h:commandLink title="Detalhes" action="{custoProduto.select2()}" >
                                         <i class="fa fa-file-text-o"></i> Detalhes
                                     </h:commandLink>
                                 </h:column>
-                            </h:dataTable>
+                            </h:dataTable>-->
 
                             <br/>                       
                         </div>
