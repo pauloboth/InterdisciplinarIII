@@ -9,8 +9,9 @@
     <ui:define name="title">Custos</ui:define>
 
     <ui:define name="breadcrumb">
-        <li><h:link value="Lista de Custo" outcome="/faces/view/folder/custoprodutolst" /></li>
-        <li><h:link value="Custo do Produto"/></li>
+        <li><h:link value="Custo do Produto" outcome="/faces/view/folder/custoprodutolst"/></li>
+        <li><h:link value="Lista de Custos do Ano"  outcome="/faces/view/folder/custoprodutoano"/></li>
+         <li><h:link value="Detalhes custo Mês"  outcome="/faces/view/folder/custoprodutomes"/></li>
     </ui:define>
 
     <ui:define name="main-content">
@@ -74,8 +75,8 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
-                            <h:link styleClass="btn btn-default" value="Voltar" outcome="#{custoBean.listar2()}" />
+                        <div class=" col-md-8 btn-group-separated">
+                            <h:link  styleClass="btn btn-default" value="Voltar" outcome="#{custoBean.listar2()}" />
                         </div>
                     </div>
                 </h:form>

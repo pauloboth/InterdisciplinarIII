@@ -9,13 +9,14 @@
     <ui:define name="title">Custos</ui:define>
 
     <ui:define name="breadcrumb">
-        <li><h:link value="Lista de Custo" outcome="/faces/view/folder/custoprodutolst" /></li>
-        <li><h:link value="Custo do Produto"/></li>
+
+        <li><h:link value="Custo do Produto" outcome="/faces/view/folder/custoprodutolst"/></li>
+        <li><h:link value="Lista de Custos do Ano"  /></li>
     </ui:define>
 
     <ui:define name="main-content">
         <f:event listener="#{custoBean.carrega()}" type="preRenderView"/>
-      
+
 
         <style>
             .textAreaTable{
@@ -37,7 +38,7 @@
             <f:view>
                 <h:form styleClass="form-horizontal">
 
-                  
+
 
 
                     <h:inputHidden id="idDespesa" value="#{custoBean.despesa.des_id}" />
@@ -83,8 +84,8 @@
                                         </h:outputText>
                                     </div>
                                 </h:column>
-                                
-                                  <h:column>
+
+                                <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Quantidade Produzida"/>
                                     </f:facet>
@@ -94,7 +95,7 @@
                                         </h:outputText>
                                     </div>
                                 </h:column>
-                                    <h:column>
+                                <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Valor Compra"/>
 
@@ -107,7 +108,7 @@
                                     </div>
 
                                 </h:column>
-                                 <h:column>
+                                <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Valor Despesas"/>
 
@@ -120,8 +121,8 @@
                                     </div>
 
                                 </h:column>
-                                
-                             
+
+
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Custo total de Produção"/>
@@ -132,8 +133,8 @@
                                         </h:outputText>
                                     </div>
                                 </h:column>
-                              
-                               
+
+
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Custo Final por Unidade"/>
@@ -161,7 +162,7 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <div class="col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 btn-group-separated">
+                        <div class=" col-md-8 btn-group-separated">
                             <h:link styleClass="btn btn-default" value="Voltar" outcome="#{custoBean.listar()}" />
 
                         </div>
