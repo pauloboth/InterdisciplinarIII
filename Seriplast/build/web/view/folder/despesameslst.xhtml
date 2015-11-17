@@ -13,8 +13,8 @@
 
     <ui:define name="main-content">
         <div class="panel panel-body">
-            <h3 class="panel-title-top">Lista de Despesas do mês de #{padraoBean.mesString(despesaMesBean.mes)} de #{despesaMesBean.ano}</h3>
             <h:form>
+                <h3 class="panel-title-top">Lista de Despesas do mês de #{padraoBean.mesString(despesaMesBean.mes)} de #{despesaMesBean.ano}</h3>
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-sm-3">
                         <div class="form-group">
@@ -47,30 +47,35 @@
 
                 <h:dataTable value="#{despesaMesBean.lsDespesaMes}" var="item" styleClass="dataTable table table-bordered table-striped">
                     <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Despesa"/>
-                        </f:facet>
+                        <f:facet name="header">Despesa</f:facet>
                         <h:outputText value="#{item.despesa.des_nome}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Último Mês"/>
-                        </f:facet>
-                        <h:outputText value="#{item.dsm_data_ref}" rendered="#{item.dsm_data_ref != null}">
-                            <f:convertDateTime pattern="MMMM (yyyy)" timeZone="#{padraoBean.timeZone}"/>
-                        </h:outputText>
-                        <h:outputText value="Nenhum" rendered="#{item.dsm_data_ref == null}"/>
+                        <f:facet name="header">Valor</f:facet>
+                        <div style="text-align: right">
+                            <h:outputText value="${item.dsm_valor}">
+                                <f:convertNumber currencySymbol="R$" type="currency" />
+                            </h:outputText>
+                        </div>
                     </h:column>
+
                     <h:column headerClass="col-editar-header">
-                        <f:facet name="header">
-                            <h:outputText value="Lançar Despesa/Excluir Lance"/>
-                        </f:facet>
+                        <f:facet name="header">Lançar Despesa/Excluir Lançamento</f:facet>
+
                         <h:commandLink action="#{despesaMesBean.Lancar(item.despesa.des_id)}" rendered="#{item.dsm_id == 0}">
                             <i class="fa fa-usd" style="margin-right: 3px;"></i>Lançar
                         </h:commandLink>
                         <h:commandLink action="#{despesaMesBean.ExcluirLance(item.despesa.des_id)}" rendered="#{item.dsm_id > 0}" onclick="return confirm('Deseja realmente excluir este Lançamento?');">
-                            <i class="fa fa-usd" style="margin-right: 3px;"></i>Excluir
+                            <i class="fa fa-trash" style="margin-right: 3px;"></i>Excluir
                         </h:commandLink>
+                        <div style="font-weight: bold; float: right">
+                            <h:panelGroup rendered="#{item.dsm_id == 0}">
+                                <i class="fa fa-square-o" style="color: red"></i>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{item.dsm_id > 0}">
+                                <i class="fa fa-check-square-o" style="color: green"></i>
+                            </h:panelGroup>
+                        </div>
                     </h:column>
                 </h:dataTable>
             </h:form>
