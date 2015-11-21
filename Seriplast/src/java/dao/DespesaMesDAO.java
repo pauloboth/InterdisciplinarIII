@@ -72,13 +72,20 @@ public class DespesaMesDAO {
         return dm;
     }
 
-    public DespesaMes findUnicaDespesa(int des_id) {
+    public DespesaMes findUnicaDespesa(int des_id, int mes, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
-        DespesaMes m = (DespesaMes) session.createQuery("select dm from DespesaMes dm "
-                + "join dm.despesa d "
-                + "where d.des_id = :des_id")
-                .setParameter("des_id", des_id).uniqueResult();
+        List<DespesaMes> lsDm = session.createQuery("select dm from DespesaMes dm "
+                + "where dm.despesa.des_id = :des_id "
+                + "and month(dm.dsm_data_ref) = :mes "
+                + "and year(dm.dsm_data_ref) = :ano")
+                .setParameter("des_id", des_id)
+                .setParameter("mes", mes)
+                .setParameter("ano", ano)
+                .list();
         session.close();
-        return m;
+        if (lsDm != null && !lsDm.isEmpty()) {
+            return lsDm.get(0);
+        }
+        return null;
     }
 }

@@ -71,22 +71,38 @@ public class DespesaBean {
     }
 
     public String salvar() {
-        if (despesa.getDes_tipo() == 2 || despesa.getDes_tipo() == 4) {
-            despesa.setDes_inicio_depr(null);
-            dao.save(despesa);
-        } else if (despesa.getDes_tipo() == 3) {
-            if (porcent == 100) {
-                if (!SalvaDespesaParcelada()) {
-                    Erro = "Erro ao salvar despesa!";
+        try {
+            if (despesa.getDes_tipo() == 2 || despesa.getDes_tipo() == 4) {
+                despesa.setDes_inicio_depr(null);
+                dao.save(despesa);
+            } else if (despesa.getDes_tipo() == 3) {
+                Boolean save = true;
+                if (porcent != 100) {
+                    Erro = "A participação de todos os produto deve somar 100%!";
+                    save = false;
+                }
+                Calendar cal = new BuddhistCalendar();
+                Date d = new Date();
+                cal.set(d.getYear(), d.getMonth(), d.getDate());
+                if (despesa.getDes_inicio_depr().before(cal.getTime())) {
+                    Erro = "A Data não pode ser anterior a hoje!";
+                    save = false;
+                }
+                if (save) {
+                    if (!SalvaDespesaParcelada()) {
+                        Erro = "Erro ao salvar despesa!";
+                        return "despesafrm";
+                    }
+                } else {
                     return "despesafrm";
                 }
-            } else {
-                Erro = "A participação de todos os produto deve somar 100%!";
-                return "despesafrm";
             }
+            clearSession();
+            return "despesalst";
+        } catch (Exception ex) {
+            Erro = "Erro ao salvar despesa!";
+            return "despesafrm";
         }
-        clearSession();
-        return "despesalst";
     }
 
     public String listar() {
@@ -153,6 +169,7 @@ public class DespesaBean {
         this.despesas = new ArrayDataModel();
         this.lsProdutos = new ArrayList<>();
         this.lsProdutosAll = new ArrayList<>();
+        this.Erro = "";
     }
 
     public Produto getProduto() {
@@ -287,6 +304,7 @@ public class DespesaBean {
                 dao.saveList(despesa, lsDm, lsCd);
                 return true;
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
         return false;

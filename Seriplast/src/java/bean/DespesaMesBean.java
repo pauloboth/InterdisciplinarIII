@@ -385,22 +385,22 @@ public class DespesaMesBean {
                     if (pc.getTotal() > 0 && pc.getTempo() > 0 && pc.getMaquina().getMaq_watss_hora() > 0) {
                         int totalS = pc.getTotal() * pc.getTempo();
                         double totalD = totalS;
-                        System.out.println("total* tempo: " + totalD);
+//                        System.out.println("total* tempo: " + totalD);
                         BigDecimal totalH = BigDecimal.valueOf((totalD / 60) / 60);
-                        System.out.println("totalH: " + totalH);
+//                        System.out.println("totalH: " + totalH);
                         BigDecimal precoM = BigDecimal.valueOf(this.valor / this.watts);
-                        System.out.println("precoM: " + precoM);
+//                        System.out.println("precoM: " + precoM);
                         BigDecimal wattsGasto = totalH.multiply(new BigDecimal(pc.getMaquina().getMaq_watss_hora()), MathContext.DECIMAL128);
-                        System.out.println("wattsGasto: " + wattsGasto);
+//                        System.out.println("wattsGasto: " + wattsGasto);
                         BigDecimal valorF = wattsGasto.multiply(precoM);
-                        System.out.println("valorF: " + valorF);
+//                        System.out.println("valorF: " + valorF);
                         double valorF1 = Double.parseDouble(valorF + "");
                         double d1 = Math.round(valorF1 * 1000);
                         valorF1 = d1 / 1000;
-                        System.out.println("valorF1: " + valorF1);
+//                        System.out.println("valorF1: " + valorF1);
                         pc.setValor(valorF1);
                         valorTotal += valorF1;
-                        System.out.println("-----------------");
+//                        System.out.println("-----------------");
                     }
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
@@ -551,7 +551,7 @@ public class DespesaMesBean {
     public String ExcluirLance(int des_id) {
         try {
             List<CustoDespesa> lsCd = desDAO.findCustoDespesaMes(des_id, getMes(), getAno());
-            DespesaMes dm = dsmDAO.findUnicaDespesa(des_id);
+            DespesaMes dm = dsmDAO.findUnicaDespesa(des_id, getMes(), getAno());
             Despesa d = desDAO.findById(des_id);
             desDAO.ExcluirLance(lsCd, dm, d);
         } catch (Exception ex) {
