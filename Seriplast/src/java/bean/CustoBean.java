@@ -571,10 +571,7 @@ public class CustoBean {
         //seta o valor para pegar na tela
         produtocusto.setMedia_ano(transforma);
 
-      
     }
-
-   
 
     public double getmediaano() {
         //  produtocusto.setMedia_ano(valor_total);
@@ -582,22 +579,23 @@ public class CustoBean {
     }
 
     public double getmediatotal(Produto p) {
-        lsCustos2 = null;
         valor_total_geral = 0;
-        lsCustos2 = cusDAO.CustoAnual(p.getPro_id());
-        for (Custo c : lsCustos2) {
+        producao_total_geral = 0;
+        lsCustos2 = null;
 
+        lsCustos2 = cusDAO.CustoAnual(p.getPro_id());
+        List<ProdutoProducao> lsPp = pedDAO.totalProducao(p.getPro_id());
+        for (ProdutoProducao pp : lsPp) {
+            //passa a lista de produção (saber quantas unidades)
+            producao_total_geral += pp.getPrp_quantidade();
+        }
+        for (Custo c : lsCustos2) {
             for (CustoDespesa cd : c.getLsCustoDespesa()) {
-                List<ProdutoProducao> lsPp = pedDAO.totalProducao(p.getPro_id());
-                for (ProdutoProducao pp : lsPp) {
-                    //passa a lista de produção (saber quantas unidades)
-                    producao_total_geral += pp.getPrp_quantidade();
-                }
                 valor_total_geral += cd.getCsd_valor();
             }
-            valor_total_geral += producao_total_geral * p.getPro_preco();
-            valor_total_geral = valor_total_geral / producao_total_geral;
         }
+        valor_total_geral += producao_total_geral * p.getPro_preco();
+        valor_total_geral = valor_total_geral / producao_total_geral;
         return valor_total_geral;
 
     }
