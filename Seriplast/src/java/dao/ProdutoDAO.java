@@ -2,6 +2,8 @@ package dao;
 
 import model.Produto;
 import java.util.List;
+import model.ProdutoDespesa;
+import model.ProdutoMaquina;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -60,20 +62,14 @@ public class ProdutoDAO {
 
     public Produto findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Produto p = (Produto) session.createQuery("select p from Produto p "
-                + "left outer join fetch p.lsProdutoDespesa pd "
-                + "where p.pro_id = :p")
-                .setParameter("p", id).uniqueResult();
-        Produto p2 = (Produto) session.createQuery("select p from Produto p "
-                + "left outer join fetch p.lsProdutoMaquina pm "
-                + "where p.pro_id = :p")
-                .setParameter("p", id).uniqueResult();
-//        Produto p3 = (Produto) session.createQuery("select p from Produto p "
-//                + "left outer join fetch p.lsProdutoPedido pp "
-//                + "where p.pro_id = :p")
-//                .setParameter("p", id).uniqueResult();
-        p.setLsProdutoMaquina(p2.getLsProdutoMaquina());
-//        p.setLsProdutoPedido(p3.getLsProdutoPedido());
+        Produto p = (Produto) session.createQuery("from Produto where pro_id = :p").setParameter("p", id).uniqueResult();
+//        List<ProdutoMaquina> lsPm = session.createQuery("from ProdutoMaquina "
+//                + "where produto.pro_id = :p").setParameter("p", id).list();
+//        p.setLsProdutoMaquina(lsPm);
+//        List<ProdutoDespesa> lsPd = session.createQuery("from ProdutoDespesa "
+//                + "where produto.pro_id = :p").setParameter("p", id).list();
+//        p.setLsProdutoDespesa(lsPd);
+//        p.setLsProdutoProducao(null);
         session.close();
         return p;
     }

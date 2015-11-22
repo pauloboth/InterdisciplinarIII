@@ -69,9 +69,9 @@
                             <div class="form-group">
                                 <label for="tipo" class="col-sm-4 control-label">Tipo*: </label>
                                 <div class="col-sm-8">
-                                    <h:selectOneMenu pt:required="required" rendered="#{despesaBean.despesa.des_id > 0 and despesaBean.despesa.des_tipo == 3}" pt:id="tipo_desp" id="tipo" value="#{despesaBean.despesa.des_tipo}" title="Tipo" styleClass="form-control" pt:autofocus="">
+                                    <h:selectOneMenu pt:required="required" disabled="#{despesaBean.despesa.des_id > 0 and despesaBean.despesa.des_tipo == 3}" pt:id="tipo_desp" id="tipo" value="#{despesaBean.despesa.des_tipo}" title="Tipo" styleClass="form-control" pt:autofocus="">
                                         <f:selectItem  itemValue="2" itemLabel="Mensal"/>
-                                        <f:selectItem  itemValue="3" itemLabel="Despesa Parcelada"/>
+                                        <f:selectItem  itemValue="3" itemLabel="Parcelada"/>
                                         <f:selectItem  itemValue="4" itemLabel="Única"/>
                                         <f:ajax execute="@form" render="@form" />
                                     </h:selectOneMenu>
@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 <label for="valor" class="col-sm-4 control-label">Valor*: </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="number" pt:required="required" rendered="#{despesaBean.despesa.des_id > 0}" pt:step="0.10" pt:min="0" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:type="number" pt:required="required" disabled="#{despesaBean.despesa.des_id > 0}" pt:step="0.10" pt:min="0" id="valor" value="#{despesaBean.despesa.des_valor_depr}" title="Valor do Bem" styleClass="form-control" pt:autofocus="" />
                                 </div>  
                             </div>
                         </h:panelGroup>
@@ -92,7 +92,7 @@
                             <div class="form-group">
                                 <label for="inicio_dpr" class="col-sm-4 control-label">Início*:  </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="date" pt:required="required" rendered="#{despesaBean.despesa.des_id > 0}" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
+                                    <h:inputText pt:type="date" pt:required="required" disabled="#{despesaBean.despesa.des_id > 0}" id="inicio_dpr" value="#{despesaBean.despesa.des_inicio_depr}" title="Data de Início" styleClass="form-control">
                                         <f:convertDateTime pattern="yyyy-MM-dd" timeZone="#{padraoBean.timeZone}"/>
                                     </h:inputText>
                                 </div>
@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label for="depr_mes" class="col-sm-4 control-label">Meses*:  </label>
                                 <div class="col-sm-8">
-                                    <h:inputText pt:type="number" pt:required="required" rendered="#{despesaBean.despesa.des_id > 0}" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
+                                    <h:inputText pt:type="number" pt:required="required" disabled="#{despesaBean.despesa.des_id > 0}" id="depr_mes" pt:min="1" value="#{despesaBean.despesa.des_depr_mes}" title="Número de meses" styleClass="form-control" pt:autofocus="" />
                                 </div>  
                             </div>
                         </h:panelGroup>

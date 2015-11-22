@@ -155,7 +155,13 @@
                                                                     <td>#{pro.produto.pro_nome}</td>
                                                                     <td>#{pro.total}</td>
                                                                     <td>#{pro.tempo}</td>
-                                                                    <td>#{pro.valor}</td>
+                                                                    <td>
+                                                                        <div style="text-align: right">
+                                                                            <h:outputText value="#{pro.valor}">
+                                                                                <f:convertNumber currencySymbol="R$" type="currency" />
+                                                                            </h:outputText>
+                                                                        </div>
+                                                                    </td>
                                                                 </tr>
                                                             </p:column>
                                                         </c:forEach>
@@ -198,21 +204,33 @@
                                     <f:facet name="header">
                                         <h:outputText value="Valor (R$)"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.valor}"/>
+                                    <div style="text-align: right">
+                                        <h:outputText value="#{item.valor}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </div>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Valor Total (R$)"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.valor_total}"/>
+                                    <div style="text-align: right">
+                                        <h:outputText value="#{item.valor_total}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </div>
                                 </h:column>
 
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Valor Unit. (R$)"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.valor_unitario}"/>
+                                    <div style="text-align: right">
+                                        <h:outputText value="#{item.valor_unitario}">
+                                            <f:convertNumber currencySymbol="R$" type="currency" />
+                                        </h:outputText>
+                                    </div>
                                 </h:column>
 
                                 <h:column>

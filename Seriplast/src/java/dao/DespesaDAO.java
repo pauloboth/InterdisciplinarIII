@@ -7,6 +7,7 @@ import model.CustoDespesa;
 import model.Despesa;
 import model.DespesaMes;
 import model.ProdutoCusto;
+import model.ProdutoDespesa;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -78,46 +79,76 @@ public class DespesaDAO {
 
     }
 
-    public void saveList(Despesa i, List<DespesaMes> lsDm, List<CustoDespesa> lsCd) {
+    public boolean saveList(Despesa i, List<DespesaMes> lsDm, List<CustoDespesa> lsCd) {
         session = HibernateUtil.getSessionFactory().openSession();
         session.getTransaction().begin();
-        if (i.getDes_id() > 0) {
-            session.update(i);
-            deleteFuturosLancamentos(i.getDes_id());
-        } else {
-            i.setDes_date(new Date());
-            session.save(i);
-        }
-//        if (i.getDes_tipo() != 3 && i.getDes_status() = 1) {
-        if (lsDm != null) {
-            for (DespesaMes dm : lsDm) {
-                if (dm.getDsm_id() > 0) {
-                    session.update(dm);
-                } else {
-                    dm.setDsm_data(new Date());
-                    session.save(dm);
+        try {
+            if (i.getDes_id() > 0) {
+                session.update(i);
+                deleteFuturosLancamentos(i.getDes_id());
+            } else {
+                i.setDes_date(new Date());
+                session.save(i);
+            }
+
+            if (lsDm != null) {
+                for (DespesaMes dm : lsDm) {
+                    if (dm.getDsm_id() > 0) {
+                        session.update(dm);
+                    } else {
+                        dm.setDsm_data(new Date());
+                        session.save(dm);
+                    }
                 }
             }
-        }
-        for (CustoDespesa cd : lsCd) {
-            if (cd.getCusto().getCus_id() > 0) {
-                session.update(cd.getCusto());
-            } else {
+            for (CustoDespesa cd : lsCd) {
+                if (cd.getCusto().getCus_id() == 0) {
+                    cd.setCsd_data(new Date());
+                    session.save(cd.getCusto());
+                }
                 cd.setCsd_data(new Date());
-                session.save(cd.getCusto());
+                CustoDespesa CD = (CustoDespesa) session.createQuery("from CustoDespesa "
+                        + "where custo.produto.pro_id = :p and despesa.des_id = :d and custo.cus_id = :c")
+                        .setParameter("p", cd.getCusto().getProduto().getPro_id())
+                        .setParameter("d", cd.getDespesa().getDes_id())
+                        .setParameter("c", cd.getCusto().getCus_id())
+                        .uniqueResult();
+                if (CD == null) {
+                    session.save(cd);
+                }
             }
-            cd.setCsd_data(new Date());
-            session.save(cd);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-//        }
-        session.getTransaction().commit();
         session.close();
+        return false;
     }
 
     public void delete(Despesa i) {
         if (i.getDes_tipo() != 1) {
             session = HibernateUtil.getSessionFactory().openSession();
             session.getTransaction().begin();
+//            List<DespesaMes> lsDm = session.createQuery("select dm from DespesaMes dm "
+//                    + "where dm.despesa.des_id = :d")
+//                    .setParameter("d", i.getDes_id())
+//                    .list();
+//            if (lsDm != null && !lsDm.isEmpty()) {
+//                for (DespesaMes dm : lsDm) {
+//                    session.delete(dm);
+//                }
+//            }
+//
+//            List<CustoDespesa> lsCd = session.createQuery("select cd from CustoDespesa cd "
+//                    + "where cd.despesa.des_id = :d")
+//                    .setParameter("d", i.getDes_id())
+//                    .list();
+//            if (lsCd != null && !lsCd.isEmpty()) {
+//                for (CustoDespesa cd : lsCd) {
+//                    session.delete(cd);
+//                }
+//            }
             session.delete(i);
             session.getTransaction().commit();
             session.close();
@@ -149,14 +180,12 @@ public class DespesaDAO {
     public Despesa findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
         // Query para retornar o Despesa e a lista de produtos (fetch)
-        Despesa d = (Despesa) session.createQuery("select d from Despesa d "
-                + "left outer join fetch d.lsProdutoDespesa pd where d.des_id = :d")
-                .setParameter("d", id).uniqueResult();
-        Despesa d2 = (Despesa) session.createQuery("select d from Despesa d "
-                + "left outer join fetch d.lsCustoDespesa pd where d.des_id = :d")
-                .setParameter("d", id).uniqueResult();
+        Despesa d = (Despesa) session.createQuery("from Despesa where des_id = :d").setParameter("d", id).uniqueResult();
+//        List<ProdutoDespesa> lsPd = session.createQuery("from ProdutoDespesa "
+//                + "where despesa.des_id = :d").setParameter("d", id).list();
+//        d.setLsProdutoDespesa(lsPd);
+//        d.setLsCustoDespesa(null);
         session.close();
-        d.setLsCustoDespesa(d2.getLsCustoDespesa());
         return d;
     }
 

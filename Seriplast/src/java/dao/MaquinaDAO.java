@@ -2,6 +2,7 @@ package dao;
 
 import model.Maquina;
 import java.util.List;
+import model.ProdutoMaquina;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
@@ -54,13 +55,12 @@ public class MaquinaDAO {
         return ls;
     }
 
-    public Maquina findEdit(int maq_id) {
+    public Maquina findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Maquina m = (Maquina) session.createQuery("select m from Maquina m "
-                + "left outer join fetch m.lsProdutoMaquina pm "
-                + "where m.maq_id = :maq_id")
-                .setParameter("maq_id", maq_id).uniqueResult();
-
+        Maquina m = (Maquina) session.createQuery("from Maquina where maq_id = :m").setParameter("m", id).uniqueResult();
+//        List<ProdutoMaquina> lsPm = session.createQuery("from ProdutoMaquina "
+//                + "where maquina.maq_id = :m").setParameter("m", id).list();
+//        m.setLsProdutoMaquina(lsPm);
         session.close();
         return m;
     }

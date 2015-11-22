@@ -70,10 +70,11 @@ public class ProducaoDAO {
 
     public Producao findEdit(int id) {
         session = HibernateUtil.getSessionFactory().openSession();
-        Producao p = (Producao) session.createQuery("select p from Producao p "
-                + "left outer join fetch p.lsProdutoProducao pm "
-                + "where p.prd_id = :p")
+        Producao p = (Producao) session.createQuery("from Producao where prd_id = :p")
                 .setParameter("p", id).uniqueResult();
+//        List<ProdutoProducao> lsPp = session.createQuery("from ProdutoProducao where producao.prd_id = :p")
+//                .setParameter("p", id).list();
+//        p.setLsProdutoProducao(lsPp);
         session.close();
         return p;
     }
@@ -88,8 +89,8 @@ public class ProducaoDAO {
         session.close();
         return lsPp;
     }
-    
-      public List<ProdutoProducao> totalProducaoAno(int pro_id, int ano) {
+
+    public List<ProdutoProducao> totalProducaoAno(int pro_id, int ano) {
         session = HibernateUtil.getSessionFactory().openSession();
         List<ProdutoProducao> lsPp = session.createQuery("select pp from ProdutoProducao pp "
                 + "join pp.producao prd "
@@ -99,13 +100,13 @@ public class ProducaoDAO {
         session.close();
         return lsPp;
     }
-      
-      public List<ProdutoProducao> totalProducao(int pro_id) {
+
+    public List<ProdutoProducao> totalProducao(int pro_id) {
         session = HibernateUtil.getSessionFactory().openSession();
         List<ProdutoProducao> lsPp = session.createQuery("select pp from ProdutoProducao pp "
                 + "join pp.producao prd "
                 + "where pp.produto.pro_id = :p "
-                )
+        )
                 .setParameter("p", pro_id).list();
         session.close();
         return lsPp;

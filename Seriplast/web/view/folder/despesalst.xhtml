@@ -40,7 +40,21 @@
                         <f:facet name="header">
                             <h:outputText value="Status"/>
                         </f:facet>
-                        <h:outputText value="${item.toStatus()}"/>
+<!--                        <h:outputText value="${item.toStatus()}"/>-->
+                        <div style="font-weight: bold; text-align: center">
+                            <h:panelGroup rendered="#{item.des_status > 1}">
+                                <i class="fa fa-square-o" style="color: red"></i>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{item.des_status == 1}">
+                                <i class="fa fa-check-square-o" style="color: green"></i>
+                            </h:panelGroup>
+                        </div>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Tipo"/>
+                        </f:facet>
+                        <h:outputText value="${item.toTipo()}"/>
                     </h:column>
 
                     <h:column headerClass="col-editar-header">

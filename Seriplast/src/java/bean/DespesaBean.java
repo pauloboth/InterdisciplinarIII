@@ -64,6 +64,7 @@ public class DespesaBean {
         try {
             dao.delete(i);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             Erro = "Não foi possível excluir está Despesa. Ela já pode ter sido lançada!";
         }
         clearSession();
@@ -99,7 +100,8 @@ public class DespesaBean {
             }
             clearSession();
             return "despesalst";
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             Erro = "Erro ao salvar despesa!";
             return "despesafrm";
         }
@@ -249,6 +251,7 @@ public class DespesaBean {
     private boolean SalvaDespesaParcelada() {
         Despesa d = this.despesa;
         if (d.getLsProdutoDespesa() != null && !d.getLsProdutoDespesa().isEmpty() && d.getDes_depr_mes() > 0) {
+
             double valor_mes = 0;
             if (d.getDes_depr_mes() > 0) {
                 valor_mes = d.getDes_valor_depr() / d.getDes_depr_mes();
@@ -256,56 +259,52 @@ public class DespesaBean {
             List<DespesaMes> lsDm = new ArrayList<>();
             List<CustoDespesa> lsCd = new ArrayList<>();
             double valor_mes_roud = Double.parseDouble(Math.round(valor_mes * 1000) + "") / 1000;
-            for (int i = 0; i < d.getDes_depr_mes(); i++) {
-                Calendar cal = new BuddhistCalendar();
-                cal.setTime(d.getDes_inicio_depr());
-                cal.set(Calendar.DATE, 1);
-                cal.add(Calendar.MONTH, i);
-                Date data_ref = cal.getTime();
+            if (d.getDes_status() == 1) {
+                for (int i = 0; i < d.getDes_depr_mes(); i++) {
+                    Calendar cal = new BuddhistCalendar();
+                    cal.setTime(d.getDes_inicio_depr());
+                    cal.set(Calendar.DATE, 1);
+                    cal.add(Calendar.MONTH, i);
+                    Date data_ref = cal.getTime();
 
-                int mes = data_ref.getMonth() + 1;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-                int ano = Integer.parseInt(sdf.format(data_ref));
-                if (despesa.getDes_id() == 0 || (despesa.getDes_id() > 0 && data_ref.after(new Date()))) {
-                    DespesaMes dm = new DespesaMes();
-                    dm.setDespesa(d);
-                    dm.setDsm_data(new Date());
-                    dm.setDsm_data_ref(data_ref);
-                    dm.setDsm_valor(valor_mes_roud);
-                    lsDm.add(dm);
+                    int mes = data_ref.getMonth() + 1;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+                    int ano = Integer.parseInt(sdf.format(data_ref));
+                    if (despesa.getDes_id() == 0 || (despesa.getDes_id() > 0 && data_ref.after(new Date()))) {
+                        DespesaMes dm = new DespesaMes();
+                        dm.setDespesa(d);
+                        dm.setDsm_data(new Date());
+                        dm.setDsm_data_ref(data_ref);
+                        dm.setDsm_valor(valor_mes_roud);
+                        lsDm.add(dm);
 
-                    for (ProdutoDespesa pd : d.getLsProdutoDespesa()) {
-                        CustoDespesa cd = new CustoDespesa();
-                        cd.setDespesa(d);
-                        cd.setCsd_data(new Date());
-                        double valor_uni = (valor_mes * pd.getPrd_por_part()) / 100;
-                        valor_uni = Double.parseDouble(Math.round(valor_uni * 1000) + "") / 1000;
-                        cd.setCsd_valor(valor_uni);
-                        Custo c = new Custo();
+                        for (ProdutoDespesa pd : d.getLsProdutoDespesa()) {
+                            CustoDespesa cd = new CustoDespesa();
+                            cd.setDespesa(d);
+                            cd.setCsd_data(new Date());
+                            double valor_uni = (valor_mes * pd.getPrd_por_part()) / 100;
+                            valor_uni = Double.parseDouble(Math.round(valor_uni * 1000) + "") / 1000;
+                            cd.setCsd_valor(valor_uni);
+                            Custo c = new Custo();
 
-                        if (d.getDes_id() > 0) {
                             c = cusDAO.SearchCusto(pd.getProduto().getPro_id(), mes, ano);
                             if (c == null) {
                                 c = new Custo();
                             }
+
+                            if (c.getCus_id() == 0) {
+                                c.setCus_data(new Date());
+                                c.setCus_preco_produto(0);
+                                c.setProduto(pd.getProduto());
+                                c.setCus_data_ref(data_ref);
+                            }
+                            cd.setCusto(c);//Add Custo
+                            lsCd.add(cd);
                         }
-                        if (c.getCus_id() == 0) {
-                            c.setCus_data(new Date());
-                            c.setCus_preco_produto(0);
-                            c.setProduto(pd.getProduto());
-                            c.setCus_data_ref(data_ref);
-                        }
-                        cd.setCusto(c);//Add Custo
-                        lsCd.add(cd);
                     }
                 }
             }
-            try {
-                dao.saveList(despesa, lsDm, lsCd);
-                return true;
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
+            return dao.saveList(despesa, lsDm, lsCd);
         }
         return false;
     }

@@ -154,14 +154,32 @@ public class Despesa implements Serializable {
     }
 
     public String toStatus() {
-        if (this.des_status == 1) {
-            return "Ativo";
-        } else if (this.des_status == 2) {
-            return "Bloqueado";
-        } else if (this.des_status == 3) {
-            return "Excuído";
-        } else {
-            return "";
+        switch (this.des_status) {
+            case 1:
+                return "Ativo";
+            case 2:
+                return "Bloqueado";
+            case 3:
+                return "Excluído";
+            default:
+                return "";
+        }
+    }
+
+    public String toTipo() {
+        switch (this.des_tipo) {
+            case 1:
+                return "Luz";
+            case 2:
+                return "Mensal";
+            case 3:
+                return "Parcelada";
+            case 4:
+                return "Única";
+            case 5:
+                return "Única";
+            default:
+                return "";
         }
     }
 }
